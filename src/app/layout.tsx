@@ -1,7 +1,31 @@
 import type { Metadata, Viewport } from "next";
+import { Newsreader, Inter_Tight } from "next/font/google";
 import "./globals.css";
+import "@/styles/editorial.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+
+const newsreader = Newsreader({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  axes: ["opsz"],
+  variable: "--font-newsreader",
+  display: "swap",
+});
+
+const interTight = Inter_Tight({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-inter-tight",
+  display: "swap",
+});
+
+/*
+ * Marks the page as script-enabled before first paint so entrance animations
+ * can start hidden. If the page never signals it is ready (for example a
+ * script error), the class is removed so content can never stay invisible.
+ */
+const MOTION_BOOTSTRAP = `(function(d){d.classList.add("js");setTimeout(function(){if(!d.classList.contains("gv-ready")){d.classList.remove("js")}},4000)})(document.documentElement);`;
 
 export const metadata: Metadata = {
   title: {
@@ -49,10 +73,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className={`scroll-smooth ${newsreader.variable} ${interTight.variable}`} suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <script dangerouslySetInnerHTML={{ __html: MOTION_BOOTSTRAP }} />
       </head>
       <body className="bg-navy-950 text-ivory-100 font-sans antialiased selection:bg-gold-500 selection:text-navy-950 min-h-screen flex flex-col justify-between">
         <a
