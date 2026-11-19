@@ -277,14 +277,11 @@
    ============================================================ */
 .gv .foot{background:var(--navy-deep);color:var(--mist);padding-top:clamp(72px,7vw,120px)}
 .gv .foot-top{display:grid;grid-template-columns:5fr 7fr;gap:48px;padding-bottom:64px;border-bottom:1px solid var(--rule-dark)}
-.gv .foot-top .foot-line{font-family:var(--serif);font-weight:350;letter-spacing:-.015em;margin:0;color:var(--ivory);font-size:clamp(2rem,1.4rem + 2vw,3.25rem);line-height:1.08}
-.gv .foot-top .foot-line em{color:var(--gold);font-style:italic}
 .gv .foot-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
 .gv .foot-cols .foot-h{letter-spacing:0;font:500 .875rem var(--sans);color:var(--ivory);margin:0 0 18px}
 .gv .foot-cols ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
 .gv .foot-cols a{text-decoration:none;font-size:var(--t-small);transition:color .3s}
 .gv .foot-cols a:hover{color:var(--ivory)}
-.gv .foot-wm{font:300 clamp(2.2rem,10.5vw,11rem)/.9 var(--serif);letter-spacing:.02em;color:rgba(245,242,236,.92);padding:56px 0 20px;white-space:nowrap;overflow:hidden}
 .gv .foot-legal{display:flex;justify-content:space-between;gap:24px;padding:24px 0 40px;border-top:1px solid var(--rule-dark);font-size:.875rem}
 .gv .placeholder{border-bottom:1px dashed var(--gold);color:var(--gold)}
 
@@ -414,3 +411,10 @@
 .gv .journey-link:hover{color:var(--gold)}
 .gv .sec-head p .tlink{font-size:var(--t-small)}
 .gv .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* Footer brand block (replaces the oversized wordmark) */
+.gv .foot-brand{display:flex;flex-direction:column;align-items:flex-start;gap:20px;color:var(--ivory)}
+.gv .foot-brand .brand{color:var(--ivory)}
+.gv .foot-brand p{color:var(--mist);font-size:var(--t-small);max-width:32ch}
+.gv .foot-brand .tlink{color:var(--ivory);font-size:var(--t-small)}
+.gv .foot-legal{border-top:0}

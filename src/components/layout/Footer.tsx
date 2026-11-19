@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { PRACTICES } from "@/data/homepage";
+import Wordmark from "@/components/brand/Wordmark";
 
 const COLUMNS = [
   {
@@ -41,9 +42,13 @@ export const Footer: React.FC = () => {
       <footer className="foot">
         <div className="wrap">
           <div className="foot-top">
-            <p className="foot-line">
-              Where Capital Meets <em>Opportunity.</em>
-            </p>
+            <div className="foot-brand">
+              <Wordmark />
+              <p>Independent advice on buying, selling, valuing and financing businesses.</p>
+              <Link className="tlink" href="/contact">
+                Arrange a consultation
+              </Link>
+            </div>
             <nav className="foot-cols" aria-label="Footer">
               {COLUMNS.map((col) => (
                 <div key={col.title}>
@@ -58,9 +63,6 @@ export const Footer: React.FC = () => {
                 </div>
               ))}
             </nav>
-          </div>
-          <div className="foot-wm" aria-hidden="true">
-            Global Ventures
           </div>
           <div className="foot-legal">
             {/* Registered entity, licence and office address will be added here once confirmed. */}
