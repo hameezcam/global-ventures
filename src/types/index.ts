@@ -59,17 +59,4 @@ export interface IndustrySector {
   image: string;
 }
 
-export interface EnquiryPayload {
-  flowType: 'general' | 'sell-business' | 'buy-business' | 'valuation' | 'advisory';
-  fullName: string;
-  email: string;
-  phone: string;
-  companyName?: string;
-  role?: string;
-  interestArea?: string;
-  estimatedRevenue?: string;
-  timeline?: string;
-  targetListingRef?: string;
-  message: string;
-  ndaAcknowledged?: boolean;
-}
+export type { FlowType } from "@/lib/enquiry/schema";

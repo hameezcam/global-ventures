@@ -1,69 +1,63 @@
+import "server-only";
+import { createHmac, createHash } from "node:crypto";
+import type { Pool, PoolClient } from "pg";
+
 /**
- * In-Memory Sliding Window Rate Limiter for Next.js Route Handlers
+ * Shared fixed-window rate limiter backed by Postgres.
+ *
+ * Every serverless instance sees the same counters, unlike an in-memory map.
+ * Keys are HMAC digests, so raw IP addresses and email addresses are never
+ * written to the database.
  */
-
-interface RateLimitRecord {
-  timestamps: number[];
-}
-
-const rateLimitMap = new Map<string, RateLimitRecord>();
-
-// Cleanup interval to avoid memory growth
-const CLEANUP_INTERVAL_MS = 10 * 60 * 1000; // 10 minutes
-let lastCleanup = Date.now();
-
-function cleanupStaleEntries(windowMs: number) {
-  const now = Date.now();
-  if (now - lastCleanup < CLEANUP_INTERVAL_MS) return;
-
-  lastCleanup = now;
-  const threshold = now - windowMs;
-  for (const [ip, record] of rateLimitMap.entries()) {
-    const validTimestamps = record.timestamps.filter((t) => t > threshold);
-    if (validTimestamps.length === 0) {
-      rateLimitMap.delete(ip);
-    } else {
-      record.timestamps = validTimestamps;
-    }
-  }
+export interface RateLimitRule {
+  name: string;
+  limit: number;
+  windowSeconds: number;
 }
 
 export interface RateLimitResult {
-  success: boolean;
-  remaining: number;
-  resetInSeconds: number;
+  allowed: boolean;
+  retryAfterSeconds: number;
 }
 
-export function checkRateLimit(
-  ip: string,
-  maxRequests: number = 5,
-  windowMs: number = 10 * 60 * 1000 // 10 minutes
-): RateLimitResult {
-  const now = Date.now();
-  cleanupStaleEntries(windowMs);
+function hashingKey(): string {
+  const explicit = process.env.RATE_LIMIT_SECRET;
+  if (explicit) return explicit;
+  // Fall back to a key derived from the server-only connection string, so the
+  // digests cannot be reversed by someone who only sees the table.
+  const seed = process.env.DATABASE_URL || process.env.DATABASE_URL_POOLED || "gv-local-dev";
+  return createHash("sha256").update(`gv-rate-limit:${seed}`).digest("hex");
+}
 
-  const threshold = now - windowMs;
-  const record = rateLimitMap.get(ip) || { timestamps: [] };
+export function bucketKey(ruleName: string, identifier: string): string {
+  return createHmac("sha256", hashingKey()).update(`${ruleName}:${identifier}`).digest("hex");
+}
 
-  // Filter timestamps within the current sliding window
-  const activeTimestamps = record.timestamps.filter((t) => t > threshold);
+export async function consumeRateLimit(
+  db: Pool | PoolClient,
+  rule: RateLimitRule,
+  identifier: string,
+  now: Date = new Date()
+): Promise<RateLimitResult> {
+  const windowMs = rule.windowSeconds * 1000;
+  const windowStart = new Date(Math.floor(now.getTime() / windowMs) * windowMs);
+  const key = bucketKey(rule.name, identifier);
 
-  if (activeTimestamps.length >= maxRequests) {
-    const oldest = activeTimestamps[0];
-    const resetInSeconds = Math.ceil((oldest + windowMs - now) / 1000);
-    return {
-      success: false,
-      remaining: 0,
-      resetInSeconds: Math.max(1, resetInSeconds),
-    };
-  }
+  const { rows } = await db.query<{ hits: number }>(
+    `INSERT INTO enquiry_rate_limits (bucket_key, window_start, hits)
+     VALUES ($1, $2, 1)
+     ON CONFLICT (bucket_key, window_start)
+     DO UPDATE SET hits = enquiry_rate_limits.hits + 1
+     RETURNING hits`,
+    [key, windowStart]
+  );
 
-  activeTimestamps.push(now);
-  rateLimitMap.set(ip, { timestamps: activeTimestamps });
+  const hits = rows[0]?.hits ?? 1;
+  const retryAfterSeconds = Math.max(1, Math.ceil((windowStart.getTime() + windowMs - now.getTime()) / 1000));
+  return { allowed: hits <= rule.limit, retryAfterSeconds };
+}
 
-  return {
-    success: true,
-    remaining: maxRequests - activeTimestamps.length,
-    resetInSeconds: Math.ceil(windowMs / 1000),
-  };
+/** Deletes expired windows. Called occasionally, outside any transaction. */
+export async function pruneRateLimits(pool: Pool): Promise<void> {
+  await pool.query("DELETE FROM enquiry_rate_limits WHERE window_start < now() - interval '1 day'");
 }
