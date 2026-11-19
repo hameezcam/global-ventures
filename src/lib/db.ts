@@ -31,7 +31,8 @@ export function getPool(): Pool {
     max: 3,
     idleTimeoutMillis: 10_000,
     connectionTimeoutMillis: 5_000,
-    statement_timeout: 5_000,
+    // statement_timeout is set per transaction (SET LOCAL) instead of as a
+    // startup parameter, because connection poolers may reject it.
     query_timeout: 6_000,
     application_name: "global-ventures-web",
   });
@@ -54,4 +55,13 @@ export function isConnectivityError(err: unknown): boolean {
     ["ECONNREFUSED", "ECONNRESET", "ENOTFOUND", "ETIMEDOUT", "EAI_AGAIN", "57P01", "57P03", "53300", "08000", "08001", "08003", "08004", "08006", "28P01", "28000", "3D000"].includes(code) ||
     /timeout|terminated|Connection/i.test((err as Error)?.message ?? "")
   );
+}
+
+/** Error summary that is safe to log: no connection strings, no row data. */
+export function safeErrorInfo(err: unknown): Record<string, string> {
+  const e = (err ?? {}) as { code?: string; name?: string; message?: string };
+  const message = String(e.message ?? "")
+    .replace(/[a-z+]+:\/\/[^\s]+/gi, "<url>")
+    .slice(0, 160);
+  return { code: e.code ?? "none", name: e.name ?? "Error", message };
 }

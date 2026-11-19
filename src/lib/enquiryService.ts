@@ -122,6 +122,7 @@ export async function withSubmissionLock<T>(pool: Pool, idempotencyKey: string, 
   let broken = false;
   try {
     await client.query("BEGIN");
+    await client.query("SET LOCAL statement_timeout = '5s'");
     await client.query("SELECT pg_advisory_xact_lock(hashtextextended($1, 0))", [idempotencyKey]);
     const result = await fn(client);
     await client.query("COMMIT");

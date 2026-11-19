@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getPool } from "@/lib/db";
+import { getPool, safeErrorInfo } from "@/lib/db";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -21,7 +21,7 @@ export async function GET() {
       { headers: { "Cache-Control": "no-store" } }
     );
   } catch (err) {
-    console.error("[health] database check failed", { code: (err as { code?: string }).code ?? "unknown" });
+    console.error("[health] database check failed", safeErrorInfo(err));
     return NextResponse.json({ database: "unavailable" }, { status: 503, headers: { "Cache-Control": "no-store" } });
   }
 }

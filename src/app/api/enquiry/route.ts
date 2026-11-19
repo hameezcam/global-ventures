@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getPool, isConnectivityError } from "@/lib/db";
+import { getPool, isConnectivityError, safeErrorInfo } from "@/lib/db";
 import { consumeRateLimit, pruneRateLimits, type RateLimitRule } from "@/lib/rateLimit";
 import { findPriorSubmission, insertEnquiry, withSubmissionLock, type SaveResult } from "@/lib/enquiryService";
 import { validateEnquiry } from "@/lib/enquiry/schema";
@@ -25,10 +25,9 @@ function errorResponse(status: number, error: string, extra: Record<string, unkn
   return NextResponse.json({ success: false, error, ...extra }, { status, headers: { ...NO_STORE, ...headers } });
 }
 
-/** Logs only a category and a Postgres error code, never request data or credentials. */
+/** Logs only a stage and sanitised error metadata, never request data or credentials. */
 function logFailure(stage: string, err: unknown) {
-  const e = err as { code?: string; name?: string } | null;
-  console.error("[enquiry] failure", { stage, code: e?.code ?? e?.name ?? "unknown" });
+  console.error("[enquiry] failure", { stage, ...safeErrorInfo(err) });
 }
 
 function saveResultResponse(result: SaveResult) {
