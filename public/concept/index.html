@@ -1,0 +1,750 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Global Ventures — Homepage concept (Phase A)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   GLOBAL VENTURES — DESIGN TOKENS (concept)
+   ============================================================ */
+:root{
+  --navy:#0B1C30;        /* Midnight Navy — primary ink & dark surfaces */
+  --navy-deep:#07131F;
+  --gold:#C7AA78;        /* Champagne Gold — accents on dark only */
+  --gold-ink:#7D6236;    /* Gold for text on ivory (5.2:1 on #F5F2EC) */
+  --ivory:#F5F2EC;       /* Warm Ivory — default page surface */
+  --stone:#E9E3D8;       /* Ivory, one step deeper */
+  --slate:#405268;       /* Slate Blue — secondary text on ivory (7.2:1) */
+  --mist:#B7C0CC;        /* Secondary text on navy (9.1:1) */
+  --rule:rgba(11,28,48,.14);
+  --rule-dark:rgba(245,242,236,.16);
+
+  --serif:"Newsreader", Georgia, "Times New Roman", serif;
+  --sans:"Inter Tight", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Type scale (fluid). Body never below 17px. */
+  --t-hero: clamp(3.1rem, 1.2rem + 6.4vw, 8.25rem);
+  --t-display: clamp(2.4rem, 1.4rem + 3.4vw, 4.75rem);
+  --t-h2: clamp(2rem, 1.3rem + 2.2vw, 3.5rem);
+  --t-h3: clamp(1.5rem, 1.2rem + 1vw, 2.25rem);
+  --t-lede: clamp(1.15rem, 1.05rem + .4vw, 1.4rem);
+  --t-body: clamp(1.0625rem, 1rem + .2vw, 1.125rem);
+  --t-small: .9375rem;
+  --t-label: .8125rem;
+
+  --gutter: clamp(20px, 5vw, 72px);
+  --max: 1440px;
+  --section: clamp(96px, 7vw + 48px, 176px);
+  --ease: cubic-bezier(.2,.7,.1,1);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ivory);color:var(--navy);font-family:var(--sans);font-size:var(--t-body);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img{display:block;max-width:100%}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+.skip{position:absolute;left:-9999px;top:12px;background:var(--ivory);color:var(--navy);padding:12px 18px;z-index:100;font-weight:600}
+.skip:focus{left:12px}
+
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+.label{font-family:var(--sans);font-size:var(--t-label);letter-spacing:.04em;font-weight:500;color:var(--slate);display:flex;align-items:center;gap:14px;margin:0}
+.label::before{content:"";width:28px;height:1px;background:currentColor;opacity:.6}
+.on-dark .label{color:var(--gold)}
+.serif{font-family:var(--serif)}
+h1,h2,h3{font-family:var(--serif);font-weight:350;margin:0;letter-spacing:-.015em;font-optical-sizing:auto}
+p{margin:0}
+
+/* Photography slots. Each has a tonal fallback and an art-direction note
+   (visible only if the photo can't load, e.g. offline previews). */
+.ph{position:relative;overflow:hidden;background:#2A3A4E}
+.ph img{width:100%;height:100%;object-fit:cover}
+.ph[data-tone="stone"]{background:#CFC6B6}
+.ph[data-tone="deep"]{background:#14263B}
+.ph .note{display:none}
+.ph.fallback{background-image:linear-gradient(160deg,rgba(255,255,255,.06),rgba(0,0,0,.18))}
+.ph.fallback img{display:none}
+.ph.fallback .note{display:block;position:absolute;left:16px;bottom:14px;right:16px;font:500 12px/1.4 var(--sans);letter-spacing:.02em;color:rgba(245,242,236,.75)}
+.ph[data-tone="stone"].fallback .note{color:rgba(11,28,48,.6)}
+
+/* Buttons & links */
+.btn{display:inline-flex;align-items:center;gap:14px;font:500 1rem/1 var(--sans);padding:18px 26px;text-decoration:none;border:1px solid transparent;transition:background .35s var(--ease),color .35s var(--ease),border-color .35s var(--ease)}
+.btn-light{background:var(--ivory);color:var(--navy)}
+.btn-light:hover{background:var(--gold)}
+.btn-dark{background:var(--navy);color:var(--ivory)}
+.btn-dark:hover{background:#1A2E47}
+.btn .arr{transition:transform .35s var(--ease)}
+.btn:hover .arr{transform:translateX(4px)}
+.tlink{font-weight:500;text-decoration:none;background:linear-gradient(currentColor,currentColor) 0 100%/100% 1px no-repeat;padding-bottom:4px;transition:background-size .4s var(--ease)}
+.tlink:hover{background-size:0 1px;background-position:100% 100%}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+.nav{position:fixed;inset:0 0 auto 0;z-index:50;color:var(--ivory);transition:background .4s var(--ease),color .4s var(--ease),box-shadow .4s var(--ease)}
+.nav.solid,.nav.open{background:var(--ivory);color:var(--navy);box-shadow:0 1px 0 var(--rule)}
+.nav-row{display:flex;align-items:center;justify-content:space-between;height:88px;gap:32px}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none;flex-shrink:0}
+.brand svg{width:40px;height:40px;flex-shrink:0}
+.brand .wm{display:flex;flex-direction:column;line-height:1}
+.brand .wm b{font:450 1.3rem/1 var(--serif);letter-spacing:.2em;text-transform:uppercase;white-space:nowrap}
+.brand .wm small{font:500 .6875rem/1 var(--sans);letter-spacing:.14em;margin-top:7px;opacity:.72;white-space:nowrap}
+.menu{display:flex;align-items:center;gap:clamp(20px,2.4vw,40px);list-style:none;margin:0;padding:0}
+.menu > li > a,.menu > li > button{white-space:nowrap;font:500 .96875rem/1 var(--sans);color:inherit;background:none;border:0;padding:12px 0;cursor:pointer;text-decoration:none;position:relative}
+.menu > li > a::after,.menu > li > button::after{content:"";position:absolute;left:0;right:0;bottom:4px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease)}
+.menu > li > a:hover::after,.menu > li > button:hover::after,.menu > li > button[aria-expanded="true"]::after{transform:scaleX(1)}
+.nav-cta{font:500 .96875rem/1 var(--sans);padding:14px 20px;border:1px solid currentColor;text-decoration:none;white-space:nowrap;transition:background .3s,color .3s}
+.nav-cta:hover{background:var(--navy);color:var(--ivory);border-color:var(--navy)}
+.nav:not(.solid):not(.open) .nav-cta:hover{background:var(--ivory);color:var(--navy);border-color:var(--ivory)}
+.burger{display:none;background:none;border:0;color:inherit;font:500 1rem var(--sans);gap:10px;align-items:center;padding:10px 0;cursor:pointer}
+.burger i{display:block;width:22px;height:1px;background:currentColor;box-shadow:0 6px 0 currentColor;margin-top:-6px}
+
+/* Mega-menu: full-width, contained within the viewport, scrolls internally */
+.mega{position:absolute;left:0;right:0;top:88px;background:var(--ivory);color:var(--navy);border-top:1px solid var(--rule);max-height:calc(100vh - 88px);overflow:auto;visibility:hidden;opacity:0;transform:translateY(-8px);transition:opacity .35s var(--ease),transform .35s var(--ease),visibility 0s .35s;box-shadow:0 30px 60px -30px rgba(11,28,48,.35)}
+.nav.open .mega{visibility:visible;opacity:1;transform:none;transition:opacity .35s var(--ease),transform .35s var(--ease)}
+.mega-grid{display:grid;grid-template-columns:minmax(200px,1fr) 2fr minmax(240px,1.1fr);gap:clamp(28px,4vw,64px);padding-block:48px 56px}
+.mega-intro h2{font-size:1.9rem;line-height:1.15;margin-top:18px}
+.mega-intro p{color:var(--slate);margin-top:14px;font-size:var(--t-small)}
+.mega-list{display:grid;grid-template-columns:1fr 1fr;gap:0 40px;list-style:none;margin:0;padding:0}
+.mega-list a{display:grid;grid-template-columns:34px 1fr;padding:18px 0;border-top:1px solid var(--rule);text-decoration:none}
+.mega-list a span{font:400 .875rem var(--serif);color:var(--gold-ink);padding-top:3px}
+.mega-list a b{font:400 1.25rem/1.25 var(--serif);display:block;transition:color .3s}
+.mega-list a em{font-style:normal;color:var(--slate);font-size:.9375rem;line-height:1.45;display:block;margin-top:4px}
+.mega-list a:hover b{color:var(--gold-ink)}
+.mega-feature .ph{aspect-ratio:4/3}
+.mega-feature p{font:400 1.15rem/1.35 var(--serif);margin-top:16px}
+.mega-feature a{font-size:var(--t-small);margin-top:12px;display:inline-block}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{position:relative;min-height:max(680px,100svh);color:var(--ivory);background:var(--navy-deep);display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+.hero .ph{position:absolute;inset:0;background:#1B2C40}
+.hero .ph img{object-position:62% 40%;transform:scale(1.06);transition:transform 2.4s var(--ease)}
+.loaded .hero .ph img{transform:scale(1)}
+/* A single directional scrim for legibility — not decorative */
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,19,31,.88) 0%,rgba(7,19,31,.62) 42%,rgba(7,19,31,.1) 78%),linear-gradient(0deg,rgba(7,19,31,.7) 0%,rgba(7,19,31,0) 38%);pointer-events:none}
+.hero-inner{position:relative;z-index:2;width:100%;padding-top:180px;padding-bottom:clamp(40px,5vw,72px)}
+.hero .label{color:var(--gold)}
+.hero h1{font-size:var(--t-hero);line-height:.94;letter-spacing:-.028em;font-weight:320;margin-top:32px;max-width:11ch}
+.hero h1 .line{display:block;overflow:hidden;padding-bottom:.06em}
+.hero h1 .line > span{display:block}
+.hero h1 em{font-style:italic;font-weight:300;color:var(--gold)}
+.hero-foot{display:grid;grid-template-columns:minmax(0,34rem) auto;justify-content:space-between;align-items:end;gap:40px;margin-top:clamp(32px,4vw,56px)}
+.hero-lede{font-size:var(--t-lede);line-height:1.5;color:rgba(245,242,236,.9);max-width:34rem}
+.hero-actions{display:flex;gap:28px;align-items:center;margin-top:36px;flex-wrap:wrap}
+.hero-actions .tlink{color:var(--ivory)}
+.hero-index{position:relative;z-index:2;border-top:1px solid var(--rule-dark);width:100%}
+.hero .ph.fallback .note{top:110px;bottom:auto;left:auto;right:var(--gutter);max-width:300px;text-align:right}
+.hero-index ul{display:flex;justify-content:space-between;list-style:none;margin:0 auto;padding-block:22px;gap:24px}
+.hero-index a{font-size:var(--t-small);text-decoration:none;color:var(--mist);transition:color .3s;white-space:nowrap}
+.hero-index a:hover{color:var(--ivory)}
+.hero-index a span{font-family:var(--serif);color:var(--gold);margin-right:10px}
+
+/* ============================================================
+   INTRODUCTION (ivory editorial)
+   ============================================================ */
+.intro{padding-block:var(--section)}
+.intro-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:0 clamp(16px,2vw,32px)}
+.intro .label{grid-column:1/-1}
+.intro-statement{grid-column:1/11;font-size:var(--t-display);line-height:1.06;margin-top:40px}
+.intro-statement em{font-style:italic;color:var(--gold-ink)}
+.intro-photo{grid-column:1/7;margin-top:clamp(56px,6vw,96px)}
+.intro-photo .ph{aspect-ratio:5/6}
+.intro-photo figcaption{font-size:.875rem;color:var(--slate);margin-top:12px}
+.intro-copy{grid-column:8/12;margin-top:clamp(56px,6vw,96px);align-self:end;display:flex;flex-direction:column;gap:24px}
+.intro-copy p{color:#26374B}
+.intro-copy p:first-child{font:400 var(--t-lede)/1.5 var(--serif);color:var(--navy)}
+.facts{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--rule);margin-top:16px}
+.facts div{padding:20px 0;border-bottom:1px solid var(--rule)}
+.facts div:nth-child(odd){padding-right:20px;border-right:1px solid var(--rule)}
+.facts div:nth-child(even){padding-left:20px}
+.facts dt{font-size:.875rem;color:var(--slate)}
+.facts dd{margin:6px 0 0;font:400 1.15rem/1.3 var(--serif)}
+
+/* ============================================================
+   EXPERTISE — numbered chapters
+   ============================================================ */
+.expertise{padding-bottom:var(--section)}
+.sec-head{display:grid;grid-template-columns:repeat(12,1fr);gap:0 clamp(16px,2vw,32px);align-items:end;padding-bottom:clamp(40px,4vw,64px)}
+.sec-head .label{grid-column:1/-1;margin-bottom:28px}
+.sec-head h2{grid-column:1/8;font-size:var(--t-h2);line-height:1.08}
+.sec-head p{grid-column:9/13;color:var(--slate)}
+.chapters{list-style:none;margin:0;padding:0;border-top:1px solid var(--navy)}
+.chapter a{position:relative;display:grid;grid-template-columns:repeat(12,1fr);gap:0 clamp(16px,2vw,32px);align-items:center;padding:clamp(28px,3vw,44px) 0;border-bottom:1px solid var(--rule);text-decoration:none;isolation:isolate}
+.chapter .num{grid-column:1/2;font:300 clamp(1rem,.8rem + .5vw,1.25rem)/1 var(--serif);color:var(--gold-ink)}
+.chapter h3{grid-column:2/7;font-size:var(--t-h3);line-height:1.1;transition:transform .5s var(--ease)}
+.chapter p{grid-column:7/11;color:var(--slate);font-size:var(--t-small);line-height:1.55}
+.chapter .go{grid-column:12/13;justify-self:end;width:48px;height:48px;border:1px solid var(--rule);border-radius:50%;display:grid;place-items:center;transition:background .4s var(--ease),border-color .4s var(--ease),color .4s}
+.chapter .thumb{position:absolute;right:calc(100%/12 * 1.3);top:50%;width:200px;aspect-ratio:4/5;transform:translateY(-50%) scale(.92);opacity:0;pointer-events:none;transition:opacity .45s var(--ease),transform .6s var(--ease);z-index:-1}
+.chapter a::before{content:"";position:absolute;inset:0 calc(var(--gutter) * -1);background:var(--stone);opacity:0;transition:opacity .4s var(--ease);z-index:-2}
+@media (hover:hover) and (min-width:1100px){
+  .chapter a:hover::before{opacity:1}
+  .chapter a:hover h3{transform:translateX(12px)}
+  .chapter a:hover .go{background:var(--navy);border-color:var(--navy);color:var(--ivory)}
+  .chapter a:hover .thumb{opacity:1;transform:translateY(-50%) scale(1)}
+  .chapter a:hover p{opacity:.35}
+}
+
+/* ============================================================
+   TRANSACTIONS — two journeys (dark section #1 of 2)
+   ============================================================ */
+.deals{background:var(--navy);color:var(--ivory);padding-block:var(--section)}
+.deals .sec-head p{color:var(--mist)}
+.journeys{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,3vw,48px)}
+.journey{display:flex;flex-direction:column}
+.journey .ph{aspect-ratio:16/10}
+.journey-body{padding-top:36px;display:flex;flex-direction:column;flex:1}
+.journey .who{font-size:var(--t-small);color:var(--gold)}
+.journey h3{font-size:var(--t-h3);line-height:1.12;margin-top:12px;max-width:18ch}
+.steps{list-style:none;margin:32px 0 36px;padding:0;counter-reset:s}
+.steps li{display:grid;grid-template-columns:44px 1fr;padding:16px 0;border-top:1px solid var(--rule-dark);counter-increment:s;color:var(--mist)}
+.steps li::before{content:counter(s,decimal-leading-zero);font:400 .9rem/1.7 var(--serif);color:var(--gold)}
+.steps li b{color:var(--ivory);font-weight:500;display:block}
+.journey .btn{align-self:flex-start;margin-top:auto}
+.disclosure{margin-top:clamp(48px,5vw,80px);padding-top:28px;border-top:1px solid var(--rule-dark);display:flex;justify-content:space-between;gap:32px;align-items:baseline;color:var(--mist);font-size:var(--t-small)}
+.disclosure .tlink{color:var(--ivory);white-space:nowrap}
+
+/* ============================================================
+   APPROACH — timeline
+   ============================================================ */
+.approach{padding-block:var(--section)}
+.timeline{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(20px,2.5vw,40px);position:relative}
+.timeline::before{content:"";position:absolute;left:0;right:0;top:calc(clamp(3.5rem,2rem + 4vw,6.5rem) + 28px);height:1px;background:var(--navy);transform-origin:left;transform:scaleX(var(--p,1));transition:transform 1.6s var(--ease)}
+.timeline li{position:relative}
+.timeline .n{font:250 clamp(3.5rem,2rem + 4vw,6.5rem)/1 var(--serif);color:var(--gold-ink);letter-spacing:-.04em}
+.timeline .dot{display:block;width:9px;height:9px;background:var(--navy);border-radius:50%;margin:24px 0 32px -4px}
+.timeline h3{font-size:1.6rem;line-height:1.15}
+.timeline p{color:var(--slate);margin-top:12px;font-size:var(--t-small)}
+
+/* ============================================================
+   INDUSTRIES — typographic directory
+   ============================================================ */
+.industries{background:var(--stone);padding-block:var(--section)}
+.ind-grid{display:grid;grid-template-columns:5fr 7fr;gap:clamp(32px,5vw,96px);align-items:start}
+.ind-visual{position:sticky;top:120px}
+.ind-visual .ph{aspect-ratio:4/5}
+.ind-visual .ph img{transition:opacity .6s var(--ease)}
+.ind-visual p{font-size:.875rem;color:var(--slate);margin-top:12px}
+.ind-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.ind-list li{border-bottom:1px solid var(--rule)}
+.ind-list button{all:unset;box-sizing:border-box;width:100%;display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:24px;padding:22px 0;cursor:pointer}
+.ind-list b{font:350 clamp(1.4rem,1.1rem + 1vw,2.1rem)/1.15 var(--serif);transition:color .3s,transform .4s var(--ease)}
+.ind-list span{font-size:.9375rem;color:var(--slate);text-align:right}
+.ind-list button:hover b,.ind-list button[aria-pressed="true"] b{color:var(--gold-ink);transform:translateX(8px)}
+.ind-list button:focus-visible{outline:2px solid var(--gold-ink);outline-offset:2px}
+.ind-note{margin-top:28px;font-size:var(--t-small);color:var(--slate);max-width:44ch}
+
+/* ============================================================
+   INSIGHTS — magazine layout
+   ============================================================ */
+.insights{padding-block:var(--section)}
+.mag{display:grid;grid-template-columns:7fr 5fr;gap:clamp(28px,4vw,72px)}
+.story{text-decoration:none;display:block}
+.story .ph{overflow:hidden}
+.story .ph img{transition:transform 1.2s var(--ease)}
+.story:hover .ph img{transform:scale(1.035)}
+.story .meta{font-size:.875rem;color:var(--slate);margin-top:22px;display:flex;gap:16px}
+.story h3{line-height:1.12;margin-top:12px;transition:color .3s}
+.story:hover h3{color:var(--gold-ink)}
+.story p{color:var(--slate);margin-top:14px;font-size:var(--t-small);max-width:52ch}
+.lead .ph{aspect-ratio:4/3}
+.lead h3{font-size:clamp(1.9rem,1.4rem + 1.5vw,3rem)}
+.side{display:flex;flex-direction:column;gap:clamp(40px,4vw,56px)}
+.side .story{display:grid;grid-template-columns:1fr;}
+.side .ph{aspect-ratio:16/9}
+.side h3{font-size:1.6rem}
+.draft-flag{display:inline-block;font-size:.8125rem;padding:6px 10px;border:1px dashed var(--gold-ink);color:var(--gold-ink);margin-left:auto}
+
+/* ============================================================
+   CONTACT — consultation entry
+   ============================================================ */
+.contact{background:var(--ivory);padding-block:0 var(--section)}
+.contact-card{display:grid;grid-template-columns:5fr 7fr;border-top:1px solid var(--navy)}
+.contact-l{padding:clamp(40px,4vw,64px) clamp(0px,4vw,64px) 0 0}
+.contact-l h2{font-size:var(--t-h2);line-height:1.05;margin-top:28px}
+.contact-l p{color:var(--slate);margin-top:24px;max-width:36ch}
+.assure{list-style:none;padding:0;margin:40px 0 0}
+.assure li{padding:14px 0;border-top:1px solid var(--rule);font-size:var(--t-small);display:flex;gap:14px}
+.assure li::before{content:"—";color:var(--gold-ink)}
+.contact-r{padding:clamp(40px,4vw,64px) 0 0 clamp(0px,4vw,64px);border-left:1px solid var(--rule)}
+.step{font-size:.875rem;color:var(--slate)}
+.contact-r h3{font-size:1.75rem;margin-top:10px}
+.flows{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:10px}
+.flows label{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;padding:20px 22px;border:1px solid var(--rule);background:#FBF9F5;cursor:pointer;transition:border-color .3s,background .3s}
+.flows label:hover{border-color:var(--navy)}
+.flows input{appearance:none;width:20px;height:20px;border:1px solid var(--slate);border-radius:50%;margin:0;display:grid;place-items:center}
+.flows input:checked{border-color:var(--navy)}
+.flows input:checked::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--navy)}
+.flows input:focus-visible{outline:2px solid var(--gold-ink);outline-offset:3px}
+.flows label:has(input:checked){border-color:var(--navy);background:#fff}
+.flows b{font:400 1.25rem/1.2 var(--serif)}
+.flows em{display:block;font-style:normal;font-size:.9375rem;color:var(--slate);margin-top:4px}
+.flows .t{font-size:.875rem;color:var(--slate);white-space:nowrap}
+.contact-r .btn{margin-top:28px}
+.secure{font-size:.875rem;color:var(--slate);margin-top:18px}
+
+/* ============================================================
+   FOOTER (dark section #2 of 2)
+   ============================================================ */
+.foot{background:var(--navy-deep);color:var(--mist);padding-top:clamp(72px,7vw,120px)}
+.foot-top{display:grid;grid-template-columns:5fr 7fr;gap:48px;padding-bottom:64px;border-bottom:1px solid var(--rule-dark)}
+.foot-top h2{color:var(--ivory);font-size:clamp(2rem,1.4rem + 2vw,3.25rem);line-height:1.08}
+.foot-top h2 em{color:var(--gold);font-style:italic}
+.foot-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
+.foot-cols h4{font:500 .875rem var(--sans);color:var(--ivory);margin:0 0 18px}
+.foot-cols ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.foot-cols a{text-decoration:none;font-size:var(--t-small);transition:color .3s}
+.foot-cols a:hover{color:var(--ivory)}
+.foot-wm{font:300 clamp(2.2rem,10.5vw,11rem)/.9 var(--serif);letter-spacing:.02em;color:rgba(245,242,236,.92);padding:56px 0 20px;white-space:nowrap;overflow:hidden}
+.foot-legal{display:flex;justify-content:space-between;gap:24px;padding:24px 0 40px;border-top:1px solid var(--rule-dark);font-size:.875rem}
+.placeholder{border-bottom:1px dashed var(--gold);color:var(--gold)}
+
+/* ============================================================
+   MOTION — progressive enhancement only
+   Content is fully visible without JS or with reduced motion.
+   ============================================================ */
+.js .reveal{opacity:0;transform:translateY(28px);transition:opacity 1s var(--ease),transform 1.1s var(--ease)}
+.js .reveal.in{opacity:1;transform:none}
+.js .hero h1 .line > span{transform:translateY(105%);transition:transform 1.2s var(--ease)}
+.js.loaded .hero h1 .line > span{transform:none}
+.js.loaded .hero h1 .line:nth-child(2) > span{transition-delay:.12s}
+.js .hero .fade{opacity:0;transition:opacity 1.2s var(--ease) .5s}
+.js.loaded .hero .fade{opacity:1}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition-duration:.01ms!important;transition-delay:0s!important;animation:none!important}
+  .js .reveal,.js .hero h1 .line > span,.js .hero .fade{opacity:1!important;transform:none!important}
+  .hero .ph img{transform:none!important}
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:1279px){
+  .brand .wm small{display:none}
+  .mega-grid{grid-template-columns:1fr 2fr}
+  .mega-feature{display:none}
+}
+@media (max-width:1100px){
+  .menu .opt{display:none}
+  .chapter p{grid-column:7/12}
+  .chapter .go{display:none}
+}
+@media (max-width:960px){
+  .nav-row > nav,.nav-cta{display:none}
+  .nav-row{gap:16px}
+  .hero .ph.fallback .note{display:none}
+  .burger{display:inline-flex}
+  .nav-row{height:72px}
+  .mega{top:72px;max-height:calc(100vh - 72px)}
+  .mega-grid{grid-template-columns:1fr;padding-block:28px 40px}
+  .mega-list{grid-template-columns:1fr}
+  .hero-foot{grid-template-columns:1fr}
+  .hero-index ul{overflow-x:auto;justify-content:flex-start;gap:32px;scrollbar-width:none}
+  .intro-statement{grid-column:1/-1}
+  .intro-photo{grid-column:1/-1}
+  .intro-copy{grid-column:1/-1;margin-top:40px}
+  .sec-head h2,.sec-head p{grid-column:1/-1}
+  .sec-head p{margin-top:20px}
+  .chapter a{grid-template-columns:44px 1fr;row-gap:10px}
+  .chapter .num{grid-column:1/2;align-self:start;padding-top:.5em}
+  .chapter h3{grid-column:2/3}
+  .chapter p{grid-column:2/3}
+  .journeys{grid-template-columns:1fr;gap:72px}
+  .disclosure{flex-direction:column}
+  .timeline{grid-template-columns:1fr;gap:0}
+  .timeline::before{left:4px;right:auto;top:0;bottom:0;width:1px;height:auto}
+  .timeline li{padding:0 0 40px 40px}
+  .timeline .dot{position:absolute;left:0;top:14px;margin:0}
+  .timeline .n{font-size:3rem}
+  .timeline h3{margin-top:12px}
+  .ind-grid{grid-template-columns:1fr}
+  .ind-visual{position:relative;top:0}
+  .ind-visual .ph{aspect-ratio:16/10}
+  .mag{grid-template-columns:1fr}
+  .side .story{grid-template-columns:120px 1fr;gap:20px;align-items:start}
+  .side .story .ph{aspect-ratio:1;grid-row:1/4}
+  .side .story .meta{margin-top:0}
+  .side .story p{display:none}
+  .side h3{font-size:1.3rem;margin-top:6px}
+  .draft-flag{margin-left:0}
+  .contact-card{grid-template-columns:1fr}
+  .contact-l{padding-right:0}
+  .contact-r{border-left:0;padding-left:0}
+  .foot-top{grid-template-columns:1fr}
+  .foot-cols{grid-template-columns:1fr 1fr;row-gap:40px}
+  .foot-legal{flex-direction:column}
+}
+@media (max-width:560px){
+  .brand svg{width:34px;height:34px}
+  .brand .wm b{font-size:1.05rem;letter-spacing:.16em}
+  .hero{min-height:max(620px,100svh)}
+  .hero::after{background:linear-gradient(0deg,rgba(7,19,31,.95) 0%,rgba(7,19,31,.75) 45%,rgba(7,19,31,.25) 80%)}
+  .hero-inner{padding-top:130px}
+  .hero h1{font-size:clamp(2.75rem,12.5vw,3.6rem);line-height:.98}
+  .hero-actions{flex-direction:column;align-items:stretch;gap:20px}
+  .hero-actions .btn{justify-content:space-between}
+  .hero-actions .tlink{align-self:flex-start}
+  .flows label{grid-template-columns:auto 1fr;padding:18px}
+  .flows .t{display:none}
+  .facts{grid-template-columns:1fr}
+  .facts div:nth-child(odd){border-right:0;padding-right:0}
+  .facts div:nth-child(even){padding-left:0}
+  .journey h3{font-size:1.75rem}
+  .contact-r .btn{width:100%;justify-content:space-between}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- ======================= NAVIGATION ======================= -->
+<header class="nav" id="nav">
+  <div class="wrap nav-row">
+    <a class="brand" href="#" aria-label="Global Ventures, home">
+      <svg viewBox="0 0 40 40" aria-hidden="true" fill="none">
+        <rect x=".5" y=".5" width="39" height="39" stroke="currentColor" stroke-opacity=".55"/>
+        <text x="20" y="26.5" text-anchor="middle" font-family="Newsreader, Georgia, serif" font-size="17" letter-spacing="1" fill="currentColor">G<tspan fill="#C7AA78" font-style="italic">V</tspan></text>
+      </svg>
+      <span class="wm"><b>Global Ventures</b><small>Financial Advisory &amp; Transactions</small></span>
+    </a>
+    <nav aria-label="Primary">
+      <ul class="menu">
+        <li><button type="button" aria-expanded="false" aria-controls="mega" id="megaBtn">Advisory</button></li>
+        <li><a href="#transactions">Transactions</a></li>
+        <li class="opt"><a href="#industries">Industries</a></li>
+        <li><a href="#insights">Insights</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </nav>
+    <a class="nav-cta" href="#contact">Arrange a consultation</a>
+    <button class="burger" type="button" aria-expanded="false" aria-controls="mega" id="burger"><i></i>Menu</button>
+  </div>
+
+  <div class="mega" id="mega" role="region" aria-label="Advisory services">
+    <div class="wrap mega-grid">
+      <div class="mega-intro">
+        <p class="label">Advisory</p>
+        <h2>Six disciplines, one coherent view of your transaction.</h2>
+        <p>Every engagement is shaped around the decision in front of you, not a standard package.</p>
+      </div>
+      <ul class="mega-list">
+        <li><a href="#expertise"><span>01</span><div><b>Mergers &amp; Acquisitions</b><em>Sell-side, buy-side and cross-border transactions</em></div></a></li>
+        <li><a href="#expertise"><span>02</span><div><b>Corporate Finance</b><em>Capital structure, debt and growth capital</em></div></a></li>
+        <li><a href="#expertise"><span>03</span><div><b>Business Valuation</b><em>Independent, well-reasoned valuation work</em></div></a></li>
+        <li><a href="#expertise"><span>04</span><div><b>Business Brokerage</b><em>Confidential sale of privately held companies</em></div></a></li>
+        <li><a href="#expertise"><span>05</span><div><b>Transaction Advisory</b><em>Financial due diligence and deal support</em></div></a></li>
+        <li><a href="#expertise"><span>06</span><div><b>Strategic Advisory</b><em>Exit readiness and long-range planning</em></div></a></li>
+      </ul>
+      <div class="mega-feature">
+        <div class="ph" data-tone="deep"><img alt="" loading="lazy" src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=900&q=80"><span class="note">Photo: quiet, daylit interior — meeting room or library</span></div>
+        <p>Not sure which service fits? Start with a confidential conversation.</p>
+        <a class="tlink" href="#contact">Arrange a consultation</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ======================= HERO ======================= -->
+<section class="hero" aria-labelledby="hero-h">
+  <div class="ph"><img alt="Glass and steel office tower seen from below at dusk" fetchpriority="high" src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2400&q=80"><span class="note">Hero photo: monumental architecture shot from below — glass tower, dusk light, deep shadow on the left third for type</span></div>
+  <div class="wrap hero-inner">
+    <p class="label fade">Financial advisory &amp; business transactions</p>
+    <h1 id="hero-h"><span class="line"><span>Where Capital</span></span><span class="line"><span>Meets <em>Opportunity.</em></span></span></h1>
+    <div class="hero-foot fade">
+      <div>
+        <p class="hero-lede">Independent advice for owners, boards and investors on buying, selling, valuing and financing businesses.</p>
+        <div class="hero-actions">
+          <a class="btn btn-light" href="#contact">Arrange a confidential consultation <span class="arr" aria-hidden="true">→</span></a>
+          <a class="tlink" href="#expertise">Explore our advisory</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <nav class="hero-index fade" aria-label="Services">
+    <ul class="wrap">
+      <li><a href="#expertise"><span>01</span>Mergers &amp; Acquisitions</a></li>
+      <li><a href="#expertise"><span>02</span>Corporate Finance</a></li>
+      <li><a href="#expertise"><span>03</span>Business Valuation</a></li>
+      <li><a href="#expertise"><span>04</span>Business Brokerage</a></li>
+      <li><a href="#expertise"><span>05</span>Transaction Advisory</a></li>
+      <li><a href="#expertise"><span>06</span>Strategic Advisory</a></li>
+    </ul>
+  </nav>
+</section>
+
+<!-- ======================= INTRODUCTION ======================= -->
+<section class="intro" id="about" aria-labelledby="intro-h">
+  <div class="wrap intro-grid">
+    <p class="label reveal">Global Ventures</p>
+    <h2 class="intro-statement reveal" id="intro-h">Considered counsel for the decisions that <em>shape a company’s future</em> — a sale, an acquisition, a new chapter of capital.</h2>
+    <figure class="intro-photo reveal" style="margin-left:0;margin-right:0">
+      <div class="ph" data-tone="stone"><img alt="Stone and glass facade in soft daylight" loading="lazy" src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1400&q=80"><span class="note">Photo: architectural detail in warm daylight — stone, glass, long shadows</span></div>
+    </figure>
+    <div class="intro-copy reveal">
+      <p>We work with a small number of clients at a time, so each engagement receives senior attention from first meeting to completion.</p>
+      <p>Our role is to bring clarity to complex financial decisions: what a business is worth, who the right counterparty is, how a transaction should be structured, and when to act.</p>
+      <dl class="facts">
+        <div><dt>Who we advise</dt><dd>Founders, shareholders &amp; boards</dd></div>
+        <div><dt>What we do</dt><dd>Transactions, valuation &amp; capital</dd></div>
+        <div><dt>How we work</dt><dd>Confidential, senior-led</dd></div>
+        <div><dt>Where</dt><dd><span class="placeholder">Office location — to confirm</span></dd></div>
+      </dl>
+      <a class="tlink" href="#" style="align-self:flex-start">About the firm</a>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= EXPERTISE ======================= -->
+<section class="expertise" id="expertise" aria-labelledby="exp-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="label reveal">Expertise</p>
+      <h2 class="reveal" id="exp-h">Advisory from the first question to the final signature.</h2>
+      <p class="reveal">Six practices, each with its own method, brought together whenever a transaction needs more than one.</p>
+    </div>
+    <ol class="chapters">
+      <li class="chapter reveal"><a href="#"><span class="num">01</span><h3>Mergers &amp; Acquisitions</h3><p>Sell-side and buy-side advice, from preparing the story to negotiating the final agreement.</p><span class="go" aria-hidden="true">→</span><span class="thumb ph"><img alt="" loading="lazy" src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=500&q=70"></span></a></li>
+      <li class="chapter reveal"><a href="#"><span class="num">02</span><h3>Corporate Finance</h3><p>Capital structure, debt advisory and growth capital for businesses planning their next stage.</p><span class="go" aria-hidden="true">→</span><span class="thumb ph"><img alt="" loading="lazy" src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=500&q=70"></span></a></li>
+      <li class="chapter reveal"><a href="#"><span class="num">03</span><h3>Business Valuation</h3><p>Independent valuations built on clear reasoning, for transactions, shareholders and boards.</p><span class="go" aria-hidden="true">→</span><span class="thumb ph"><img alt="" loading="lazy" src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=500&q=70"></span></a></li>
+      <li class="chapter reveal"><a href="#"><span class="num">04</span><h3>Business Brokerage</h3><p>A confidential, managed sale process for privately held companies and their owners.</p><span class="go" aria-hidden="true">→</span><span class="thumb ph"><img alt="" loading="lazy" src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=500&q=70"></span></a></li>
+      <li class="chapter reveal"><a href="#"><span class="num">05</span><h3>Transaction Advisory</h3><p>Financial due diligence and quality-of-earnings work that gives each side a clear view.</p><span class="go" aria-hidden="true">→</span><span class="thumb ph"><img alt="" loading="lazy" src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=500&q=70"></span></a></li>
+      <li class="chapter reveal"><a href="#"><span class="num">06</span><h3>Strategic Advisory</h3><p>Exit readiness and long-range planning, well before a transaction is on the table.</p><span class="go" aria-hidden="true">→</span><span class="thumb ph"><img alt="" loading="lazy" src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=500&q=70"></span></a></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ======================= TRANSACTIONS ======================= -->
+<section class="deals on-dark" id="transactions" aria-labelledby="deals-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="label reveal">Business transactions</p>
+      <h2 class="reveal" id="deals-h">Two sides of every deal. A clear path for each.</h2>
+      <p class="reveal">Whether you are preparing to sell or searching for the right acquisition, the process is structured, confidential and paced around you.</p>
+    </div>
+    <div class="journeys">
+      <article class="journey reveal">
+        <div class="ph" data-tone="deep"><img alt="" loading="lazy" src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1400&q=80"><span class="note">Photo: an empty boardroom at golden hour — the moment before a decision</span></div>
+        <div class="journey-body">
+          <p class="who">For business owners</p>
+          <h3>Selling your business, on your terms</h3>
+          <ol class="steps">
+            <li><div><b>Readiness review</b>What a buyer will look for, and what to address first.</div></li>
+            <li><div><b>Valuation</b>A defensible view of value before you go to market.</div></li>
+            <li><div><b>Confidential approach</b>Qualified buyers only, under non-disclosure.</div></li>
+            <li><div><b>Negotiation &amp; completion</b>Terms, diligence and closing, managed end to end.</div></li>
+          </ol>
+          <a class="btn btn-light" href="#contact">Start a sale enquiry <span class="arr" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+      <article class="journey reveal">
+        <div class="ph" data-tone="deep"><img alt="" loading="lazy" src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1400&q=80"><span class="note">Photo: city skyline from height, early morning haze — searching the horizon</span></div>
+        <div class="journey-body">
+          <p class="who">For acquirers &amp; investors</p>
+          <h3>Finding the right business to acquire</h3>
+          <ol class="steps">
+            <li><div><b>Mandate</b>Define the sector, size and strategic fit you need.</div></li>
+            <li><div><b>Search &amp; screening</b>Targets identified and assessed against your criteria.</div></li>
+            <li><div><b>Due diligence</b>Financial review that tests the numbers behind the story.</div></li>
+            <li><div><b>Structuring &amp; close</b>Price, terms and completion, negotiated with care.</div></li>
+          </ol>
+          <a class="btn btn-light" href="#contact">Start an acquisition enquiry <span class="arr" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    </div>
+    <div class="disclosure reveal">
+      <p>We do not publish live mandates. Opportunities are shared privately with qualified, registered buyers under a non-disclosure agreement.</p>
+      <a class="tlink" href="#contact">Register as a buyer</a>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= APPROACH ======================= -->
+<section class="approach" aria-labelledby="app-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="label reveal">Our approach</p>
+      <h2 class="reveal" id="app-h">A measured process, so nothing important is left to chance.</h2>
+    </div>
+    <ol class="timeline reveal" id="timeline">
+      <li><span class="n">I</span><span class="dot"></span><h3>Understand</h3><p>We start with your objectives, constraints and timing, and agree what success looks like.</p></li>
+      <li><span class="n">II</span><span class="dot"></span><h3>Assess</h3><p>The financial and commercial picture is analysed so every option is grounded in evidence.</p></li>
+      <li><span class="n">III</span><span class="dot"></span><h3>Execute</h3><p>We run the process: preparing materials, managing counterparties and protecting confidentiality.</p></li>
+      <li><span class="n">IV</span><span class="dot"></span><h3>Complete</h3><p>Negotiation, documentation and closing, with a clear handover once the deal is done.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ======================= INDUSTRIES ======================= -->
+<section class="industries" id="industries" aria-labelledby="ind-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="label reveal">Industries</p>
+      <h2 class="reveal" id="ind-h">Sectors we follow closely.</h2>
+    </div>
+    <div class="ind-grid">
+      <div class="ind-visual reveal">
+        <div class="ph" data-tone="stone"><img id="indImg" alt="" loading="lazy" src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=80"><span class="note">Photo per sector — restrained, close-cropped, no people posing</span></div>
+        <p id="indCap">Technology &amp; software</p>
+      </div>
+      <div>
+        <ul class="ind-list reveal">
+          <li><button type="button" aria-pressed="true" data-img="photo-1518770660439-4636190af475"><b>Technology &amp; Software</b><span>SaaS, digital infrastructure</span></button></li>
+          <li><button type="button" aria-pressed="false" data-img="photo-1579684385127-1ef15d508118"><b>Healthcare</b><span>Clinics, diagnostics</span></button></li>
+          <li><button type="button" aria-pressed="false" data-img="photo-1581091226825-a6a2a5aee158"><b>Industrial &amp; Manufacturing</b><span>Engineering, materials</span></button></li>
+          <li><button type="button" aria-pressed="false" data-img="photo-1586528116311-ad8dd3c8310d"><b>Logistics &amp; Supply Chain</b><span>Freight, warehousing</span></button></li>
+          <li><button type="button" aria-pressed="false" data-img="photo-1566073771259-6a8506099945"><b>Hospitality</b><span>Hotels, food &amp; beverage</span></button></li>
+          <li><button type="button" aria-pressed="false" data-img="photo-1441986300917-64674bd600d8"><b>Consumer &amp; Retail</b><span>Brands, distribution</span></button></li>
+        </ul>
+        <p class="ind-note reveal">Our sector coverage reflects where private ownership and transaction activity are most significant. Speak to us about businesses in other sectors.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= INSIGHTS ======================= -->
+<section class="insights" id="insights" aria-labelledby="ins-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="label reveal">Insights</p>
+      <h2 class="reveal" id="ins-h">Perspectives on value, capital and timing.</h2>
+      <p class="reveal" style="display:flex"><span class="draft-flag">Layout preview: articles go live only once approved</span></p>
+    </div>
+    <div class="mag">
+      <a class="story lead reveal" href="#">
+        <div class="ph"><img alt="" loading="lazy" src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80"><span class="note">Article image: editorial architecture, landscape crop</span></div>
+        <div class="meta"><span>Valuation</span><span>6 min read</span></div>
+        <h3>Beyond the headline multiple: what really drives the value of a private business</h3>
+        <p>Why industry rules of thumb mislead owners, and how normalised earnings change the conversation with buyers.</p>
+      </a>
+      <div class="side">
+        <a class="story reveal" href="#">
+          <div class="ph"><img alt="" loading="lazy" src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=900&q=80"></div>
+          <div class="meta"><span>Selling a business</span><span>8 min read</span></div>
+          <h3>Preparing for a sale: an 18-month readiness plan</h3>
+          <p>The practical steps that make a business easier to buy and harder to discount.</p>
+        </a>
+        <a class="story reveal" href="#">
+          <div class="ph"><img alt="" loading="lazy" src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=900&q=80"></div>
+          <div class="meta"><span>Markets</span><span>7 min read</span></div>
+          <h3>Cross-border capital and M&amp;A in the UAE</h3>
+          <p>How international buyers approach the region, and what sellers should expect.</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= CONTACT ======================= -->
+<section class="contact" id="contact" aria-labelledby="con-h">
+  <div class="wrap">
+    <div class="contact-card">
+      <div class="contact-l reveal">
+        <p class="label">Consultation</p>
+        <h2 id="con-h">Begin a confidential conversation.</h2>
+        <p>Tell us a little about your situation. The right person will be in touch to arrange an initial discussion, at no obligation.</p>
+        <ul class="assure">
+          <li>Your details are used only to respond to your enquiry</li>
+          <li>Submitted over an encrypted connection and stored securely</li>
+          <li>A non-disclosure agreement is available before any detailed discussion</li>
+        </ul>
+      </div>
+      <form class="contact-r reveal" onsubmit="return false" aria-labelledby="flow-h">
+        <p class="step">Step 1 of 3</p>
+        <h3 id="flow-h">What would you like to discuss?</h3>
+        <ul class="flows" role="radiogroup" aria-labelledby="flow-h">
+          <li><label><input type="radio" name="flow" value="sell-business" checked><span><b>Selling a business</b><em>Exit planning, valuation and a confidential sale</em></span><span class="t">About 3 min</span></label></li>
+          <li><label><input type="radio" name="flow" value="buy-business"><span><b>Buying a business</b><em>Acquisition search and buyer registration</em></span><span class="t">About 3 min</span></label></li>
+          <li><label><input type="radio" name="flow" value="valuation"><span><b>A business valuation</b><em>For a transaction, shareholders or the board</em></span><span class="t">About 2 min</span></label></li>
+          <li><label><input type="radio" name="flow" value="advisory"><span><b>Financial advisory</b><em>Debt, growth capital, due diligence or restructuring</em></span><span class="t">About 2 min</span></label></li>
+          <li><label><input type="radio" name="flow" value="general"><span><b>Something else</b><em>A general conversation about your plans</em></span><span class="t">About 2 min</span></label></li>
+        </ul>
+        <button class="btn btn-dark" type="submit">Continue <span class="arr" aria-hidden="true">→</span></button>
+        <p class="secure">The full form keeps today’s fields, validation and secure submission — only its presentation changes.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ======================= FOOTER ======================= -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-top">
+      <h2>Where Capital Meets <em>Opportunity.</em></h2>
+      <div class="foot-cols">
+        <div><h4>Advisory</h4><ul><li><a href="#">Mergers &amp; Acquisitions</a></li><li><a href="#">Corporate Finance</a></li><li><a href="#">Business Valuation</a></li><li><a href="#">Transaction Advisory</a></li><li><a href="#">Strategic Advisory</a></li></ul></div>
+        <div><h4>Transactions</h4><ul><li><a href="#">Sell a business</a></li><li><a href="#">Buy a business</a></li><li><a href="#">Business brokerage</a></li><li><a href="#">Opportunities</a></li></ul></div>
+        <div><h4>Firm</h4><ul><li><a href="#">About</a></li><li><a href="#">Industries</a></li><li><a href="#">Insights</a></li><li><a href="#">Contact</a></li></ul></div>
+        <div><h4>Legal</h4><ul><li><a href="#">Privacy policy</a></li><li><a href="#">Terms of use</a></li></ul></div>
+      </div>
+    </div>
+    <div class="foot-wm" aria-hidden="true">Global Ventures</div>
+    <div class="foot-legal">
+      <p>© 2026 Global Ventures. <span class="placeholder">Registered entity, licence and address: to be confirmed before launch</span></p>
+      <p>Information on this site is general and is not financial advice.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var d=document.documentElement;
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  d.classList.add('js');
+  // Photography fallback: show the art-direction note if an image can't load
+  document.querySelectorAll('.ph img').forEach(function(img){
+    function fail(){img.closest('.ph').classList.add('fallback')}
+    if(img.complete && img.naturalWidth===0 && img.src) fail();
+    img.addEventListener('error',fail);
+  });
+  requestAnimationFrame(function(){setTimeout(function(){d.classList.add('loaded')},60)});
+
+  // Nav: transparent over hero, solid after
+  var nav=document.getElementById('nav');
+  function onScroll(){nav.classList.toggle('solid',window.scrollY>40)}
+  onScroll();window.addEventListener('scroll',onScroll,{passive:true});
+
+  // Mega-menu (click/Enter; Esc closes and returns focus)
+  var btns=[document.getElementById('megaBtn'),document.getElementById('burger')];
+  function setOpen(open,from){
+    nav.classList.toggle('open',open);
+    btns.forEach(function(b){b.setAttribute('aria-expanded',open)});
+    if(!open&&from)from.focus();
+  }
+  btns.forEach(function(b){b.addEventListener('click',function(){setOpen(!nav.classList.contains('open'))})});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&nav.classList.contains('open'))setOpen(false,btns[0].offsetParent?btns[0]:btns[1])});
+  document.querySelectorAll('.mega a').forEach(function(a){a.addEventListener('click',function(){setOpen(false)})});
+  if(location.hash==='#menu')setOpen(true);
+
+  // Section entrances
+  if(!reduce && 'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in')});
+  }
+
+  // Industry directory: swap image on hover/focus/click
+  var img=document.getElementById('indImg'),cap=document.getElementById('indCap');
+  document.querySelectorAll('.ind-list button').forEach(function(b){
+    function pick(){
+      document.querySelectorAll('.ind-list button').forEach(function(x){x.setAttribute('aria-pressed','false')});
+      b.setAttribute('aria-pressed','true');
+      img.src='https://images.unsplash.com/'+b.dataset.img+'?auto=format&fit=crop&w=1000&q=80';
+      cap.textContent=b.querySelector('b').textContent;
+    }
+    b.addEventListener('mouseenter',pick);b.addEventListener('focus',pick);b.addEventListener('click',pick);
+  });
+})();
+</script>
+</body>
+</html>
