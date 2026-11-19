@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Concept B · Ledger — Global Ventures</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..700;1,400..500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* CONCEPT B — LEDGER
+   An institutional deal desk in daylight: warm ivory, a strict 12-column
+   grid, a confident grotesk, tabular mono numerals, duotone photography. */
+:root{
+  --ivory:#F5F2EC; --paper:#FBF9F5; --stone:#E7E1D5; --navy:#0B1C30; --slate:#3E5068; --mute:#6B7889;
+  --gold:#C7AA78; --gold-ink:#7A5F33; --rule:#0B1C30; --hair:rgba(11,28,48,.16);
+  --sans:"Schibsted Grotesk","Helvetica Neue",Arial,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --g:clamp(20px,4vw,64px); --max:1600px; --ease:cubic-bezier(.2,.8,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--ivory);color:var(--navy);font:400 clamp(1.0625rem,1rem + .2vw,1.1875rem)/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+:focus-visible{outline:2px solid var(--gold-ink);outline-offset:3px}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{font-weight:500;letter-spacing:-.035em}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--g)}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(12px,1.6vw,28px)}
+.mono{font:400 .875rem/1.4 var(--mono);letter-spacing:.01em}
+.idx{font:500 .875rem/1 var(--mono);color:var(--gold-ink)}
+.rule{border-top:1px solid var(--rule)}
+.ph{position:relative;overflow:hidden;background:var(--stone)}
+.ph img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05);mix-blend-mode:multiply}
+.ph.duo{background:#9FA9B6}
+.ph.duo::after{content:"";position:absolute;inset:0;background:var(--navy);mix-blend-mode:lighten;opacity:.0}
+.ph .alt{position:absolute;left:12px;bottom:10px;font:400 13px/1.3 var(--mono);color:var(--slate);display:none}
+.ph.failed .alt{display:block}.ph.failed img{opacity:0}
+.btn{display:inline-flex;align-items:center;justify-content:space-between;gap:28px;min-height:56px;padding:0 22px;background:var(--navy);color:var(--ivory);font-weight:500;transition:background .3s}
+.btn:hover{background:#16304F}
+.btn .a{transition:transform .4s var(--ease)}.btn:hover .a{transform:translateX(5px)}
+.btn.ghost{background:transparent;color:var(--navy);box-shadow:inset 0 0 0 1px var(--navy)}
+.btn.ghost:hover{background:var(--navy);color:var(--ivory)}
+.ul{background:linear-gradient(currentColor,currentColor) 0 100%/100% 1px no-repeat;padding-bottom:3px;transition:background-size .4s var(--ease)}
+.ul:hover{background-size:0 1px;background-position:100% 100%}
+
+/* TOP BAR + NAV */
+.top{border-bottom:1px solid var(--hair);font:400 .8125rem/1 var(--mono);color:var(--slate)}
+.top .wrap{display:flex;justify-content:space-between;height:38px;align-items:center;gap:16px}
+.nav{position:sticky;top:0;z-index:40;background:rgba(245,242,236,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+.nav .wrap{display:flex;align-items:stretch;height:76px}
+.brand{display:flex;align-items:center;gap:14px;padding-right:32px;border-right:1px solid var(--hair);margin-right:8px}
+.brand svg{flex:none}
+.brand b{font-weight:600;font-size:1.0625rem;letter-spacing:.14em;display:block;line-height:1.1}
+.brand small{display:block;font:400 .75rem/1.2 var(--mono);color:var(--mute);letter-spacing:.02em;margin-top:3px}
+.menu{display:flex;list-style:none;margin:0;padding:0}
+.menu > li{display:flex}
+.menu > li > a,.menu > li > button{display:flex;align-items:center;gap:8px;padding:0 20px;font-weight:500;font-size:1rem;position:relative}
+.menu > li > button::after{content:"+";font:400 .875rem var(--mono);color:var(--mute);transition:transform .3s}
+.menu > li > button[aria-expanded=true]::after{transform:rotate(45deg)}
+.menu > li > :is(a,button)::before{content:"";position:absolute;left:20px;right:20px;bottom:-1px;height:3px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease)}
+.menu > li > :is(a,button):hover::before,.menu > li > button[aria-expanded=true]::before{transform:none}
+.nav .end{margin-left:auto;display:flex;align-items:center;gap:20px}
+.nav .end .btn{min-height:48px}
+.burger{display:none;font-weight:500;align-items:center;gap:10px}
+.burger i{display:block;width:22px;height:8px;border-top:2px solid;border-bottom:2px solid}
+
+/* MEGA PANEL — index table */
+.mega{position:absolute;left:0;right:0;top:100%;background:var(--paper);border-bottom:1px solid var(--rule);box-shadow:0 30px 60px -30px rgba(11,28,48,.25);opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .3s,transform .4s var(--ease),visibility 0s .3s}
+.mega.open{opacity:1;visibility:visible;transform:none;transition:opacity .3s,transform .4s var(--ease)}
+.mega .wrap{padding-top:36px;padding-bottom:40px}
+.mega table{width:100%;border-collapse:collapse}
+.mega th{font:400 .8125rem var(--mono);color:var(--mute);text-align:left;padding:0 0 12px;border-bottom:1px solid var(--rule)}
+.mega td{padding:16px 16px 16px 0;border-bottom:1px solid var(--hair);vertical-align:baseline}
+.mega tr{transition:background .2s}
+.mega tbody tr:hover{background:var(--stone)}
+.mega td:first-child{width:56px;padding-left:8px}
+.mega td b{font-weight:500;font-size:1.25rem;letter-spacing:-.02em}
+.mega td.d{color:var(--slate)}
+.mega .side{grid-column:10/13;border-left:1px solid var(--hair);padding-left:28px;display:flex;flex-direction:column;gap:14px}
+.mega .side a{font-weight:500}
+
+/* HERO */
+.hero{padding-top:clamp(40px,5vw,72px)}
+.hero h1{grid-column:1/-1;font-size:clamp(3.2rem,1rem + 8.4vw,11.5rem);line-height:.88;letter-spacing:-.06em}
+.hero h1 .gold{color:var(--gold-ink)}
+.hero h1 .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.06em}
+.hero h1 .w span{display:inline-block}
+.hero .sub{grid-column:1/5;margin-top:clamp(28px,3vw,48px);font-size:clamp(1.125rem,1rem + .35vw,1.375rem);line-height:1.45;color:var(--slate)}
+.hero .acts{grid-column:1/5;display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.hero .fig{grid-column:6/-1;grid-row:2/5;margin-top:clamp(28px,3vw,48px);aspect-ratio:16/10}
+.hero .stamp{grid-column:1/5;align-self:end;margin-top:40px;padding-top:16px;border-top:1px solid var(--hair);display:grid;grid-template-columns:1fr 1fr;gap:16px;color:var(--slate)}
+.hero .stamp b{display:block;color:var(--navy);font-weight:500;margin-top:4px;font-family:var(--sans);font-size:1rem}
+
+/* INDEX STRIP */
+.strip{margin-top:clamp(56px,6vw,96px);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.strip ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,1fr)}
+.strip li + li{border-left:1px solid var(--hair)}
+.strip a{display:flex;flex-direction:column;gap:22px;padding:20px 18px 22px;height:100%;transition:background .25s}
+.strip a:hover{background:var(--navy);color:var(--ivory)}
+.strip a:hover .idx{color:var(--gold)}
+.strip b{font-weight:500;font-size:1.0625rem;line-height:1.25}
+
+/* SECTION HEAD */
+.sh{padding:clamp(88px,9vw,150px) 0 clamp(32px,3vw,48px)}
+.sh .idx{grid-column:1/3}
+.sh h2{grid-column:3/10;font-size:clamp(2.2rem,1.2rem + 3vw,4.8rem);line-height:.98}
+.sh p{grid-column:3/8;margin-top:24px;color:var(--slate)}
+.sh .lnk{grid-column:10/13;align-self:end;justify-self:end;font-weight:500}
+
+/* PRACTICES — the matrix */
+.matrix{border-top:1px solid var(--rule)}
+.row{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(12px,1.6vw,28px);align-items:center;padding:26px 0;border-bottom:1px solid var(--hair);position:relative;transition:padding .45s var(--ease)}
+.row .idx{grid-column:1/2}
+.row h3{grid-column:2/6;font-size:clamp(1.5rem,1.1rem + 1.2vw,2.6rem);line-height:1.05}
+.row p{grid-column:6/10;color:var(--slate)}
+.row .for{grid-column:10/12;color:var(--mute)}
+.row .go{grid-column:12/13;justify-self:end;width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--hair);transition:all .3s}
+.row:hover{padding:38px 0}
+.row:hover .go{background:var(--navy);color:var(--ivory);border-color:var(--navy)}
+.row::before{content:"";position:absolute;left:0;top:-1px;height:1px;width:100%;background:var(--navy);transform:scaleX(0);transform-origin:left;transition:transform .6s var(--ease)}
+.row:hover::before{transform:none}
+
+/* TRANSACTIONS — split desk */
+.desk{background:var(--navy);color:var(--ivory);margin-top:clamp(88px,9vw,150px)}
+.desk .sh .idx{color:var(--gold)}.desk .sh p{color:#B7C0CC}
+.desk .sh{padding-top:clamp(72px,7vw,120px)}
+.sides{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(245,242,236,.3)}
+.side-c{padding:40px clamp(0px,2vw,40px) 56px 0}
+.side-c + .side-c{border-left:1px solid rgba(245,242,236,.18);padding-left:clamp(20px,3vw,56px)}
+.side-c .ph{aspect-ratio:16/9;background:#24384F;margin-bottom:32px}
+.side-c .ph img{mix-blend-mode:luminosity;opacity:.85}
+.side-c h3{font-size:clamp(1.8rem,1.2rem + 1.6vw,3rem);line-height:1.02}
+.side-c .who{font:400 .875rem var(--mono);color:var(--gold);margin-bottom:14px}
+.steps{list-style:none;margin:28px 0 32px;padding:0;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(245,242,236,.25)}
+.steps li{padding:14px 12px 0 0;font-size:.9375rem;color:#B7C0CC}
+.steps li span{display:block;font:500 .8125rem var(--mono);color:var(--gold);margin-bottom:8px}
+.desk .btn{background:var(--ivory);color:var(--navy)}
+.desk .btn:hover{background:var(--gold)}
+
+/* EXAMPLE LISTING — a layout pattern, explicitly not a mandate */
+.ledger{padding:0 0 clamp(72px,7vw,120px)}
+.ledger-h{display:flex;justify-content:space-between;align-items:end;gap:20px;padding:40px 0 18px;border-top:1px solid rgba(245,242,236,.3)}
+.ledger-h h4{margin:0;font-weight:500;font-size:1.25rem}
+.tag{font:500 .8125rem var(--mono);color:var(--navy);background:var(--gold);padding:5px 9px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(245,242,236,.18);border:1px solid rgba(245,242,236,.18)}
+.lc{background:var(--navy);padding:24px;display:flex;flex-direction:column;gap:18px;min-height:280px;position:relative}
+.lc .r1{display:flex;justify-content:space-between;font:400 .8125rem var(--mono);color:#B7C0CC}
+.lc h5{margin:0;font-size:1.375rem;font-weight:500;letter-spacing:-.02em;line-height:1.15}
+.lc dl{margin:auto 0 0;display:grid;grid-template-columns:1fr 1fr;gap:12px 16px;padding-top:16px;border-top:1px solid rgba(245,242,236,.18)}
+.lc dt{font:400 .8125rem var(--mono);color:#8F9BAA}
+.lc dd{margin:2px 0 0;font:500 .9375rem var(--mono)}
+.lc dd.lock{color:#8F9BAA}
+.lc .nda{font:400 .8125rem var(--mono);color:var(--gold)}
+.ledger .fine{margin-top:18px;color:#8F9BAA;font-size:.9375rem;max-width:56rem}
+
+/* METHOD — horizontal timeline */
+.method .tl{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--rule)}
+.method .st{padding:28px 24px 0 0;position:relative}
+.method .st + .st{padding-left:24px;border-left:1px solid var(--hair)}
+.method .st .n{font:500 clamp(3rem,2rem + 3vw,5.5rem)/1 var(--sans);letter-spacing:-.06em;color:var(--stone);-webkit-text-stroke:1px var(--navy);color:transparent}
+.method .st h3{font-size:1.625rem;margin-top:28px}
+.method .st p{color:var(--slate);margin-top:10px;max-width:22rem}
+.method .bar{height:3px;background:var(--hair);margin-top:48px;position:relative;overflow:hidden}
+.method .bar i{position:absolute;inset:0;background:var(--gold);transform:scaleX(var(--p,0));transform-origin:left;transition:transform .2s linear}
+
+/* INSIGHTS — index list */
+.notes{border-top:1px solid var(--rule)}
+.note{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(12px,1.6vw,28px);padding:24px 0;border-bottom:1px solid var(--hair);align-items:start}
+.note .mono{grid-column:1/3;color:var(--mute)}
+.note h3{grid-column:3/9;font-size:clamp(1.375rem,1.1rem + .8vw,2rem);line-height:1.15}
+.note .ph{grid-column:10/13;aspect-ratio:3/2}
+.draft{font:500 .8125rem var(--mono);border:1px solid var(--hair);padding:2px 6px;margin-left:6px;color:var(--mute)}
+
+/* CONTACT — stepper */
+.enq{background:var(--paper);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);margin-top:clamp(88px,9vw,150px)}
+.enq .grid{padding-block:clamp(64px,6vw,110px)}
+.enq .l{grid-column:1/6}
+.enq h2{font-size:clamp(2.4rem,1.3rem + 3.4vw,5.2rem);line-height:.96}
+.enq .l p{color:var(--slate);margin-top:24px;max-width:28rem}
+.enq ul.as{list-style:none;padding:0;margin:32px 0 0;display:grid;gap:10px}
+.enq ul.as li{display:flex;gap:12px;color:var(--slate);font-size:1rem}
+.enq ul.as li::before{content:"✓";font-family:var(--mono);color:var(--gold-ink)}
+.form{grid-column:7/13;border:1px solid var(--rule);background:var(--ivory)}
+.form .hd{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--rule)}
+.form .hd span{padding:14px 18px;font:400 .8125rem var(--mono);color:var(--mute)}
+.form .hd span + span{border-left:1px solid var(--hair)}
+.form .hd span.on{color:var(--navy);background:var(--stone);font-weight:500}
+.form fieldset{border:0;margin:0;padding:8px 0}
+.form legend{padding:20px 22px 8px;font-weight:500;font-size:1.25rem}
+.opt{display:grid;grid-template-columns:24px 1fr auto;gap:16px;align-items:center;padding:16px 22px;cursor:pointer;border-top:1px solid var(--hair);transition:background .2s}
+.opt:hover{background:var(--paper)}
+.opt input{appearance:none;width:18px;height:18px;border:1px solid var(--navy);border-radius:50%;margin:0;display:grid;place-items:center}
+.opt input:checked::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--navy)}
+.opt input:focus-visible{outline:2px solid var(--gold-ink);outline-offset:3px}
+.opt b{font-weight:500;display:block}
+.opt em{font-style:normal;color:var(--mute);font-size:.9375rem}
+.opt .t{font:400 .8125rem var(--mono);color:var(--mute)}
+.form .ft{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 22px;border-top:1px solid var(--rule)}
+.form .ft .mono{color:var(--mute)}
+
+/* FOOTER */
+footer{padding:56px 0 32px;font-size:.9375rem}
+.fg{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(12px,1.6vw,28px);row-gap:40px}
+.fg > div:first-child{grid-column:1/5}
+.fg > div{grid-column:span 2}
+footer h4{font:500 .8125rem var(--mono);color:var(--mute);margin:0 0 16px;font-weight:400}
+footer ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+footer a:hover{color:var(--gold-ink)}
+.fl{display:flex;justify-content:space-between;gap:16px;margin-top:56px;padding-top:18px;border-top:1px solid var(--rule);font:400 .8125rem var(--mono);color:var(--mute)}
+.fl .todo{color:var(--gold-ink)}
+
+.mbar{display:none}
+
+/* MOTION */
+.js .rv{opacity:0;transform:translateY(18px);transition:opacity .8s var(--ease),transform .9s var(--ease)}
+.js .rv.in{opacity:1;transform:none}
+.js .hero h1 .w span{transform:translateY(105%);transition:transform 1s var(--ease)}
+.js.ready .hero h1 .w span{transform:none}
+.js.ready .hero h1 .w:nth-child(2) span{transition-delay:.06s}
+.js.ready .hero h1 .w:nth-child(3) span{transition-delay:.12s}
+.js.ready .hero h1 .w:nth-child(4) span{transition-delay:.18s}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition-duration:.01ms!important;transition-delay:0s!important;scroll-behavior:auto!important}
+  .js .rv,.js .hero h1 .w span{opacity:1!important;transform:none!important}
+}
+
+/* RESPONSIVE */
+@media (max-width:1100px){
+  .menu,.nav .end .btn{display:none}
+  .burger{display:inline-flex}
+  .brand{border-right:0}
+  .strip ol{grid-template-columns:repeat(3,1fr)}
+  .strip li:nth-child(4){border-left:0}
+  .strip li:nth-child(n+4){border-top:1px solid var(--hair)}
+  .cards{grid-template-columns:1fr 1fr}
+  .cards .lc:nth-child(3){display:none}
+  .mega{display:none}
+}
+.mnav{display:none}
+@media (max-width:820px){
+  .top{display:none}
+  .nav .wrap{height:64px}
+  .brand small{display:none}
+  .mnav{display:block;position:fixed;inset:64px 0 0;z-index:39;background:var(--ivory);overflow:auto;transform:translateY(-8px);opacity:0;visibility:hidden;transition:opacity .3s,transform .4s var(--ease),visibility 0s .3s}
+  .mnav.open{opacity:1;visibility:visible;transform:none;transition:opacity .3s,transform .4s var(--ease)}
+  .mnav .wrap{padding-top:8px;padding-bottom:120px}
+  .mnav details{border-bottom:1px solid var(--hair)}
+  .mnav summary{list-style:none;display:flex;justify-content:space-between;padding:20px 0;font-weight:500;font-size:1.5rem;letter-spacing:-.02em}
+  .mnav summary::after{content:"+";font-family:var(--mono)}
+  .mnav details[open] summary::after{content:"−"}
+  .mnav details a{display:flex;gap:14px;padding:10px 0;color:var(--slate)}
+  .mnav details div{padding-bottom:16px}
+  .mnav > .wrap > a{display:block;padding:20px 0;font-weight:500;font-size:1.5rem;border-bottom:1px solid var(--hair);letter-spacing:-.02em}
+  .mnav .btn{width:100%;margin-top:28px}
+  .hero h1{font-size:clamp(3rem,16.5vw,5.6rem);line-height:.9}
+  .hero .sub,.hero .acts,.hero .stamp{grid-column:1/-1}
+  .hero .fig{grid-column:1/-1;grid-row:auto;aspect-ratio:4/3}
+  .hero .acts .btn{flex:1 1 100%}
+  .strip ol{grid-template-columns:1fr 1fr}
+  .strip li:nth-child(odd){border-left:0}
+  .strip li:nth-child(4){border-left:1px solid var(--hair)}
+  .strip li:nth-child(n+3){border-top:1px solid var(--hair)}
+  .sh .idx,.sh h2,.sh p,.sh .lnk{grid-column:1/-1}
+  .sh h2{margin-top:16px}
+  .sh .lnk{justify-self:start;margin-top:20px}
+  .row{row-gap:10px;padding:22px 0}
+  .row:hover{padding:22px 0}
+  .row .idx{grid-column:1/3}
+  .row h3{grid-column:3/12;grid-row:1}
+  .row .go{grid-column:12/13;grid-row:1;width:36px;height:36px}
+  .row p{grid-column:3/-1}
+  .row .for{display:none}
+  .sides{grid-template-columns:1fr}
+  .side-c{padding:32px 0 44px}
+  .side-c + .side-c{border-left:0;border-top:1px solid rgba(245,242,236,.18);padding-left:0}
+  .steps{grid-template-columns:1fr 1fr;row-gap:16px}
+  .side-c .btn{width:100%}
+  .cards{grid-template-columns:1fr}
+  .cards .lc:nth-child(n+2){display:none}
+  .ledger-h{flex-direction:column;align-items:flex-start}
+  .method .tl{grid-template-columns:1fr}
+  .method .st,.method .st + .st{padding:24px 0;border-left:0;border-bottom:1px solid var(--hair);display:grid;grid-template-columns:72px 1fr;gap:0 16px}
+  .method .st .n{font-size:2.75rem;grid-row:1/3}
+  .method .st h3{margin-top:0}
+  .method .bar{display:none}
+  .note .mono{grid-column:1/-1}
+  .note h3{grid-column:1/9;margin-top:8px}
+  .note .ph{grid-column:9/13;margin-top:8px}
+  .enq .l,.form{grid-column:1/-1}
+  .form{margin-top:40px}
+  .form .hd span{padding:12px 10px}
+  .opt .t{display:none}
+  .form .ft{flex-direction:column;align-items:stretch}
+  .form .ft .btn{width:100%}
+  .fg > div:first-child{grid-column:1/-1}
+  .fg > div{grid-column:span 6}
+  .fl{flex-direction:column}
+  .mbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--navy);color:var(--ivory);padding:10px var(--g) calc(10px + env(safe-area-inset-bottom));align-items:center;justify-content:space-between;gap:12px;transform:translateY(100%);transition:transform .4s var(--ease)}
+  .mbar.show{transform:none}
+  .mbar span{font:400 .8125rem var(--mono);color:#B7C0CC}
+  .mbar a{background:var(--gold);color:var(--navy);font-weight:500;padding:12px 16px}
+  footer{padding-bottom:96px}
+}
+</style>
+</head>
+<body>
+
+<div class="top"><div class="wrap"><span>Financial advisory &amp; business transactions</span><span>Confidential enquiries answered by a senior adviser</span></div></div>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="brand" href="#" aria-label="Global Ventures, home">
+      <svg width="36" height="36" viewBox="0 0 36 36" aria-hidden="true"><rect x=".5" y=".5" width="35" height="35" fill="none" stroke="#0B1C30"/><rect x="18" y="0" width="18" height="36" fill="#0B1C30"/><text x="9" y="24" font-family="Schibsted Grotesk,Arial" font-weight="600" font-size="15" text-anchor="middle" fill="#0B1C30">G</text><text x="27" y="24" font-family="Schibsted Grotesk,Arial" font-weight="600" font-size="15" text-anchor="middle" fill="#C7AA78">V</text></svg>
+      <span><b>GLOBAL VENTURES</b><small>Where Capital Meets Opportunity.</small></span>
+    </a>
+    <ul class="menu">
+      <li><button type="button" aria-expanded="false" aria-controls="mega-adv" data-mega="mega-adv">Advisory</button></li>
+      <li><button type="button" aria-expanded="false" aria-controls="mega-trx" data-mega="mega-trx">Transactions</button></li>
+      <li><a href="#">Industries</a></li>
+      <li><a href="#notes">Insights</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
+    <div class="end">
+      <a class="btn" href="#enquire">Start an enquiry <span class="a">→</span></a>
+      <button class="burger" type="button" id="burger" aria-expanded="false" aria-controls="mnav"><i aria-hidden="true"></i>Menu</button>
+    </div>
+  </div>
+  <div class="mega" id="mega-adv">
+    <div class="wrap grid">
+      <div style="grid-column:1/10">
+        <table><thead><tr><th></th><th>Practice</th><th>What it covers</th><th>Typical client</th></tr></thead>
+        <tbody>
+          <tr><td class="idx">01</td><td><a href="#"><b>Mergers &amp; Acquisitions</b></a></td><td class="d">Sell-side and buy-side, through to signing</td><td class="d">Owners, acquirers</td></tr>
+          <tr><td class="idx">02</td><td><a href="#"><b>Corporate Finance</b></a></td><td class="d">Capital structure, debt and growth capital</td><td class="d">Boards, CFOs</td></tr>
+          <tr><td class="idx">03</td><td><a href="#"><b>Business Valuation</b></a></td><td class="d">Independent, reasoned valuation reports</td><td class="d">Shareholders</td></tr>
+          <tr><td class="idx">04</td><td><a href="#"><b>Business Brokerage</b></a></td><td class="d">A managed, confidential sale process</td><td class="d">Private owners</td></tr>
+          <tr><td class="idx">05</td><td><a href="#"><b>Transaction Advisory</b></a></td><td class="d">Financial due diligence, quality of earnings</td><td class="d">Buyers, lenders</td></tr>
+          <tr><td class="idx">06</td><td><a href="#"><b>Strategic Advisory</b></a></td><td class="d">Exit readiness and long-range planning</td><td class="d">Founders</td></tr>
+        </tbody></table>
+      </div>
+      <div class="side"><span class="mono" style="color:var(--mute)">Not sure where to start?</span><p>Tell us the decision you are facing and we will route it to the right adviser.</p><a class="ul" href="#enquire" style="align-self:start">Start an enquiry</a></div>
+    </div>
+  </div>
+  <div class="mega" id="mega-trx">
+    <div class="wrap grid">
+      <div style="grid-column:1/10">
+        <table><thead><tr><th></th><th>Route</th><th>What happens</th><th>First step</th></tr></thead>
+        <tbody>
+          <tr><td class="idx">A</td><td><a href="#desk"><b>Sell a business</b></a></td><td class="d">Readiness, valuation, confidential approach</td><td class="d">Sale enquiry</td></tr>
+          <tr><td class="idx">B</td><td><a href="#desk"><b>Buy a business</b></a></td><td class="d">Mandate, search, diligence, close</td><td class="d">Buyer registration</td></tr>
+          <tr><td class="idx">C</td><td><a href="#desk"><b>Opportunities</b></a></td><td class="d">Introduced privately, under NDA</td><td class="d">Register interest</td></tr>
+        </tbody></table>
+      </div>
+      <div class="side"><span class="mono" style="color:var(--mute)">Confidentiality</span><p>We never publish identifying details of a business for sale.</p></div>
+    </div>
+  </div>
+</header>
+
+<nav class="mnav" id="mnav" aria-label="Mobile">
+  <div class="wrap">
+    <details open><summary>Advisory</summary><div>
+      <a href="#"><span class="idx">01</span>Mergers &amp; Acquisitions</a><a href="#"><span class="idx">02</span>Corporate Finance</a><a href="#"><span class="idx">03</span>Business Valuation</a><a href="#"><span class="idx">04</span>Business Brokerage</a><a href="#"><span class="idx">05</span>Transaction Advisory</a><a href="#"><span class="idx">06</span>Strategic Advisory</a>
+    </div></details>
+    <details><summary>Transactions</summary><div><a href="#desk">Sell a business</a><a href="#desk">Buy a business</a><a href="#desk">Opportunities</a></div></details>
+    <a href="#">Industries</a><a href="#notes">Insights</a><a href="#">About</a><a href="#enquire">Contact</a>
+    <a class="btn" href="#enquire">Start an enquiry <span class="a">→</span></a>
+  </div>
+</nav>
+
+<main>
+<section class="hero wrap">
+  <div class="grid">
+    <h1 aria-label="Where Capital Meets Opportunity."><span class="w"><span>Where</span></span> <span class="w"><span>Capital</span></span><br><span class="w"><span>Meets</span></span> <span class="w"><span class="gold">Opportunity.</span></span></h1>
+    <p class="sub rv">Independent advice for owners, boards and investors on buying, selling, valuing and financing private companies.</p>
+    <div class="acts rv"><a class="btn" href="#enquire">Start a confidential enquiry <span class="a">→</span></a><a class="btn ghost" href="#practices">See our practices <span class="a">↓</span></a></div>
+    <div class="fig ph rv"><img alt="Office tower facade, black and white" fetchpriority="high" src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2000&q=75"><span class="alt">Hero: tower facade, monochrome duotone</span></div>
+    <div class="stamp mono rv"><div>Who we advise<b>Founders, shareholders, boards</b></div><div>First step<b>A conversation, at no obligation</b></div></div>
+  </div>
+  <nav class="strip" aria-label="Practices"><ol>
+    <li><a href="#practices"><span class="idx">01</span><b>Mergers &amp; Acquisitions</b></a></li>
+    <li><a href="#practices"><span class="idx">02</span><b>Corporate Finance</b></a></li>
+    <li><a href="#practices"><span class="idx">03</span><b>Business Valuation</b></a></li>
+    <li><a href="#practices"><span class="idx">04</span><b>Business Brokerage</b></a></li>
+    <li><a href="#practices"><span class="idx">05</span><b>Transaction Advisory</b></a></li>
+    <li><a href="#practices"><span class="idx">06</span><b>Strategic Advisory</b></a></li>
+  </ol></nav>
+</section>
+
+<section id="practices" class="wrap">
+  <div class="sh grid"><span class="idx rv">§ 1 · Advisory</span><h2 class="rv">Six practices, organised around the decision in front of you.</h2><p class="rv">Each has its own method. On most transactions two or three work together, under one lead adviser.</p></div>
+  <div class="matrix">
+    <a class="row rv" href="#"><span class="idx">01</span><h3>Mergers &amp; Acquisitions</h3><p>Sell-side and buy-side mandates, from positioning the business to the signed agreement.</p><span class="for mono">Owners · Acquirers</span><span class="go">→</span></a>
+    <a class="row rv" href="#"><span class="idx">02</span><h3>Corporate Finance</h3><p>Capital structure, debt advisory and growth capital for the next stage.</p><span class="for mono">Boards · CFOs</span><span class="go">→</span></a>
+    <a class="row rv" href="#"><span class="idx">03</span><h3>Business Valuation</h3><p>Independent, clearly reasoned valuations for transactions and shareholders.</p><span class="for mono">Shareholders</span><span class="go">→</span></a>
+    <a class="row rv" href="#"><span class="idx">04</span><h3>Business Brokerage</h3><p>A managed, confidential sale process for privately held companies.</p><span class="for mono">Private owners</span><span class="go">→</span></a>
+    <a class="row rv" href="#"><span class="idx">05</span><h3>Transaction Advisory</h3><p>Financial due diligence and quality-of-earnings work that tests the numbers.</p><span class="for mono">Buyers · Lenders</span><span class="go">→</span></a>
+    <a class="row rv" href="#"><span class="idx">06</span><h3>Strategic Advisory</h3><p>Exit readiness and long-range planning, well before a deal is on the table.</p><span class="for mono">Founders</span><span class="go">→</span></a>
+  </div>
+</section>
+
+<section class="desk" id="desk">
+  <div class="wrap">
+    <div class="sh grid"><span class="idx rv">§ 2 · Transactions</span><h2 class="rv">Two sides of every deal. A clear route for each.</h2><p class="rv">Structured, confidential and paced around you, whether you are selling or acquiring.</p></div>
+    <div class="sides">
+      <div class="side-c rv"><div class="ph"><img loading="lazy" alt="" src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1400&q=70"></div><p class="who">A · For owners</p><h3>Sell your business, on your terms.</h3><ol class="steps"><li><span>01</span>Readiness</li><li><span>02</span>Valuation</li><li><span>03</span>Confidential approach</li><li><span>04</span>Completion</li></ol><a class="btn" href="#enquire">Begin a sale enquiry <span class="a">→</span></a></div>
+      <div class="side-c rv"><div class="ph"><img loading="lazy" alt="" src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1400&q=70"></div><p class="who">B · For acquirers</p><h3>Find the right company to acquire.</h3><ol class="steps"><li><span>01</span>Mandate</li><li><span>02</span>Search</li><li><span>03</span>Diligence</li><li><span>04</span>Close</li></ol><a class="btn" href="#enquire">Register as a buyer <span class="a">→</span></a></div>
+    </div>
+    <div class="ledger">
+      <div class="ledger-h"><h4>How opportunities will be presented</h4><span class="tag">EXAMPLE LAYOUT · NOT A LIVE MANDATE</span></div>
+      <div class="cards">
+        <article class="lc"><div class="r1"><span>Sector</span><span>Region</span></div><h5>[Sector] business, established [n] years</h5><dl><dt>Revenue band</dt><dd class="lock">Shared under NDA</dd><dt>Deal type</dt><dd>[Full / partial sale]</dd><dt>Location</dt><dd>[Emirate]</dd><dt>Status</dt><dd>[Open to enquiries]</dd></dl><span class="nda">Request information pack →</span></article>
+        <article class="lc"><div class="r1"><span>Sector</span><span>Region</span></div><h5>[Sector] business, [ownership] structure</h5><dl><dt>Revenue band</dt><dd class="lock">Shared under NDA</dd><dt>Deal type</dt><dd>[Investment]</dd><dt>Location</dt><dd>[Emirate]</dd><dt>Status</dt><dd>[Open to enquiries]</dd></dl><span class="nda">Request information pack →</span></article>
+        <article class="lc"><div class="r1"><span>Sector</span><span>Region</span></div><h5>[Sector] business, [scale] team</h5><dl><dt>Revenue band</dt><dd class="lock">Shared under NDA</dd><dt>Deal type</dt><dd>[Full sale]</dd><dt>Location</dt><dd>[Emirate]</dd><dt>Status</dt><dd>[Under offer]</dd></dl><span class="nda">Request information pack →</span></article>
+      </div>
+      <p class="fine">Placeholders only. Real opportunities would appear here once mandates are signed and the owner has approved an anonymised summary. Financial detail is released to registered buyers after a non-disclosure agreement.</p>
+    </div>
+  </div>
+</section>
+
+<section class="method wrap">
+  <div class="sh grid"><span class="idx rv">§ 3 · Method</span><h2 class="rv">Four stages. You always know which one you are in.</h2></div>
+  <div class="tl rv">
+    <div class="st"><span class="n">01</span><h3>Understand</h3><p>Objectives, constraints and timing, and what a good outcome looks like.</p></div>
+    <div class="st"><span class="n">02</span><h3>Assess</h3><p>The financial and commercial picture, so options rest on evidence.</p></div>
+    <div class="st"><span class="n">03</span><h3>Execute</h3><p>Materials, counterparties and confidentiality, managed end to end.</p></div>
+    <div class="st"><span class="n">04</span><h3>Complete</h3><p>Negotiation, documentation and closing, then a clear handover.</p></div>
+  </div>
+  <div class="bar" aria-hidden="true"><i id="bar"></i></div>
+</section>
+
+<section class="wrap" id="notes">
+  <div class="sh grid"><span class="idx rv">§ 4 · Insights</span><h2 class="rv">Notes on value, capital and timing.</h2><a class="lnk ul rv" href="#">All insights</a></div>
+  <div class="notes">
+    <a class="note rv" href="#"><span class="mono">Valuation · 6 min<span class="draft">Draft</span></span><h3>Beyond the headline multiple: what really drives the value of a private business</h3><div class="ph"><img loading="lazy" alt="" src="https://images.unsplash.com/photo-1431576901776-e539bd916ba2?auto=format&fit=crop&w=900&q=70"></div></a>
+    <a class="note rv" href="#"><span class="mono">Selling · 8 min<span class="draft">Draft</span></span><h3>Preparing for a sale: an eighteen-month readiness plan</h3><div class="ph"><img loading="lazy" alt="" src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&q=70"></div></a>
+  </div>
+</section>
+
+<section class="enq" id="enquire">
+  <div class="wrap grid">
+    <div class="l rv"><span class="idx">§ 5 · Enquiry</span><h2 style="margin-top:20px">Start with the decision you are facing.</h2><p>Two short steps. A senior adviser reads every enquiry and replies personally.</p><ul class="as"><li>Used only to respond to your enquiry</li><li>Sent over an encrypted connection</li><li>NDA available before any detailed discussion</li></ul></div>
+    <form class="form rv" onsubmit="return false">
+      <div class="hd"><span class="on">1 · Topic</span><span>2 · Details</span><span>3 · Sent</span></div>
+      <fieldset><legend>What would you like to discuss?</legend>
+        <label class="opt"><input type="radio" name="f" checked><span><b>Selling a business</b><em>Exit planning, valuation, a confidential sale</em></span><span class="t">~3 min</span></label>
+        <label class="opt"><input type="radio" name="f"><span><b>Buying a business</b><em>Acquisition search and buyer registration</em></span><span class="t">~3 min</span></label>
+        <label class="opt"><input type="radio" name="f"><span><b>A business valuation</b><em>For a transaction, shareholders or the board</em></span><span class="t">~2 min</span></label>
+        <label class="opt"><input type="radio" name="f"><span><b>Financial advisory</b><em>Debt, growth capital or due diligence</em></span><span class="t">~2 min</span></label>
+        <label class="opt"><input type="radio" name="f"><span><b>Something else</b><em>A general conversation about your plans</em></span><span class="t">~2 min</span></label>
+      </fieldset>
+      <div class="ft"><span class="mono">Uses the existing secure enquiry form</span><button class="btn" type="submit">Continue <span class="a">→</span></button></div>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="wrap">
+  <div class="fg">
+    <div><b style="letter-spacing:.14em;font-weight:600">GLOBAL VENTURES</b><p style="margin-top:12px;color:var(--slate);max-width:22rem">Independent advice on buying, selling, valuing and financing businesses.</p></div>
+    <div><h4>Advisory</h4><ul><li><a href="#">M&amp;A</a></li><li><a href="#">Corporate finance</a></li><li><a href="#">Valuation</a></li><li><a href="#">All practices</a></li></ul></div>
+    <div><h4>Transactions</h4><ul><li><a href="#">Sell</a></li><li><a href="#">Buy</a></li><li><a href="#">Opportunities</a></li></ul></div>
+    <div><h4>Firm</h4><ul><li><a href="#">About</a></li><li><a href="#">Insights</a></li><li><a href="#">Contact</a></li></ul></div>
+    <div><h4>Legal</h4><ul><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li></ul></div>
+  </div>
+  <div class="fl"><span>© 2026 Global Ventures · <span class="todo">Registered entity and address pending confirmation</span></span><span>General information only, not financial advice.</span></div>
+</footer>
+
+<div class="mbar" id="mbar"><span>Confidential · 2 steps</span><a href="#enquire">Start an enquiry →</a></div>
+
+<script>
+(function(){
+  var d=document.documentElement,reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;d.classList.add('js');
+  document.querySelectorAll('.ph img').forEach(function(i){function f(){i.closest('.ph').classList.add('failed')}if(i.complete&&!i.naturalWidth)f();i.addEventListener('error',f)});
+  requestAnimationFrame(function(){setTimeout(function(){d.classList.add('ready')},60)});
+  var mbar=document.getElementById('mbar'),bar=document.getElementById('bar'),tl=document.querySelector('.method .tl');
+  function sc(){mbar.classList.toggle('show',scrollY>innerHeight*.7);if(tl&&!reduce){var r=tl.getBoundingClientRect(),p=Math.min(1,Math.max(0,(innerHeight-r.top)/(innerHeight+r.height)));bar.style.setProperty('--p',p)}}sc();addEventListener('scroll',sc,{passive:true});
+  var btns=document.querySelectorAll('[data-mega]'),fine=matchMedia('(hover:hover) and (pointer:fine)').matches,t;
+  function closeAll(){btns.forEach(function(b){b.setAttribute('aria-expanded','false');document.getElementById(b.dataset.mega).classList.remove('open')})}
+  function openM(b){closeAll();b.setAttribute('aria-expanded','true');document.getElementById(b.dataset.mega).classList.add('open')}
+  btns.forEach(function(b){var m=document.getElementById(b.dataset.mega);
+    b.addEventListener('click',function(){b.getAttribute('aria-expanded')==='true'?closeAll():openM(b)});
+    if(fine){b.addEventListener('mouseenter',function(){clearTimeout(t);openM(b)});[b,m].forEach(function(el){el.addEventListener('mouseleave',function(){t=setTimeout(closeAll,180)});el.addEventListener('mouseenter',function(){clearTimeout(t)})})}});
+  addEventListener('keydown',function(e){if(e.key==='Escape'){var o=document.querySelector('[data-mega][aria-expanded=true]');closeAll();o&&o.focus();closeMob()}});
+  document.addEventListener('click',function(e){if(!e.target.closest('.nav'))closeAll()});
+  var bg=document.getElementById('burger'),mn=document.getElementById('mnav');
+  function closeMob(){mn.classList.remove('open');bg.setAttribute('aria-expanded','false');document.body.style.overflow=''}
+  bg.addEventListener('click',function(){var o=!mn.classList.contains('open');mn.classList.toggle('open',o);bg.setAttribute('aria-expanded',o);document.body.style.overflow=o?'hidden':''});
+  mn.querySelectorAll('a').forEach(function(a){a.addEventListener('click',closeMob)});
+  if(location.hash==='#menu'){fine?openM(btns[0]):bg.click()}
+  if(!reduce&&'IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});document.querySelectorAll('.rv').forEach(function(el){io.observe(el)})}else document.querySelectorAll('.rv').forEach(function(el){el.classList.add('in')});
+})();
+</script>
+</body>
+</html>
