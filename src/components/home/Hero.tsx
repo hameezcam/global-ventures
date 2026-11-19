@@ -33,13 +33,15 @@ export const Hero: React.FC = () => {
 
         <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           {/* Eyebrow Pill */}
-          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-navy-900/90 border border-gold-500/30 text-gold-400 text-xs uppercase tracking-[0.22em] font-medium mb-8 shadow-lg shadow-black/20">
-            <span className="w-1.5 h-1.5 rounded-full bg-gold-400 animate-pulse" />
-            <span>Financial Advisory &bull; Business Transactions &bull; Valuations</span>
+          <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-navy-900/90 border border-gold-500/30 text-gold-400 text-[10px] sm:text-xs uppercase tracking-[0.14em] sm:tracking-[0.22em] font-medium mb-8 shadow-lg shadow-black/20 max-w-full text-center">
+            <span className="w-1.5 h-1.5 rounded-full bg-gold-400 animate-pulse shrink-0" />
+            <span className="truncate sm:whitespace-normal">
+              Financial Advisory &bull; Transactions &bull; Valuations
+            </span>
           </div>
 
           {/* Headline */}
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-serif text-white tracking-tight leading-[1.08] mb-6">
+          <h1 className="text-3xl sm:text-6xl md:text-7xl font-serif text-white tracking-tight leading-[1.1] sm:leading-[1.08] mb-6">
             Where Capital Meets <br />
             <span className="italic font-normal text-gold-gradient font-serif">
               Opportunity.
@@ -53,21 +55,21 @@ export const Hero: React.FC = () => {
           </p>
 
           {/* Call to Actions */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5 mb-14">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-5 mb-14 w-full max-w-md sm:max-w-none mx-auto">
             <Link
               href="#expertise"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-gold-500 hover:bg-gold-400 text-navy-950 font-semibold px-8 py-4 rounded text-xs uppercase tracking-widest transition-all duration-200 shadow-lg shadow-gold-500/10 hover:shadow-gold-500/25"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-gold-500 hover:bg-gold-400 text-navy-950 font-semibold px-5 sm:px-8 py-3.5 sm:py-4 rounded text-xs uppercase tracking-wider sm:tracking-widest transition-all duration-200 shadow-lg shadow-gold-500/10 hover:shadow-gold-500/25"
             >
               <span>Explore Our Expertise</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 shrink-0" />
             </Link>
 
             <button
               onClick={() => setIsModalOpen(true)}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-navy-900/80 hover:bg-navy-800 text-ivory-100 border border-white/20 hover:border-gold-500/50 font-medium px-8 py-4 rounded text-xs uppercase tracking-widest transition-all duration-200 backdrop-blur-sm"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-navy-900/80 hover:bg-navy-800 text-ivory-100 border border-white/20 hover:border-gold-500/50 font-medium px-5 sm:px-8 py-3.5 sm:py-4 rounded text-xs uppercase tracking-wider sm:tracking-widest transition-all duration-200 backdrop-blur-sm text-center"
             >
-              <Lock className="w-3.5 h-3.5 text-gold-400" />
-              <span>Request a Private Consultation</span>
+              <Lock className="w-3.5 h-3.5 text-gold-400 shrink-0" />
+              <span>Request Private Consultation</span>
             </button>
           </div>
 

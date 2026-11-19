@@ -81,17 +81,17 @@ export const CorporateIntro: React.FC = () => {
               </div>
             </div>
 
-            <div className="pt-4 flex items-center gap-6">
+            <div className="pt-4 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
               <Link
                 href="/about"
-                className="inline-flex items-center gap-2 bg-navy-900 hover:bg-navy-800 text-white text-xs uppercase tracking-widest font-semibold px-6 py-3.5 rounded transition-colors"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-navy-900 hover:bg-navy-800 text-white text-xs uppercase tracking-wider sm:tracking-widest font-semibold px-6 py-3.5 rounded transition-colors text-center"
               >
                 <span>Read Corporate Overview</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
                 href="/team"
-                className="text-xs uppercase tracking-widest font-semibold text-slate-700 hover:text-navy-900 border-b border-slate-400 pb-0.5 transition-colors"
+                className="text-xs uppercase tracking-wider sm:tracking-widest font-semibold text-slate-700 hover:text-navy-900 border-b border-slate-400 pb-0.5 transition-colors"
               >
                 Practice Leadership &rarr;
               </Link>

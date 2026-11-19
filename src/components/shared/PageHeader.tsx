@@ -78,9 +78,9 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
         {/* Eyebrow */}
         {eyebrow && (
           <div className="flex items-center gap-2 mb-3">
-            <span className="w-1.5 h-1.5 rounded-full bg-gold-400" />
+            <span className="w-1.5 h-1.5 rounded-full bg-gold-400 shrink-0" />
             <span
-              className={`text-xs uppercase tracking-[0.24em] font-semibold ${
+              className={`text-[10px] sm:text-xs uppercase tracking-[0.14em] sm:tracking-[0.24em] font-semibold break-words ${
                 isNavy ? "text-gold-400" : "text-slate-600"
               }`}
             >
@@ -91,7 +91,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
 
         {/* Title */}
         <h1
-          className={`text-3xl sm:text-5xl md:text-6xl font-serif tracking-tight leading-tight max-w-4xl ${
+          className={`text-2xl sm:text-5xl md:text-6xl font-serif tracking-tight leading-tight max-w-4xl break-words ${
             isNavy ? "text-white" : "text-navy-900"
           }`}
         >

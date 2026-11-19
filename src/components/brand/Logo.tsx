@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 
 interface LogoProps {
-  variant?: "dark" | "light"; // dark = dark navy background (white/gold logo); light = light ivory/white background (navy/gold logo)
+  variant?: "dark" | "light"; // dark = dark navy background; light = light ivory background
   size?: "sm" | "md" | "lg";
   withSubtitle?: boolean;
   className?: string;
@@ -23,7 +23,7 @@ export const GVMonogram: React.FC<{
       viewBox="0 0 100 100"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={`transition-transform duration-300 group-hover:scale-105 ${className}`}
+      className={`transition-transform duration-300 group-hover:scale-105 shrink-0 ${className}`}
       aria-label="Global Ventures GV Monogram"
     >
       {/* Outer subtle shield / diamond geometric frame */}
@@ -76,13 +76,13 @@ export const Logo: React.FC<LogoProps> = ({
   withSubtitle = true,
   className = "",
 }) => {
-  const iconSize = size === "sm" ? 30 : size === "lg" ? 48 : 38;
+  const iconSize = size === "sm" ? 28 : size === "lg" ? 48 : 34;
   const titleClass =
     size === "sm"
-      ? "text-base tracking-[0.16em]"
+      ? "text-xs sm:text-sm tracking-[0.14em]"
       : size === "lg"
-      ? "text-2xl tracking-[0.2em]"
-      : "text-lg tracking-[0.18em]";
+        ? "text-xl sm:text-2xl tracking-[0.18em]"
+        : "text-sm sm:text-lg tracking-[0.14em] sm:tracking-[0.18em]";
 
   const textColor = variant === "dark" ? "text-white" : "text-navy-900";
   const subColor = variant === "dark" ? "text-gold-400" : "text-slate-600";
@@ -90,19 +90,19 @@ export const Logo: React.FC<LogoProps> = ({
   return (
     <Link
       href="/"
-      className={`group inline-flex items-center gap-3.5 focus:outline-none ${className}`}
+      className={`group inline-flex items-center gap-2 sm:gap-3.5 focus:outline-none min-w-0 shrink ${className}`}
       aria-label="Global Ventures Homepage"
     >
       <GVMonogram size={iconSize} variant={variant} />
-      <div className="flex flex-col">
+      <div className="flex flex-col min-w-0">
         <span
-          className={`font-serif font-bold uppercase ${textColor} ${titleClass} transition-colors group-hover:text-gold-400`}
+          className={`font-serif font-bold uppercase truncate ${textColor} ${titleClass} transition-colors group-hover:text-gold-400`}
         >
           GLOBAL VENTURES
         </span>
         {withSubtitle && (
           <span
-            className={`text-[9px] uppercase tracking-[0.28em] font-sans font-medium ${subColor}`}
+            className={`hidden sm:block text-[9px] uppercase tracking-[0.24em] font-sans font-medium whitespace-nowrap ${subColor}`}
           >
             Advisory &bull; Transactions &bull; Capital
           </span>

@@ -77,6 +77,12 @@ export const Navbar: React.FC = () => {
                     className="relative group"
                     onMouseEnter={() => hasChildren && setOpenDropdown(item.label)}
                     onMouseLeave={() => setOpenDropdown(null)}
+                    onFocus={() => hasChildren && setOpenDropdown(item.label)}
+                    onBlur={(e) => {
+                      if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+                        setOpenDropdown(null);
+                      }
+                    }}
                   >
                     <Link
                       href={item.href}
@@ -188,21 +194,23 @@ export const Navbar: React.FC = () => {
               </button>
             </div>
 
-            {/* Mobile Hamburger Button */}
-            <div className="flex lg:hidden items-center gap-3">
+            {/* Mobile Action Controls */}
+            <div className="flex lg:hidden items-center gap-2 shrink-0">
               <button
                 onClick={() => setIsModalOpen(true)}
-                className="bg-gold-500 text-navy-950 p-2 rounded text-xs"
-                aria-label="Quick consultation"
+                className="bg-gold-500 hover:bg-gold-400 text-navy-950 p-2.5 rounded text-xs min-h-[44px] min-w-[44px] flex items-center justify-center transition-colors shadow-sm"
+                aria-label="Direct consultation request"
               >
                 <Phone className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 text-ivory-100 hover:text-white rounded focus:outline-none focus:ring-1 focus:ring-gold-500"
+                className="p-2.5 text-ivory-100 hover:text-white rounded focus:outline-none focus:ring-2 focus:ring-gold-500 min-h-[44px] min-w-[44px] flex items-center justify-center transition-colors"
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+                aria-expanded={mobileMenuOpen}
+                aria-controls="mobile-navigation"
               >
-                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
             </div>
           </div>
@@ -210,7 +218,12 @@ export const Navbar: React.FC = () => {
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-navy-950/98 border-b border-gold-500/30 px-6 py-6 max-h-[85vh] overflow-y-auto animate-in slide-in-from-top-2 duration-200">
+          <div
+            id="mobile-navigation"
+            role="region"
+            aria-label="Mobile Navigation Menu"
+            className="lg:hidden bg-navy-950/98 border-b border-gold-500/30 px-4 sm:px-6 py-6 max-h-[85vh] overflow-y-auto animate-in slide-in-from-top-2 duration-200"
+          >
             <div className="space-y-4">
               {MAIN_NAVIGATION.map((item) => {
                 const hasChildren = Boolean(item.children && item.children.length > 0);

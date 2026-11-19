@@ -32,6 +32,7 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
     targetListingRef: prefilledListingRef,
     message: "",
     ndaAcknowledged: true,
+    websiteUrl: "",
   });
 
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
@@ -95,7 +96,7 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
         </h3>
         <p className="text-ivory-100/80 text-sm max-w-lg mx-auto mb-6 leading-relaxed">
           Thank you for entrusting Global Ventures with your strategic mandate. Your consultation has
-          been logged with our senior advisory team.
+          been durably logged in our private office ledger.
         </p>
 
         <div className="bg-navy-950 border border-white/10 rounded-md p-4 max-w-sm mx-auto mb-6">
@@ -107,7 +108,7 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
 
         <div className="flex items-center justify-center gap-2 text-xs text-slate-400">
           <Shield className="w-4 h-4 text-gold-400" />
-          <span>Strict non-disclosure protocols apply to all submitted information.</span>
+          <span>Professional confidentiality protocols apply to all submitted information.</span>
         </div>
 
         <button
@@ -125,6 +126,7 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
               targetListingRef: "",
               message: "",
               ndaAcknowledged: true,
+              websiteUrl: "",
             });
           }}
           className="mt-8 text-xs uppercase tracking-widest text-gold-400 hover:text-gold-300 underline underline-offset-4"
@@ -399,6 +401,20 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
           />
         </div>
 
+        {/* Honeypot field for bot mitigation */}
+        <div className="hidden" aria-hidden="true">
+          <label htmlFor="websiteUrl">Do not fill this field</label>
+          <input
+            type="text"
+            id="websiteUrl"
+            name="websiteUrl"
+            value={formData.websiteUrl}
+            onChange={handleInputChange}
+            tabIndex={-1}
+            autoComplete="off"
+          />
+        </div>
+
         {/* NDA and Confidentiality Consent */}
         <div className="flex items-start gap-3 pt-2">
           <input
@@ -409,9 +425,8 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
             onChange={handleInputChange}
             className="mt-1 h-4 w-4 rounded border-white/20 bg-navy-950 text-gold-500 focus:ring-gold-500"
           />
-          <label htmlFor="ndaAcknowledged" className="text-xs text-ivory-100/70 leading-relaxed">
-            I understand that Global Ventures operates under strict bilateral non-disclosure
-            protocols. Information submitted will only be evaluated by senior practice directors.
+          <label htmlFor="ndaAcknowledged" className="text-xs text-ivory-100/75 leading-relaxed">
+            I acknowledge that consultation inquiries are conducted under professional confidentiality standards, and that a formal bilateral Non-Disclosure Agreement (NDA) will precede the exchange of any proprietary or non-public financial records.
           </label>
         </div>
 

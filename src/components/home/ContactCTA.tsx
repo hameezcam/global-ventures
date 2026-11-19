@@ -41,10 +41,10 @@ export const ContactCTA: React.FC = () => {
           </p>
 
           {/* Action CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 w-full max-w-md sm:max-w-none mx-auto">
             <button
               onClick={() => setIsModalOpen(true)}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-gold-500 hover:bg-gold-400 text-navy-950 font-semibold px-8 py-4 rounded text-xs uppercase tracking-widest transition-all duration-200 shadow-xl shadow-gold-500/10 hover:shadow-gold-500/20"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-gold-500 hover:bg-gold-400 text-navy-950 font-semibold px-5 sm:px-8 py-3.5 sm:py-4 rounded text-xs uppercase tracking-wider sm:tracking-widest transition-all duration-200 shadow-xl shadow-gold-500/10 hover:shadow-gold-500/20"
             >
               <span>Request a Consultation</span>
               <ArrowRight className="w-4 h-4" />
@@ -52,7 +52,7 @@ export const ContactCTA: React.FC = () => {
 
             <Link
               href="/contact"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-navy-900 hover:bg-navy-800 text-ivory-100 border border-white/20 hover:border-gold-500/50 font-medium px-8 py-4 rounded text-xs uppercase tracking-widest transition-colors"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-navy-900 hover:bg-navy-800 text-ivory-100 border border-white/20 hover:border-gold-500/50 font-medium px-5 sm:px-8 py-3.5 sm:py-4 rounded text-xs uppercase tracking-wider sm:tracking-widest transition-colors"
             >
               <Mail className="w-4 h-4 text-gold-400" />
               <span>Full Contact Directory</span>
