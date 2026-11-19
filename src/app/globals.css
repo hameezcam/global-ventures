@@ -1,73 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Manrope:wght@300;400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --font-cormorant: 'Cormorant Garamond', Georgia, serif;
-  --font-manrope: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --navy-900: #0B1C30;
-  --gold-500: #C7AA78;
-  --ivory-100: #F5F2EC;
-  --slate-500: #405268;
-}
-
 @layer base {
   html {
     scroll-behavior: smooth;
-    color-scheme: light dark;
+    color-scheme: dark;
   }
-
   body {
-    background-color: #0B1C30;
-    color: #F5F2EC;
-    font-family: var(--font-manrope), system-ui, sans-serif;
+    background-color: #06111d;
+    color: #f5f2ec;
     overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  ::selection {
-    background-color: #C7AA78;
-    color: #0B1C30;
-  }
-
-  /* Custom focus states for luxury accessibility */
-  :focus-visible {
-    outline: 2px solid #C7AA78;
-    outline-offset: 3px;
-  }
-}
-
-@layer utilities {
-  .text-gold-gradient {
-    background: linear-gradient(135deg, #E6D7BD 0%, #C7AA78 50%, #B39561 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  
-  .border-gold-glow {
-    border-color: rgba(199, 170, 120, 0.3);
-  }
-
-  .bg-navy-radial {
-    background: radial-gradient(circle at 50% 20%, rgba(27, 59, 99, 0.4) 0%, rgba(11, 28, 48, 0.95) 70%, #060F1A 100%);
-  }
-
-  .bg-noise {
-    background-image: radial-gradient(rgba(199, 170, 120, 0.04) 1px, transparent 0);
-    background-size: 24px 24px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  ::before,
-  ::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
 }

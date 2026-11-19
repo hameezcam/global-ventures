@@ -1,196 +1,106 @@
-"use client";
-
-import React, { useState } from "react";
-import { useParams } from "next/navigation";
+import React from "react";
+import { Metadata } from "next";
 import Link from "next/link";
-import { Lock, Shield, CheckCircle2, FileText, ArrowRight, ArrowLeft } from "lucide-react";
-import PageHeader from "@/components/shared/PageHeader";
-import EnquiryModal from "@/components/forms/EnquiryModal";
+import { notFound } from "next/navigation";
+import { PHOTOS } from "@/data/homepage";
 import { DEMO_OPPORTUNITIES } from "@/data/opportunities";
+import { ConsultButton, ConsultSection } from "@/components/nocturne/client";
+import { Line, PageHero } from "@/components/nocturne/ui";
 
-export default function OpportunityDetailPage() {
-  const params = useParams();
-  const id = params?.id as string;
+export function generateStaticParams() {
+  return DEMO_OPPORTUNITIES.map((o) => ({ id: o.id }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
   const opp = DEMO_OPPORTUNITIES.find((o) => o.id === id);
+  return {
+    title: opp ? `${opp.title} (example)` : "Opportunity",
+    description: opp?.summary,
+    // Example layouts are not real listings and should not be indexed.
+    robots: { index: false, follow: true },
+  };
+}
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  if (!opp) {
-    return (
-      <div className="py-32 text-center text-white">
-        <h2 className="text-2xl font-serif mb-4">Listing Not Found</h2>
-        <Link href="/opportunities" className="text-gold-400 text-xs uppercase tracking-widest">
-          &larr; Return to Opportunities
-        </Link>
-      </div>
-    );
-  }
+export default async function OpportunityDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const opp = DEMO_OPPORTUNITIES.find((o) => o.id === id);
+  if (!opp) notFound();
+  const name = opp.title.replace(/^Example:\s*/, "");
 
   return (
     <>
-      <PageHeader
-        eyebrow={`CONFIDENTIAL DOSSIER • REF: ${opp.referenceCode}`}
-        title={opp.title}
-        subtitle={`${opp.industry} • ${opp.dealType} • ${opp.location}`}
-        breadcrumbs={[
-          { label: "Transactions", href: "/opportunities" },
-          { label: "Opportunities", href: "/opportunities" },
-          { label: opp.referenceCode },
-        ]}
-      />
+      <PageHero
+        kicker={`Example layout · ${opp.referenceCode}`}
+        title={name.charAt(0).toUpperCase() + name.slice(1)}
+        lede={opp.summary}
+        photoId={PHOTOS.dusk}
+        crumbs={[{ label: "Opportunities", href: "/opportunities" }, { label: opp.referenceCode }]}
+      >
+        <ConsultButton flow="buy-business" listingRef={opp.referenceCode} title="Register interest">
+          Request the information pack <Line />
+        </ConsultButton>
+      </PageHero>
 
-      <section className="py-20 bg-navy-950 text-white border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Back link */}
-          <div className="mb-8">
-            <Link
-              href="/opportunities"
-              className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-slate-400 hover:text-gold-400 transition-colors"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Back to Opportunities Pipeline</span>
-            </Link>
+      <section className="sec" aria-labelledby="summary-h">
+        <div className="wrap">
+          <div className="notice rv">
+            <b>Example layout</b>
+            <span>This page shows how an opportunity will be presented. It is not a live business for sale.</span>
           </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-            {/* Left Content */}
-            <div className="lg:col-span-8 space-y-10">
-              {/* Executive Overview */}
-              <div className="space-y-4">
-                <span className="text-xs uppercase tracking-widest text-gold-400 font-semibold block">
-                  EXECUTIVE PROFILE
-                </span>
-                <h2 className="text-2xl sm:text-3xl font-serif text-white">
-                  Commercial Thesis &amp; Asset Characteristics
-                </h2>
-                <p className="text-base text-ivory-100/80 leading-relaxed font-light">
-                  {opp.summary}
-                </p>
-              </div>
-
-              {/* Investment Highlights */}
-              <div className="p-8 rounded-xl bg-navy-900 border border-white/10 space-y-4">
-                <h3 className="text-xl font-serif text-white">
-                  Key Investment &amp; Operational Highlights
-                </h3>
-                <ul className="space-y-3">
-                  {opp.highlights.map((highlight, index) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <CheckCircle2 className="w-5 h-5 text-gold-400 shrink-0 mt-0.5" />
-                      <span className="text-sm text-ivory-100/90 leading-relaxed">{highlight}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Diligence Protocol */}
-              <div className="p-8 rounded-xl bg-navy-900 border border-gold-500/30 space-y-4">
-                <div className="flex items-center gap-2">
-                  <Shield className="w-5 h-5 text-gold-400" />
-                  <h3 className="text-lg font-serif text-white">
-                    Information Release &amp; VDR Access Protocol
-                  </h3>
+          <div className="split">
+            <div>
+              <p className="kicker">Summary</p>
+              <h2 id="summary-h">At a glance.</h2>
+              <dl className="facts" style={{ marginTop: 32 }}>
+                <div>
+                  <dt>Sector</dt>
+                  <dd>{opp.industry}</dd>
                 </div>
-                <p className="text-xs text-ivory-100/70 leading-relaxed">
-                  In accordance with seller instructions, detailed commercial contracts, customer
-                  concentration schedules, audited financial statements, and operational facilities
-                  tours require an executed bilateral Non-Disclosure Agreement (NDA) and proof of
-                  financial capability.
-                </p>
-                <div className="pt-2">
-                  <button
-                    onClick={() => setIsModalOpen(true)}
-                    className="inline-flex items-center gap-2 bg-gold-500 hover:bg-gold-400 text-navy-950 font-semibold text-xs uppercase tracking-widest px-6 py-3 rounded transition-colors"
-                  >
-                    <FileText className="w-4 h-4" />
-                    <span>Execute NDA for Virtual Data Room</span>
-                  </button>
+                <div>
+                  <dt>Location</dt>
+                  <dd>{opp.location}</dd>
                 </div>
-              </div>
+                <div>
+                  <dt>Deal type</dt>
+                  <dd>{opp.dealType}</dd>
+                </div>
+                <div>
+                  <dt>Revenue</dt>
+                  <dd>{opp.revenueRange}</dd>
+                </div>
+                <div>
+                  <dt>Indicative value</dt>
+                  <dd>{opp.investmentSize}</dd>
+                </div>
+                <div>
+                  <dt>Access</dt>
+                  <dd>Registered buyers, under NDA</dd>
+                </div>
+              </dl>
             </div>
-
-            {/* Right Financial Sidebar */}
-            <div className="lg:col-span-4 space-y-6">
-              <div className="bg-navy-900 border border-white/10 rounded-xl p-6 space-y-5">
-                <div className="flex items-center justify-between pb-3 border-b border-white/10">
-                  <span className="text-xs uppercase tracking-wider text-slate-400">
-                    Mandate Reference
-                  </span>
-                  <span className="font-mono text-xs font-bold text-gold-400">
-                    {opp.referenceCode}
-                  </span>
-                </div>
-
-                <div className="space-y-4 text-xs">
-                  <div>
-                    <span className="text-[10px] uppercase text-slate-400 block">Indicative Valuation</span>
-                    <span className="text-lg font-serif font-bold text-white block mt-0.5">
-                      {opp.investmentSize}
-                    </span>
-                  </div>
-
-                  <div>
-                    <span className="text-[10px] uppercase text-slate-400 block">Historical Revenue</span>
-                    <span className="text-sm font-mono text-ivory-100 block mt-0.5">
-                      {opp.revenueRange}
-                    </span>
-                  </div>
-
-                  {opp.ebitdaMargin && (
-                    <div>
-                      <span className="text-[10px] uppercase text-slate-400 block">Normalized Margin</span>
-                      <span className="text-sm font-medium text-gold-400 block mt-0.5">
-                        {opp.ebitdaMargin}
-                      </span>
-                    </div>
-                  )}
-
-                  <div>
-                    <span className="text-[10px] uppercase text-slate-400 block">Deal Structure</span>
-                    <span className="text-xs font-medium text-ivory-100 block mt-0.5">
-                      {opp.dealType}
-                    </span>
-                  </div>
-
-                  <div>
-                    <span className="text-[10px] uppercase text-slate-400 block">Geographic HQ</span>
-                    <span className="text-xs font-medium text-ivory-100 block mt-0.5">
-                      {opp.location}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="pt-4 border-t border-white/10">
-                  <button
-                    onClick={() => setIsModalOpen(true)}
-                    className="w-full inline-flex items-center justify-center gap-2 bg-gold-500 hover:bg-gold-400 text-navy-950 font-semibold text-xs uppercase tracking-widest py-3.5 px-4 rounded transition-colors"
-                  >
-                    <span>Request Confidential Teaser</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-
-              {/* Confidentiality Notice */}
-              <div className="p-4 rounded-lg bg-navy-950 border border-white/10 text-xs text-slate-400 flex items-start gap-2.5">
-                <Lock className="w-4 h-4 text-gold-400 shrink-0 mt-0.5" />
-                <p className="leading-snug">
-                  Strictly confidential intermediary listing. Demonstration record created for
-                  institutional framework testing.
-                </p>
-              </div>
+            <div className="rv">
+              <h3 className="col-h">What a buyer would see first</h3>
+              <ul className="dash">
+                {opp.highlights.map((h) => (
+                  <li key={h}>{h}</li>
+                ))}
+              </ul>
+              <p className="muted" style={{ marginTop: 32 }}>
+                The business name, financial statements and an information memorandum are released after the owner
+                approves your interest and a non-disclosure agreement is signed.
+              </p>
+              <p style={{ marginTop: 32 }}>
+                <Link className="tlink" href="/opportunities">
+                  Back to opportunities
+                </Link>
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      <EnquiryModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        flow="buy-business"
-        prefilledListingRef={opp.referenceCode}
-        title={`Confidential NDA: ${opp.referenceCode}`}
-      />
+      <ConsultSection order={["buy-business"]} />
     </>
   );
 }

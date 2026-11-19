@@ -2,7 +2,6 @@
 
 import React, { useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
-import { CheckCircle2, AlertCircle, Shield, ArrowRight, Loader2 } from "lucide-react";
 import {
   ADVISORY_FOCUS_OPTIONS,
   BUY_BUDGET_OPTIONS,
@@ -26,8 +25,8 @@ interface ConsultationFormProps {
 
 const FLOW_TABS: { id: FlowType; label: string }[] = [
   { id: "general", label: "General" },
-  { id: "sell-business", label: "Sell Business" },
-  { id: "buy-business", label: "Acquire" },
+  { id: "sell-business", label: "Selling" },
+  { id: "buy-business", label: "Buying" },
   { id: "valuation", label: "Valuation" },
   { id: "advisory", label: "Advisory" },
 ];
@@ -80,9 +79,8 @@ function newKey(): string {
   return crypto.randomUUID();
 }
 
-const inputClass =
-  "w-full bg-navy-950/90 border border-white/15 focus:border-gold-500 rounded px-4 py-3 text-sm text-white placeholder-slate-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/60 transition-colors aria-[invalid=true]:border-red-400";
-const labelClass = "block text-xs uppercase tracking-wider text-ivory-100/80 mb-2 font-medium";
+const inputClass = "f-input";
+const labelClass = "f-label";
 
 export const ConsultationForm: React.FC<ConsultationFormProps> = ({
   initialFlow = "general",
@@ -194,66 +192,50 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
 
   if (status === "success") {
     return (
-      <div className={`bg-navy-900 border border-gold-500/30 p-8 rounded-lg text-center ${className}`} role="status">
-        <div className="w-16 h-16 rounded-full bg-gold-500/10 border border-gold-500/30 flex items-center justify-center mx-auto mb-6">
-          <CheckCircle2 className="w-8 h-8 text-gold-400" aria-hidden="true" />
-        </div>
-        <span className="text-xs uppercase tracking-widest text-gold-400 font-medium">{FLOW_LABELS[flowType]}</span>
-        <h3 ref={successRef} tabIndex={-1} className="text-2xl md:text-3xl font-serif text-white mt-2 mb-3 focus:outline-none">
-          Your Enquiry Has Been Received
+      <div className={`f-ok ${className}`} role="status">
+        <p className="kicker">{FLOW_LABELS[flowType]}</p>
+        <h3 ref={successRef} tabIndex={-1}>
+          Your enquiry has been received.
         </h3>
-        <p className="text-ivory-100/80 text-sm max-w-lg mx-auto mb-6 leading-relaxed">
+        <p className="muted">
           Thank you. Your enquiry has been saved securely and a member of our team will review it. Please keep the
           reference below for any follow-up.
         </p>
-
-        <div className="bg-navy-950 border border-white/10 rounded-md p-4 max-w-sm mx-auto mb-6">
-          <span className="text-xs text-slate-300 block mb-1">Enquiry Reference</span>
-          <span className="text-lg font-mono font-bold text-gold-400 tracking-wider">{successReference}</span>
+        <div className="f-ref">
+          <span>Enquiry reference</span>
+          <b>{successReference}</b>
         </div>
-
-        <div className="flex items-center justify-center gap-2 text-xs text-slate-300">
-          <Shield className="w-4 h-4 text-gold-400" aria-hidden="true" />
-          <span>Information you share is handled confidentially under our privacy notice.</span>
-        </div>
-
+        <p className="f-hint">Information you share is handled confidentially under our privacy notice.</p>
         <button
           type="button"
+          className="tlink"
+          style={{ justifySelf: "start" }}
           onClick={() => {
             setFormData(emptyForm());
             startedAtRef.current = Date.now();
             setStatus("idle");
           }}
-          className="mt-8 text-xs uppercase tracking-widest text-gold-400 hover:text-gold-300 underline underline-offset-4"
         >
-          Submit Another Enquiry
+          Submit another enquiry
         </button>
       </div>
     );
   }
 
+  const req = (
+    <span className="req" aria-hidden="true">
+      *
+    </span>
+  );
+
   return (
-    <div className={`bg-navy-900 border border-white/10 p-6 md:p-10 rounded-lg relative overflow-hidden ${className}`}>
-      <div className="absolute top-0 right-0 w-64 h-64 bg-gold-500/5 rounded-full blur-3xl pointer-events-none" aria-hidden="true" />
-
-      <div className="mb-8">
-        <div className="flex items-center gap-2 mb-2">
-          <span className="w-2 h-2 rounded-full bg-gold-400" aria-hidden="true" />
-          <span className="text-xs uppercase tracking-widest text-gold-400 font-medium">Confidential Consultation</span>
-        </div>
-        <h3 id={id("title")} className="text-2xl md:text-3xl font-serif text-white">
-          Begin a Discreet Conversation
-        </h3>
-        <p id={id("flow-hint")} className="text-sm text-ivory-100/70 mt-1">
-          Select your primary requirement below to connect with the appropriate practice partner.
+    <div className={`f-wrap ${className}`}>
+      <div className="f-head">
+        <h3 id={id("title")}>Begin a confidential conversation.</h3>
+        <p id={id("flow-hint")} className="muted">
+          Choose what you would like to discuss, so your enquiry reaches the right adviser.
         </p>
-
-        <div
-          role="group"
-          aria-label="Enquiry type"
-          aria-describedby={id("flow-hint")}
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-1.5 mt-6 bg-navy-950 p-1.5 rounded-lg border border-white/10"
-        >
+        <div role="group" aria-label="Enquiry type" aria-describedby={id("flow-hint")} className="f-tabs">
           {FLOW_TABS.map((tab) => (
             <button
               key={tab.id}
@@ -261,11 +243,6 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
               aria-pressed={flowType === tab.id}
               disabled={isSubmitting}
               onClick={() => setFlowType(tab.id)}
-              className={`py-2 px-3 text-xs font-medium rounded transition-all text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/60 ${
-                flowType === tab.id
-                  ? "bg-gold-500 text-navy-950 shadow-sm font-semibold"
-                  : "text-ivory-100/80 hover:text-white hover:bg-white/5"
-              }`}
             >
               {tab.label}
             </button>
@@ -274,24 +251,17 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
       </div>
 
       {status === "error" && (
-        <div
-          ref={errorRef}
-          id={id("form-error")}
-          role="alert"
-          tabIndex={-1}
-          className="mb-6 p-4 rounded-md bg-red-950/40 border border-red-500/30 flex items-start gap-3 focus:outline-none"
-        >
-          <AlertCircle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" aria-hidden="true" />
-          <p className="text-sm text-red-100">{errorMessage}</p>
+        <div ref={errorRef} id={id("form-error")} role="alert" tabIndex={-1} className="f-alert">
+          <p>{errorMessage}</p>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-5" aria-labelledby={id("title")} aria-busy={isSubmitting}>
-        <fieldset disabled={isSubmitting} className="space-y-5 min-w-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <form onSubmit={handleSubmit} className="f-stack" aria-labelledby={id("title")} aria-busy={isSubmitting}>
+        <fieldset disabled={isSubmitting} className="f-stack">
+          <div className="f-grid">
             <div>
               <label htmlFor={id("fullName")} className={labelClass}>
-                Full Name <span className="text-gold-400" aria-hidden="true">*</span>
+                Full name {req}
               </label>
               <input
                 id={id("fullName")}
@@ -301,7 +271,7 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
                 autoComplete="name"
                 minLength={FIELD_LIMITS.fullName.min}
                 maxLength={FIELD_LIMITS.fullName.max}
-                placeholder="e.g. Tariq Al-Mansoor"
+                placeholder="Your name"
                 value={formData.fullName}
                 onChange={handleInputChange}
                 className={inputClass}
@@ -311,7 +281,7 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
 
             <div>
               <label htmlFor={id("email")} className={labelClass}>
-                Corporate / Direct Email <span className="text-gold-400" aria-hidden="true">*</span>
+                Email {req}
               </label>
               <input
                 id={id("email")}
@@ -327,12 +297,10 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
                 {...invalid("email")}
               />
             </div>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
               <label htmlFor={id("phone")} className={labelClass}>
-                Direct Phone Number <span className="text-gold-400" aria-hidden="true">*</span>
+                Phone {req}
               </label>
               <input
                 id={id("phone")}
@@ -351,7 +319,7 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
 
             <div>
               <label htmlFor={id("companyName")} className={labelClass}>
-                Company Name / Family Office
+                Company
               </label>
               <input
                 id={id("companyName")}
@@ -359,19 +327,17 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
                 name="companyName"
                 autoComplete="organization"
                 maxLength={FIELD_LIMITS.companyName.max}
-                placeholder="e.g. Al-Mansoor Holdings"
+                placeholder="Company or family office"
                 value={formData.companyName}
                 onChange={handleInputChange}
                 className={inputClass}
                 {...invalid("companyName")}
               />
             </div>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div>
+            <div className="full">
               <label htmlFor={id("role")} className={labelClass}>
-                Your Role
+                Your role
               </label>
               <input
                 id={id("role")}
@@ -379,7 +345,7 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
                 name="role"
                 autoComplete="organization-title"
                 maxLength={FIELD_LIMITS.role.max}
-                placeholder="e.g. Founder, CFO, Investment Director"
+                placeholder="For example founder, CFO or investment director"
                 value={formData.role}
                 onChange={handleInputChange}
                 className={inputClass}
@@ -389,13 +355,13 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
           </div>
 
           {flowType === "sell-business" && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2 border-t border-white/10">
+            <div className="f-grid f-flow">
               <div>
                 <label htmlFor={id("estimatedRevenue")} className={labelClass}>
-                  Annual Turnover / Revenue Range
+                  Annual revenue
                 </label>
                 <select id={id("estimatedRevenue")} name="estimatedRevenue" value={formData.estimatedRevenue} onChange={handleInputChange} className={inputClass} {...invalid("estimatedRevenue")}>
-                  <option value="">Select Revenue Bracket</option>
+                  <option value="">Select a range</option>
                   {SELL_REVENUE_OPTIONS.map((o) => (
                     <option key={o} value={o}>{o}</option>
                   ))}
@@ -403,10 +369,10 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
               </div>
               <div>
                 <label htmlFor={id("timeline")} className={labelClass}>
-                  Target Exit Horizon
+                  When would you like to sell?
                 </label>
                 <select id={id("timeline")} name="timeline" value={formData.timeline} onChange={handleInputChange} className={inputClass} {...invalid("timeline")}>
-                  <option value="">Target Timeline</option>
+                  <option value="">Select a timeline</option>
                   {SELL_TIMELINE_OPTIONS.map((o) => (
                     <option key={o} value={o}>{o}</option>
                   ))}
@@ -416,13 +382,13 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
           )}
 
           {flowType === "buy-business" && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2 border-t border-white/10">
+            <div className="f-grid f-flow">
               <div>
                 <label htmlFor={id("investmentBudget")} className={labelClass}>
-                  Acquisition Investment Budget
+                  Acquisition budget
                 </label>
                 <select id={id("investmentBudget")} name="investmentBudget" value={formData.investmentBudget} onChange={handleInputChange} className={inputClass} {...invalid("investmentBudget")}>
-                  <option value="">Select Budget Bracket</option>
+                  <option value="">Select a range</option>
                   {BUY_BUDGET_OPTIONS.map((o) => (
                     <option key={o} value={o}>{o}</option>
                   ))}
@@ -430,14 +396,14 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
               </div>
               <div>
                 <label htmlFor={id("targetListingRef")} className={labelClass}>
-                  Target Listing Reference (If Applicable)
+                  Opportunity reference, if any
                 </label>
                 <input
                   id={id("targetListingRef")}
                   type="text"
                   name="targetListingRef"
                   maxLength={FIELD_LIMITS.targetListingRef.max}
-                  placeholder="e.g. GV-TECH-8402"
+                  placeholder="For example GV-TECH-8402"
                   value={formData.targetListingRef}
                   onChange={handleInputChange}
                   className={inputClass}
@@ -448,13 +414,13 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
           )}
 
           {flowType === "valuation" && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2 border-t border-white/10">
+            <div className="f-grid f-flow">
               <div>
                 <label htmlFor={id("interestArea")} className={labelClass}>
-                  Primary Purpose of Valuation
+                  Purpose of the valuation
                 </label>
                 <select id={id("interestArea")} name="interestArea" value={formData.interestArea} onChange={handleInputChange} className={inputClass} {...invalid("interestArea")}>
-                  <option value="">Select Valuation Context</option>
+                  <option value="">Select a purpose</option>
                   {VALUATION_PURPOSE_OPTIONS.map((o) => (
                     <option key={o} value={o}>{o}</option>
                   ))}
@@ -462,10 +428,10 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
               </div>
               <div>
                 <label htmlFor={id("estimatedRevenue")} className={labelClass}>
-                  Approximate Current Revenue
+                  Approximate annual revenue
                 </label>
                 <select id={id("estimatedRevenue")} name="estimatedRevenue" value={formData.estimatedRevenue} onChange={handleInputChange} className={inputClass} {...invalid("estimatedRevenue")}>
-                  <option value="">Select Bracket</option>
+                  <option value="">Select a range</option>
                   {VALUATION_REVENUE_OPTIONS.map((o) => (
                     <option key={o} value={o}>{o}</option>
                   ))}
@@ -475,12 +441,12 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
           )}
 
           {flowType === "advisory" && (
-            <div className="pt-2 border-t border-white/10">
+            <div className="f-flow">
               <label htmlFor={id("interestArea")} className={labelClass}>
-                Advisory Mandate Focus
+                What do you need advice on?
               </label>
               <select id={id("interestArea")} name="interestArea" value={formData.interestArea} onChange={handleInputChange} className={inputClass} {...invalid("interestArea")}>
-                <option value="">Select Mandate Requirement</option>
+                <option value="">Select an area</option>
                 {ADVISORY_FOCUS_OPTIONS.map((o) => (
                   <option key={o} value={o}>{o}</option>
                 ))}
@@ -490,7 +456,7 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
 
           <div>
             <label htmlFor={id("message")} className={labelClass}>
-              Confidential Context & Strategic Objectives
+              About your situation
             </label>
             <textarea
               id={id("message")}
@@ -498,26 +464,26 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
               rows={compact ? 3 : 4}
               maxLength={FIELD_LIMITS.message.max}
               aria-describedby={id("message-hint")}
-              placeholder="Outline the key parameters of your business or mandate."
+              placeholder="A few lines on the business and what you would like to achieve."
               value={formData.message}
               onChange={handleInputChange}
-              className={`${inputClass} resize-none`}
+              className={inputClass}
               {...invalid("message")}
             />
-            <p id={id("message-hint")} className="mt-1.5 text-xs text-slate-300">
+            <p id={id("message-hint")} className="f-hint">
               Please do not include account numbers, passwords or detailed financial statements. These are exchanged
               only after an NDA. {formData.message.length}/{FIELD_LIMITS.message.max}
             </p>
           </div>
 
           {/* Honeypot: hidden from people and assistive technology, tempting for bots. */}
-          <div className="hidden" aria-hidden="true">
+          <div style={{ display: "none" }} aria-hidden="true">
             <label htmlFor={id("websiteUrl")}>Leave this field empty</label>
             <input type="text" id={id("websiteUrl")} name="websiteUrl" value={formData.websiteUrl} onChange={handleInputChange} tabIndex={-1} autoComplete="off" />
           </div>
 
-          <div className="space-y-3 pt-2">
-            <div className="flex items-start gap-3">
+          <div className="f-stack" style={{ gap: 16 }}>
+            <div className="f-check">
               <input
                 type="checkbox"
                 id={id("privacyConsent")}
@@ -525,52 +491,37 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
                 required
                 checked={formData.privacyConsent}
                 onChange={handleInputChange}
-                className="mt-1 h-4 w-4 rounded border-white/20 bg-navy-950 text-gold-500 focus:ring-gold-500"
                 {...invalid("privacyConsent")}
               />
-              <label htmlFor={id("privacyConsent")} className="text-xs text-ivory-100/80 leading-relaxed">
+              <label htmlFor={id("privacyConsent")}>
                 I have read the{" "}
-                <Link href="/privacy-policy" className="text-gold-400 underline underline-offset-2 hover:text-gold-300" target="_blank" rel="noopener">
+                <Link href="/privacy-policy" target="_blank" rel="noopener">
                   privacy notice
                 </Link>{" "}
                 (version {PRIVACY_NOTICE_VERSION}) and agree that Global Ventures may store and use these details to respond
-                to my enquiry. <span className="text-gold-400" aria-hidden="true">*</span>
+                to my enquiry. {req}
               </label>
             </div>
 
-            <div className="flex items-start gap-3">
+            <div className="f-check">
               <input
                 type="checkbox"
                 id={id("ndaAcknowledged")}
                 name="ndaAcknowledged"
                 checked={formData.ndaAcknowledged}
                 onChange={handleInputChange}
-                className="mt-1 h-4 w-4 rounded border-white/20 bg-navy-950 text-gold-500 focus:ring-gold-500"
               />
-              <label htmlFor={id("ndaAcknowledged")} className="text-xs text-ivory-100/75 leading-relaxed">
-                Optional: I understand that a formal Non-Disclosure Agreement (NDA) will be put in place before any
-                proprietary or non-public financial records are exchanged.
+              <label htmlFor={id("ndaAcknowledged")}>
+                Optional: I understand that a non-disclosure agreement will be put in place before any non-public
+                financial information is exchanged.
               </label>
             </div>
           </div>
 
-          <div className="pt-3">
-            <button
-              type="submit"
-              aria-disabled={isSubmitting}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-gold-500 hover:bg-gold-400 text-navy-950 font-semibold px-8 py-4 rounded text-xs uppercase tracking-widest transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed shadow-md hover:shadow-gold-500/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-300"
-            >
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
-                  <span>Submitting securely…</span>
-                </>
-              ) : (
-                <>
-                  <span>Request Private Consultation</span>
-                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
-                </>
-              )}
+          <div>
+            <button type="submit" aria-disabled={isSubmitting} className="cta solid">
+              {isSubmitting ? "Submitting securely…" : "Send enquiry"}
+              <span className="ln" aria-hidden="true" />
             </button>
             <p className="sr-only" aria-live="polite">
               {isSubmitting ? "Submitting your enquiry" : ""}

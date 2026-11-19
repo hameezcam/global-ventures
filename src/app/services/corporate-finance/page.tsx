@@ -4,15 +4,14 @@ import { notFound } from "next/navigation";
 import ServiceDetailView from "@/components/shared/ServiceDetailView";
 import { SERVICES } from "@/data/services";
 
+const service = SERVICES.find((s) => s.slug === "corporate-finance");
+
 export const metadata: Metadata = {
-  title: "Corporate Finance Advisory",
-  description:
-    "Capital structure optimization, debt restructuring, growth capital sourcing, and balance sheet advisory for mid-market and enterprise businesses.",
+  title: "Corporate finance advisory",
+  description: service?.shortDescription,
 };
 
 export default function CorporateFinancePage() {
-  const service = SERVICES.find((s) => s.slug === "corporate-finance");
   if (!service) notFound();
-
   return <ServiceDetailView service={service} />;
 }

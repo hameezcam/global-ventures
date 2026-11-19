@@ -1,132 +1,123 @@
 import React from "react";
 import { Metadata } from "next";
-import { Lock } from "lucide-react";
-import PageHeader from "@/components/shared/PageHeader";
-import ConsultationForm from "@/components/forms/ConsultationForm";
+import Link from "next/link";
+import { PHOTOS } from "@/data/homepage";
+import { ConsultButton, ConsultSection } from "@/components/nocturne/client";
 import ValuationCalculator from "@/components/shared/ValuationCalculator";
+import { IndexList, Line, PageHero, SecTop, Stages } from "@/components/nocturne/ui";
 
 export const metadata: Metadata = {
-  title: "Sell Your Business | Confidential Sell-Side M&A Advisory",
+  title: "Sell a business",
   description:
-    "Confidential sell-side representation, exit readiness, business valuation defense, and buyer screening for private enterprise shareholders.",
+    "Confidential sell-side advice for owners: exit readiness, valuation, a discreet approach to qualified buyers, and negotiation through to completion.",
 };
 
-export default function SellABusinessPage() {
+const STAGES = [
+  {
+    title: "Readiness",
+    body: "We review the business as a buyer will: normalised earnings, customer concentration, reliance on the owner, and anything that needs addressing before going to market.",
+  },
+  {
+    title: "Valuation",
+    body: "A reasoned view of value and the range a buyer is likely to pay, so you set expectations and a walk-away point before negotiations begin.",
+  },
+  {
+    title: "Confidential approach",
+    body: "An anonymised teaser goes only to buyers we have screened. Detailed information follows a signed non-disclosure agreement.",
+  },
+  {
+    title: "Offers and negotiation",
+    body: "Where possible we create competition between serious buyers, then negotiate price, structure and protections on your behalf.",
+  },
+  {
+    title: "Completion",
+    body: "We manage confirmatory diligence, coordinate with your lawyers, and plan the handover so the business keeps running smoothly.",
+  },
+];
+
+const CONCERNS = [
+  { title: "Will my staff or customers find out?", body: "Not from us. Your business is not named in any marketing, and buyers see identifying detail only after an NDA and your approval." },
+  { title: "What is my business actually worth?", body: "We give you a reasoned range before you commit to selling, with the assumptions set out so you can test them." },
+  { title: "How long does a sale take?", body: "It depends on the business and the market. We agree a realistic timetable with you at the start and report against it." },
+  { title: "Do I have to sell all of it?", body: "No. Partial sales, staged exits and minority investment are all options we can explore." },
+];
+
+export default function SellBusinessPage() {
   return (
     <>
-      <PageHeader
-        eyebrow="SELL-SIDE ADVISORY"
-        title="Maximize Enterprise Value. Preserve Confidentiality."
-        subtitle="We guide business owners through their defining exit—from pre-sale EBITDA normalization and confidential marketing to competitive buyer auction dynamics."
-        breadcrumbs={[{ label: "Sell a Business" }]}
-      />
+      <PageHero
+        kicker="For owners"
+        title={
+          <>
+            Selling a business, <em>on your terms.</em>
+          </>
+        }
+        lede="Confidential sell-side advice, from preparing the business to the day the sale completes."
+        photoId={PHOTOS.interior}
+        crumbs={[{ label: "Transactions" }, { label: "Sell a business" }]}
+      >
+        <ConsultButton flow="sell-business">
+          Begin a sale enquiry <Line />
+        </ConsultButton>
+        <Link className="tlink" href="#estimate">
+          Estimate a value range
+        </Link>
+      </PageHero>
 
-      <section className="py-20 bg-navy-950 text-white border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-            {/* Left Content */}
-            <div className="lg:col-span-7 space-y-8">
-              <div className="space-y-4">
-                <span className="text-xs uppercase tracking-widest text-gold-400 font-semibold block">
-                  MAXIMIZING SHAREHOLDER RETURN
-                </span>
-                <h2 className="text-3xl font-serif text-white">
-                  Why Institutional Sell-Side Representation Commands a Multiple Premium
-                </h2>
-                <p className="text-sm sm:text-base text-ivory-100/80 leading-relaxed font-light">
-                  Selling a business without structured preparation invites aggressive buyer discounts,
-                  prolonged due diligence, and deal fatigue. Global Ventures positions your company as
-                  an institutional asset class, orchestrating competitive interest while protecting
-                  your trade secrets.
-                </p>
-              </div>
-
-              {/* 5-Phase Sell-Side Execution */}
-              <div className="space-y-4">
-                <h3 className="text-xl font-serif text-white">The 5-Stage Exit Architecture</h3>
-                <div className="space-y-3">
-                  {[
-                    {
-                      step: "01",
-                      title: "Exit Readiness & Normalization",
-                      desc: "Recasting profit and loss statements to establish defensible normalized EBITDA and eliminating key-person dependency risks.",
-                    },
-                    {
-                      step: "02",
-                      title: "Empirical Valuation & Pricing Defense",
-                      desc: "Multi-methodology IVSC valuation setting a defensible enterprise baseline for negotiation.",
-                    },
-                    {
-                      step: "03",
-                      title: "Confidential Blind Marketing",
-                      desc: "Distributing anonymized teasers strictly to vetted buyers under pre-approved bilateral NDAs.",
-                    },
-                    {
-                      step: "04",
-                      title: "Auction Dynamics & Term Sheet Competition",
-                      desc: "Soliciting multiple competing Letters of Intent (LOI) to maximize pricing and favorable indemnity terms.",
-                    },
-                    {
-                      step: "05",
-                      title: "VDR Management & SPA Execution",
-                      desc: "Steering confirmatory diligence smoothly through closing, escrow distribution, and transitional governance.",
-                    },
-                  ].map((phase) => (
-                    <div
-                      key={phase.step}
-                      className="p-4 rounded-lg bg-navy-900 border border-white/10 flex items-start gap-4"
-                    >
-                      <span className="font-serif font-bold text-lg text-gold-400">
-                        {phase.step}
-                      </span>
-                      <div>
-                        <h4 className="text-sm font-semibold text-white">{phase.title}</h4>
-                        <p className="text-xs text-ivory-100/70 mt-0.5 leading-relaxed">
-                          {phase.desc}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="p-6 rounded-xl bg-navy-900 border border-gold-500/30 flex items-start gap-4">
-                <Lock className="w-6 h-6 text-gold-400 shrink-0 mt-1" />
-                <div>
-                  <h4 className="text-sm font-semibold text-white">Zero Public Exposure</h4>
-                  <p className="text-xs text-ivory-100/70 mt-1 leading-relaxed">
-                    Your employees, suppliers, customers, and competitors will never know your
-                    business is contemplating an exit until definitive agreements are executed.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Form: Sell-Side Mandate */}
-            <div className="lg:col-span-5">
-              <ConsultationForm
-                initialFlow="sell-business"
-                className="shadow-2xl sticky top-28"
-              />
-            </div>
+      <section className="sec ivory" aria-labelledby="intro-h">
+        <div className="wrap statement">
+          <div className="rv">
+            <p className="kicker">The approach</p>
+            <h2 id="intro-h">
+              A good sale is prepared <em>long before</em> the first buyer hears about it.
+            </h2>
+          </div>
+          <div className="copy rv">
+            <p>
+              Buyers look for reasons to lower the price. We find those reasons first, so they can be fixed, explained
+              or priced in on your terms rather than theirs.
+            </p>
+            <p>
+              Then we run a discreet, structured process with qualified buyers only, and negotiate on your behalf
+              through to completion.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Embedded Valuation Calculator for Owners */}
-      <section className="py-20 bg-navy-900 border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <span className="text-xs uppercase tracking-widest text-gold-400 font-semibold block mb-2">
-              PRE-SALE BENCHMARKING
-            </span>
-            <h3 className="text-3xl font-serif text-white">
-              Explore Your Business Valuation Multiple
-            </h3>
-          </div>
+      <section className="sec" aria-label="The sale process">
+        <div className="wrap">
+          <Stages kicker="Process" title="Five stages, from readiness to completion." stages={STAGES} />
+        </div>
+      </section>
+
+      <section className="sec deep" id="estimate" aria-labelledby="estimate-h">
+        <div className="wrap">
+          <SecTop
+            kicker="Indicative estimate"
+            id="estimate-h"
+            title="A first look at what your business may be worth."
+            aside={<p>An illustration only, using broad sector multiples. Your valuation will look at far more.</p>}
+          />
           <ValuationCalculator />
         </div>
       </section>
+
+      <section className="sec ivory" aria-labelledby="faq-h">
+        <div className="wrap">
+          <SecTop kicker="Common questions" id="faq-h" title="What owners usually ask first." />
+          <IndexList simple items={CONCERNS} />
+        </div>
+      </section>
+
+      <ConsultSection
+        order={["sell-business", "valuation"]}
+        title={
+          <>
+            Thinking about <em>selling?</em>
+          </>
+        }
+      />
     </>
   );
 }
