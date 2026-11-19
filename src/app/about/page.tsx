@@ -1,145 +1,115 @@
 import React from "react";
-import Image from "next/image";
-import Link from "next/link";
 import { Metadata } from "next";
-import { Shield, Target, Compass, Award, ArrowRight } from "lucide-react";
-import PageHeader from "@/components/shared/PageHeader";
-import ContactCTA from "@/components/home/ContactCTA";
+import Link from "next/link";
+import { APPROACH_STAGES, PHOTOS, photo } from "@/data/homepage";
+import { ConsultSection } from "@/components/nocturne/client";
+import { IndexList, Photo, PageHero, SecTop, Stages } from "@/components/nocturne/ui";
 
 export const metadata: Metadata = {
-  title: "About Global Ventures",
+  title: "About the firm",
   description:
-    "Learn about Global Ventures: an elite corporate finance and business transaction advisory firm advising mid-market enterprises and international investors.",
+    "Global Ventures is an independent advisory firm for owners, boards and investors on selling, acquiring, valuing and financing private companies.",
 };
+
+const PRINCIPLES = [
+  {
+    title: "Independence",
+    body: "Our advice is not tied to a lender, a fund or a product. We are paid to give you an honest view, including when that view is to wait.",
+  },
+  {
+    title: "Confidentiality",
+    body: "Nothing that identifies your business is shared without your approval, and nothing sensitive is shared without a non-disclosure agreement.",
+  },
+  {
+    title: "Senior attention",
+    body: "We take on a limited number of engagements at a time, so the people you meet at the start are the people who do the work.",
+  },
+  {
+    title: "Clear reasoning",
+    body: "Every recommendation and every number is explained, so you can test it, challenge it and stand behind it in a negotiation.",
+  },
+];
 
 export default function AboutPage() {
   return (
     <>
-      <PageHeader
-        eyebrow="ABOUT US"
-        title="Institutional Financial Acumen. Uncompromising Discretion."
-        subtitle="Global Ventures bridges the gap between mid-market commercial enterprise and institutional corporate finance rigor."
-        breadcrumbs={[{ label: "About Us" }]}
+      <PageHero
+        kicker="About the firm"
+        title={
+          <>
+            Counsel for the moments that <em>define a company.</em>
+          </>
+        }
+        lede="Global Ventures advises owners, boards and investors on selling, acquiring, valuing and financing private companies."
+        photoId={PHOTOS.geometry}
+        crumbs={[{ label: "About" }]}
       />
 
-      {/* Main Narrative Section */}
-      <section className="py-20 bg-ivory-100 text-navy-900 border-b border-ivory-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-6 space-y-6">
-              <span className="text-xs uppercase tracking-widest font-semibold text-slate-500">
-                OUR PHILOSOPHY
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-serif text-navy-900 leading-tight">
-                Where Strategic Clarity Unlocks True Enterprise Worth.
-              </h2>
-              <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-light">
-                In major global money centers, high-stakes M&amp;A transactions and capital
-                restructurings benefit from sophisticated multi-disciplinary teams. Yet, mid-market
-                enterprises and private shareholders are too frequently forced to rely on fragmented
-                brokers or generalist accounting firms.
-              </p>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                Global Ventures was established to rectify this imbalance. We provide private
-                enterprises, family offices, and cross-border strategic acquirers with the highest
-                tier of corporate finance advisory, defensible valuations, and confidential deal
-                execution.
-              </p>
-              <div className="p-4 rounded-lg bg-white border border-slate-200">
-                <blockquote className="font-serif italic text-base text-navy-900 leading-snug">
-                  &ldquo;A transaction is not merely a legal closing; it is the culmination of years
-                  of enterprise creation. It demands absolute precision, empirical defensibility,
-                  and quiet confidence.&rdquo;
-                </blockquote>
-              </div>
-            </div>
-
-            <div className="lg:col-span-6 relative">
-              <div className="relative rounded-xl overflow-hidden shadow-2xl border-4 border-white aspect-[4/3]">
-                <Image
-                  src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80"
-                  alt="Global Ventures Corporate Office Architecture"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Our 4 Core Pillars */}
-      <section className="py-24 bg-navy-950 text-white border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-xs uppercase tracking-[0.24em] font-semibold text-gold-400 block mb-2">
-              FOUNDATIONAL PILLARS
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-serif text-white tracking-tight">
-              The Standard of Our Practice.
+      <section className="sec ivory" aria-labelledby="why-h">
+        <div className="wrap statement">
+          <div className="rv">
+            <p className="kicker">Why we exist</p>
+            <h2 id="why-h">
+              Most owners sell a business once. <em>The other side has often done it many times.</em>
             </h2>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="bg-navy-900 border border-white/10 rounded-xl p-6">
-              <Shield className="w-8 h-8 text-gold-400 mb-4" />
-              <h3 className="text-lg font-serif text-white mb-2">Rigid Discretion</h3>
-              <p className="text-xs text-ivory-100/70 leading-relaxed">
-                Confidentiality is our primary asset. We maintain strict bilateral NDAs and blind
-                marketing protocols to insulate client business value from market speculation.
-              </p>
-            </div>
-
-            <div className="bg-navy-900 border border-white/10 rounded-xl p-6">
-              <Compass className="w-8 h-8 text-gold-400 mb-4" />
-              <h3 className="text-lg font-serif text-white mb-2">Empirical Rigor</h3>
-              <p className="text-xs text-ivory-100/70 leading-relaxed">
-                We reject anecdotal multiples. Our valuations and transaction terms are benchmarked
-                against empirical data, discounted cash flows, and normalized balance sheets.
-              </p>
-            </div>
-
-            <div className="bg-navy-900 border border-white/10 rounded-xl p-6">
-              <Target className="w-8 h-8 text-gold-400 mb-4" />
-              <h3 className="text-lg font-serif text-white mb-2">Aligned Interests</h3>
-              <p className="text-xs text-ivory-100/70 leading-relaxed">
-                As independent advisors, our focus remains on long-term enterprise value and closing
-                certainty rather than volume-driven intermediary churn.
-              </p>
-            </div>
-
-            <div className="bg-navy-900 border border-white/10 rounded-xl p-6">
-              <Award className="w-8 h-8 text-gold-400 mb-4" />
-              <h3 className="text-lg font-serif text-white mb-2">Partner-Led Execution</h3>
-              <p className="text-xs text-ivory-100/70 leading-relaxed">
-                Every mandate is directly steered by senior corporate finance directors, ensuring
-                unwavering institutional oversight from discovery through completion.
-              </p>
-            </div>
+          <div className="copy rv">
+            <p>
+              A sale, an acquisition or a new structure of capital is usually the largest financial decision an owner
+              or board will make. It is also the one where they have the least practice.
+            </p>
+            <p>
+              Our role is to close that gap: to prepare the business, set out the options plainly, run a careful
+              process and negotiate on your behalf, so you go into each decision with the same clarity as the people
+              across the table.
+            </p>
+            <Link className="tlink" href="/services">
+              Our advisory practices
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Leadership Prompt */}
-      <section className="py-16 bg-navy-900 text-white border-b border-white/10 text-center">
-        <div className="max-w-4xl mx-auto px-4">
-          <h3 className="text-2xl font-serif text-white mb-3">
-            Steered by Experienced Corporate Financiers
-          </h3>
-          <p className="text-xs sm:text-sm text-ivory-100/70 max-w-xl mx-auto mb-6">
-            Review the background and specialized practice focus of our senior advisory partners.
-          </p>
-          <Link
-            href="/team"
-            className="inline-flex items-center gap-2 bg-gold-500 hover:bg-gold-400 text-navy-950 font-semibold text-xs uppercase tracking-widest px-6 py-3 rounded transition-colors"
-          >
-            <span>Meet Practice Leadership</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+      <section className="sec" aria-labelledby="principles-h">
+        <div className="wrap">
+          <SecTop kicker="Principles" id="principles-h" title="Four commitments behind every engagement." />
+          <IndexList simple items={PRINCIPLES} />
+          <div className="photo-pair">
+            <Photo className="ph rv" src={photo("interior", 1600)} sizes="55vw" />
+            <Photo className="ph rv" src={photo("skyline", 1000)} sizes="40vw" />
+          </div>
         </div>
       </section>
 
-      <ContactCTA />
+      <section className="sec" aria-label="How we work">
+        <div className="wrap">
+          <Stages
+            kicker="How we work"
+            title="Measured, confidential, and paced around you."
+            note="Every engagement follows the same four stages."
+            stages={APPROACH_STAGES}
+          />
+        </div>
+      </section>
+
+      <section className="sec ivory tight" aria-labelledby="people-h">
+        <div className="wrap statement" style={{ alignItems: "center" }}>
+          <div className="rv">
+            <p className="kicker">Leadership</p>
+            <h2 id="people-h" style={{ fontSize: "var(--t-h2)" }}>
+              Who leads each practice.
+            </h2>
+          </div>
+          <div className="copy rv">
+            <p>How engagements are staffed, and who you will work with.</p>
+            <Link className="tlink" href="/team">
+              Leadership
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <ConsultSection />
     </>
   );
 }

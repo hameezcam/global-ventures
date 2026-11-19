@@ -1,79 +1,54 @@
 import React from "react";
 import { Metadata } from "next";
-import PageHeader from "@/components/shared/PageHeader";
+import LegalPage from "@/components/nocturne/LegalPage";
 
 export const metadata: Metadata = {
-  title: "Terms and Conditions | Advisory Framework",
-  description:
-    "Review Global Ventures' website terms of use, legal notices, and corporate advisory disclaimers.",
+  title: "Terms of use",
+  description: "Terms governing the use of the Global Ventures website, its tools and its information.",
 };
 
 export default function TermsPage() {
   return (
-    <>
-      <PageHeader
-        eyebrow="LEGAL NOTICES"
-        title="Terms of Use &amp; Advisory Disclaimers."
-        subtitle="Important regulatory and legal terms governing the use of the Global Ventures corporate website and information channels."
-        breadcrumbs={[{ label: "Terms and Conditions" }]}
-      />
+    <LegalPage
+      kicker="Legal"
+      title="Terms of use."
+      lede="The terms that govern your use of this website, its tools and its information."
+      crumb="Terms of use"
+    >
+      <h2>1. Information only</h2>
+      <p>
+        The content on this website is for general information only. It is not investment, legal or tax advice, an
+        offer to buy or sell securities, or a solicitation of financial services in any jurisdiction where that would
+        be unlawful.
+      </p>
 
-      <section className="py-20 bg-navy-950 text-white border-b border-white/10">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 text-xs sm:text-sm text-ivory-100/80 leading-relaxed font-light">
-          <div>
-            <h2 className="text-xl font-serif text-white mb-3">1. Scope of Corporate Information</h2>
-            <p>
-              The content published on this website is for informational and educational purposes only.
-              It does not constitute investment advice, legal counsel, tax advice, an offer to buy or
-              sell securities, or a formal solicitation of financial services in any jurisdiction where
-              such offer or solicitation would be unlawful.
-            </p>
-          </div>
+      <h2>2. Example opportunities</h2>
+      <p>
+        Business listings shown on this website are examples that illustrate how opportunities will be presented. They
+        are not live businesses for sale and contain no real financial information. Any resemblance to a specific
+        business is coincidental. Real opportunities are shared only with qualified buyers after a non-disclosure
+        agreement is signed.
+      </p>
 
-          <div>
-            <h2 className="text-xl font-serif text-white mb-3">2. Anonymized Demonstration Opportunities</h2>
-            <p>
-              All transaction dossiers and business listings featured in the demonstration sections of
-              this website are anonymized or representative models designed to illustrate data structures,
-              metrics, and transaction methodologies. Any resemblance to specific operating entities is
-              coincidental. Genuine transaction opportunities are made available solely to qualified,
-              vetted buyers following execution of a bilateral Non-Disclosure Agreement (NDA).
-            </p>
-          </div>
+      <h2>3. Valuation tools</h2>
+      <p>
+        Interactive tools and multiples on this website produce indicative, non-binding illustrations based on general
+        industry assumptions. They are not valuations, appraisals or fairness opinions and must not be relied on. A
+        formal valuation requires an engagement, access to the business&rsquo;s information, and a written report.
+      </p>
 
-          <div>
-            <h2 className="text-xl font-serif text-white mb-3">3. Independent Valuation Diagnostics</h2>
-            <p>
-              Any online interactive tools, scenario calculators, or valuation multiples featured on
-              this platform generate indicative, non-binding estimates based on generalized industry
-              assumptions. They do not constitute formal valuation opinions compliant with the
-              International Valuation Standards Council (IVSC) standards. A binding valuation requires a
-              formal mandate, full due diligence, and comprehensive empirical reporting signed by an
-              authorized practice director.
-            </p>
-          </div>
+      <h2>4. Intellectual property</h2>
+      <p>
+        The Global Ventures name and wordmark, publications, methods and design of this website belong to Global
+        Ventures and are protected by copyright and trademark law. Reproduction or distribution without permission is
+        not allowed.
+      </p>
 
-          <div>
-            <h2 className="text-xl font-serif text-white mb-3">4. Intellectual Property</h2>
-            <p>
-              All trademarks, wordmarks, the GV monogram, editorial publications, methodologies, and
-              design layouts on this website are the proprietary intellectual property of Global
-              Ventures and are protected under international copyright and trademark laws. Unauthorized
-              reproduction, duplication, or distribution is strictly prohibited.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="text-xl font-serif text-white mb-3">5. Governing Law &amp; Jurisdiction</h2>
-            <p>
-              These terms and conditions are governed by and construed in accordance with the laws of the
-              United Arab Emirates. Any disputes arising in connection with the use of this website
-              shall be subject to the exclusive jurisdiction of the competent courts of the United Arab
-              Emirates.
-            </p>
-          </div>
-        </div>
-      </section>
-    </>
+      <h2>5. Governing law</h2>
+      <p>
+        These terms are governed by the laws of the United Arab Emirates. Any dispute arising from the use of this
+        website is subject to the exclusive jurisdiction of the competent courts of the United Arab Emirates.
+      </p>
+    </LegalPage>
   );
 }

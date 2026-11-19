@@ -3,26 +3,31 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ServiceDetailView from "@/components/shared/ServiceDetailView";
 import ValuationCalculator from "@/components/shared/ValuationCalculator";
+import { SecTop } from "@/components/nocturne/ui";
 import { SERVICES } from "@/data/services";
 
+const service = SERVICES.find((s) => s.slug === "business-valuation");
+
 export const metadata: Metadata = {
-  title: "Defensible Business Valuation Services",
-  description:
-    "Empirical, multi-methodology IVSC valuations: DCF modeling, guideline transaction multiples, and fairness opinions for M&A, disputes, and restructuring.",
+  title: "Business valuation",
+  description: service?.shortDescription,
 };
 
 export default function BusinessValuationPage() {
-  const service = SERVICES.find((s) => s.slug === "business-valuation");
   if (!service) notFound();
-
   return (
-    <>
-      <ServiceDetailView service={service} />
-      <section className="py-16 bg-navy-950 border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <ServiceDetailView service={service}>
+      <section className="sec deep" id="estimate" aria-labelledby="estimate-h">
+        <div className="wrap">
+          <SecTop
+            kicker="Indicative estimate"
+            id="estimate-h"
+            title="See how margin and sector shape value."
+            aside={<p>An illustration only, using broad sector multiples. A formal valuation looks at far more than this.</p>}
+          />
           <ValuationCalculator />
         </div>
       </section>
-    </>
+    </ServiceDetailView>
   );
 }

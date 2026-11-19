@@ -6,23 +6,29 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Wordmark from "@/components/brand/Wordmark";
 import EnquiryModal from "@/components/forms/EnquiryModal";
-import { PRACTICES, TRANSACTION_LINKS, photo } from "@/data/homepage";
+import { FIRM_LINKS, PRACTICES, TRANSACTION_LINKS, unsplash } from "@/data/homepage";
 
-type Panel = "advisory" | "transactions" | "mobile" | null;
-
-const SIMPLE_LINKS = [
-  { href: "/industries", label: "Industries", optional: true },
-  { href: "/insights", label: "Insights" },
+const LEFT = [{ href: "/insights", label: "Insights" }];
+const RIGHT = [
   { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
 ];
 
+/**
+ * Split navigation around a centred wordmark. "Advisory", "Transactions" and
+ * the mobile "Menu" button open one full-screen menu: a practice index (what
+ * each covers and who it is for) beside a photograph that follows the
+ * hovered or focused practice.
+ */
 export const Navbar: React.FC = () => {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
-  const [panel, setPanel] = useState<Panel>(null);
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
-  const headerRef = useRef<HTMLElement>(null);
-  const lastTrigger = useRef<HTMLButtonElement | null>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const lastTrigger = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -31,73 +37,69 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close menus when the route changes.
-  useEffect(() => setPanel(null), [pathname]);
+  // Close the menu when the route changes.
+  useEffect(() => setOpen(false), [pathname]);
 
-  const close = useCallback((returnFocus = false) => {
-    setPanel(null);
+  const close = useCallback((returnFocus = true) => {
+    setOpen(false);
     if (returnFocus) lastTrigger.current?.focus();
   }, []);
 
   useEffect(() => {
-    if (!panel) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close(true);
-    const onClick = (e: MouseEvent) => {
-      if (headerRef.current && !headerRef.current.contains(e.target as Node)) close();
+    if (!open) return;
+    document.body.style.overflow = "hidden";
+    const raf = requestAnimationFrame(() => closeRef.current?.focus());
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") return close();
+      if (e.key !== "Tab" || !panelRef.current) return;
+      const items = Array.from(panelRef.current.querySelectorAll<HTMLElement>("a[href], button")).filter(
+        (el) => el.offsetParent !== null
+      );
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     window.addEventListener("keydown", onKey);
-    document.addEventListener("mousedown", onClick);
     return () => {
+      cancelAnimationFrame(raf);
+      document.body.style.overflow = "";
       window.removeEventListener("keydown", onKey);
-      document.removeEventListener("mousedown", onClick);
     };
-  }, [panel, close]);
+  }, [open, close]);
 
-  const toggle = (next: Exclude<Panel, null>) => (e: React.MouseEvent<HTMLButtonElement>) => {
+  const openMenu = (e: React.MouseEvent<HTMLElement>) => {
     lastTrigger.current = e.currentTarget;
-    setPanel((p) => (p === next ? null : next));
+    setOpen(true);
   };
-
-  // Hover opens a panel only for fine pointers; touch and keyboard use click.
-  const hoverOpen = (next: "advisory" | "transactions") => (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-      lastTrigger.current = e.currentTarget;
-      setPanel(next);
-    }
-  };
-
   const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
-  const openConsultation = () => {
-    setPanel(null);
+  const cur = (href: string) => (isActive(href) ? ("page" as const) : undefined);
+  const consult = () => {
+    setOpen(false);
     setModalOpen(true);
   };
-
-  const showAdvisory = panel === "advisory" || panel === "mobile";
-  const showTransactions = panel === "transactions" || panel === "mobile";
+  const advisoryActive = isActive("/services");
+  const txActive = TRANSACTION_LINKS.some((l) => isActive(l.href));
 
   return (
-    <div className="gv">
-      <header
-        ref={headerRef}
-        className={`nav${scrolled ? " solid" : ""}${panel ? " open" : ""}`}
-        onMouseLeave={() => {
-          if (panel === "advisory" || panel === "transactions") {
-            if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) setPanel(null);
-          }
-        }}
-      >
+    <>
+      <header className={`nav${scrolled ? " scrolled" : ""}`}>
         <div className="wrap nav-row">
-          <Wordmark />
           <nav aria-label="Primary">
-            <ul className="menu">
+            <ul>
               <li>
                 <button
                   type="button"
-                  aria-expanded={panel === "advisory"}
-                  aria-controls="gv-menu-panel"
-                  onClick={toggle("advisory")}
-                  onMouseEnter={hoverOpen("advisory")}
-                  className={isActive("/services") ? "current" : undefined}
+                  aria-haspopup="dialog"
+                  aria-expanded={open}
+                  aria-controls="site-menu"
+                  onClick={openMenu}
+                  aria-current={advisoryActive ? "page" : undefined}
                 >
                   Advisory
                 </button>
@@ -105,144 +107,156 @@ export const Navbar: React.FC = () => {
               <li>
                 <button
                   type="button"
-                  aria-expanded={panel === "transactions"}
-                  aria-controls="gv-menu-panel"
-                  onClick={toggle("transactions")}
-                  onMouseEnter={hoverOpen("transactions")}
+                  aria-haspopup="dialog"
+                  aria-expanded={open}
+                  aria-controls="site-menu"
+                  onClick={openMenu}
+                  aria-current={txActive ? "page" : undefined}
                 >
                   Transactions
                 </button>
               </li>
-              {SIMPLE_LINKS.map((l) => (
-                <li key={l.href} className={l.optional ? "opt" : undefined}>
-                  <Link
-                    href={l.href}
-                    aria-current={isActive(l.href) ? "page" : undefined}
-                    onMouseEnter={() => panel !== "mobile" && setPanel(null)}
-                  >
+              {LEFT.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} aria-current={cur(l.href)}>
                     {l.label}
                   </Link>
                 </li>
               ))}
             </ul>
           </nav>
-          <button type="button" className="nav-cta" onClick={openConsultation}>
-            Arrange a consultation
-          </button>
-          <button
-            type="button"
-            className="burger"
-            aria-expanded={panel === "mobile"}
-            aria-controls="gv-menu-panel"
-            onClick={toggle("mobile")}
-          >
-            <i aria-hidden="true" />
-            {panel === "mobile" ? "Close" : "Menu"}
-          </button>
-        </div>
-
-        <div
-          className="mega"
-          id="gv-menu-panel"
-          role="region"
-          aria-label={panel === "transactions" ? "Transactions" : panel === "mobile" ? "Site menu" : "Advisory services"}
-        >
-          <div className={`wrap mega-grid${panel === "mobile" ? " is-mobile" : ""}`}>
-            {panel !== "mobile" && (
-              <div className="mega-intro">
-                <p className="label">{panel === "transactions" ? "Transactions" : "Advisory"}</p>
-                <h2>
-                  {panel === "transactions"
-                    ? "A clear path for both sides of a deal."
-                    : "Six disciplines, one coherent view of your transaction."}
-                </h2>
-                <p>
-                  {panel === "transactions"
-                    ? "Selling or acquiring, the process is structured, confidential and paced around you."
-                    : "Every engagement is shaped around the decision in front of you, not a standard package."}
-                </p>
-                <Link className="tlink" href={panel === "transactions" ? "/contact" : "/services"}>
-                  {panel === "transactions" ? "Talk to us about a transaction" : "All advisory services"}
-                </Link>
-              </div>
-            )}
-
-            {showAdvisory && (
-              <div>
-                {panel === "mobile" && <p className="label mega-group">Advisory</p>}
-                <ul className="mega-list">
-                  {PRACTICES.map((p, i) => (
-                    <li key={p.slug}>
-                      <Link href={`/services/${p.slug}`} onClick={() => close()}>
-                        <span>{String(i + 1).padStart(2, "0")}</span>
-                        <div>
-                          <b>{p.title}</b>
-                          <em>{p.menuLine}</em>
-                        </div>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {showTransactions && (
-              <div>
-                {panel === "mobile" && <p className="label mega-group">Transactions</p>}
-                <ul className={`mega-list${panel === "transactions" ? " single" : ""}`}>
-                  {TRANSACTION_LINKS.map((t, i) => (
-                    <li key={t.href}>
-                      <Link href={t.href} onClick={() => close()}>
-                        <span>{String(i + 1).padStart(2, "0")}</span>
-                        <div>
-                          <b>{t.title}</b>
-                          <em>{t.line}</em>
-                        </div>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {panel === "mobile" ? (
-              <div className="mobile-extra">
-                <ul className="mobile-links">
-                  {[...SIMPLE_LINKS, { href: "/contact", label: "Contact" }].map((l) => (
-                    <li key={l.href}>
-                      <Link href={l.href} onClick={() => close()}>
-                        {l.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-                <button type="button" className="btn btn-dark" onClick={openConsultation}>
-                  Arrange a consultation <span className="arr" aria-hidden="true">→</span>
-                </button>
-              </div>
-            ) : (
-              <div className="mega-feature">
-                <div className="ph" data-tone="deep">
-                  <Image
-                    src={photo(panel === "transactions" ? "skyline" : "interior", 900)}
-                    alt=""
-                    width={900}
-                    height={675}
-                    sizes="320px"
-                  />
-                </div>
-                <p>Not sure which service fits? Start with a confidential conversation.</p>
-                <button type="button" className="tlink" onClick={openConsultation}>
-                  Arrange a consultation
-                </button>
-              </div>
-            )}
+          <Wordmark />
+          <div className="right">
+            <ul>
+              {RIGHT.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} aria-current={cur(l.href)}>
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <button type="button" className="consult" onClick={() => setModalOpen(true)}>
+              Arrange a consultation
+            </button>
+            <button
+              type="button"
+              className="burger"
+              aria-haspopup="dialog"
+              aria-expanded={open}
+              aria-controls="site-menu"
+              onClick={openMenu}
+            >
+              <i aria-hidden="true" />
+              Menu
+            </button>
           </div>
         </div>
       </header>
 
+      <div
+        id="site-menu"
+        ref={panelRef}
+        className={`menu-ov${open ? " open" : ""}`}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Site menu"
+        aria-hidden={!open}
+        inert={!open}
+      >
+        <div className="top">
+          <Wordmark align="left" />
+          <button type="button" className="close" ref={closeRef} onClick={() => close()}>
+            Close ✕
+          </button>
+        </div>
+        <div className="pane">
+          <h2>Advisory</h2>
+          <table className="mi-table">
+            <thead>
+              <tr>
+                <th scope="col">
+                  <span className="sr-only">Number</span>
+                </th>
+                <th scope="col">Practice</th>
+                <th scope="col">What it covers</th>
+                <th scope="col">Typical client</th>
+              </tr>
+            </thead>
+            <tbody>
+              {PRACTICES.map((p, i) => (
+                <tr key={p.slug}>
+                  <td colSpan={4}>
+                    <Link
+                      href={`/services/${p.slug}`}
+                      aria-current={cur(`/services/${p.slug}`)}
+                      onMouseEnter={() => setActive(i)}
+                      onFocus={() => setActive(i)}
+                    >
+                      <span aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+                      <b>{p.title}</b>
+                      <em>{p.menuLine}</em>
+                      <em>{p.forWho}</em>
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="mi-cols">
+            <div>
+              <h2>Transactions</h2>
+              {TRANSACTION_LINKS.map((l) => (
+                <Link key={l.href} href={l.href} aria-current={cur(l.href)}>
+                  {l.title}
+                </Link>
+              ))}
+            </div>
+            <div>
+              <h2>The firm</h2>
+              {FIRM_LINKS.map((l) => (
+                <Link key={l.href} href={l.href} aria-current={cur(l.href)}>
+                  {l.title}
+                </Link>
+              ))}
+            </div>
+            <div>
+              <h2>Overview</h2>
+              <Link href="/services" aria-current={cur("/services") && pathname === "/services" ? "page" : undefined}>
+                All services
+              </Link>
+              <Link href="/">Home</Link>
+            </div>
+          </div>
+          <div className="foot">
+            <span>Where Capital Meets Opportunity.</span>
+            <button type="button" className="cta" onClick={consult}>
+              Arrange a consultation <span className="ln" aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+        <div className="visual" aria-hidden="true">
+          <div className="ph">
+            {PRACTICES.map((p, i) => (
+              <Image
+                key={p.slug}
+                src={unsplash(p.photoId, 1400)}
+                alt=""
+                fill
+                sizes="45vw"
+                className={i === active ? "on" : undefined}
+              />
+            ))}
+          </div>
+          <p className="cap">
+            {PRACTICES[active].title}
+            <small>{PRACTICES[active].summary}</small>
+          </p>
+        </div>
+      </div>
+
       <EnquiryModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
-    </div>
+    </>
   );
 };
 

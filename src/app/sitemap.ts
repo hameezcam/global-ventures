@@ -1,10 +1,10 @@
 import { MetadataRoute } from "next";
+import { SITE_URL } from "@/lib/site";
 import { SERVICES } from "@/data/services";
-import { DEMO_OPPORTUNITIES } from "@/data/opportunities";
 import { INSIGHT_ARTICLES } from "@/data/insights";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://globalventures.com";
+  const baseUrl = SITE_URL;
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: baseUrl, lastModified: new Date(), changeFrequency: "weekly", priority: 1.0 },
@@ -28,19 +28,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.85,
   }));
 
-  const opportunityRoutes: MetadataRoute.Sitemap = DEMO_OPPORTUNITIES.map((opp) => ({
-    url: `${baseUrl}/opportunities/${opp.id}`,
-    lastModified: new Date(),
-    changeFrequency: "weekly",
-    priority: 0.75,
-  }));
 
-  const insightRoutes: MetadataRoute.Sitemap = INSIGHT_ARTICLES.map((article) => ({
+  const insightRoutes: MetadataRoute.Sitemap = INSIGHT_ARTICLES.filter((a) => !a.isDraft).map((article) => ({
     url: `${baseUrl}/insights/${article.slug}`,
     lastModified: new Date(),
     changeFrequency: "monthly",
     priority: 0.75,
   }));
 
-  return [...staticRoutes, ...serviceRoutes, ...opportunityRoutes, ...insightRoutes];
+  return [...staticRoutes, ...serviceRoutes, ...insightRoutes];
 }

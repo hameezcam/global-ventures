@@ -1,132 +1,80 @@
 import React from "react";
-import Link from "next/link";
 import { Metadata } from "next";
-import {
-  TrendingUp,
-  Briefcase,
-  PieChart,
-  ShieldCheck,
-  CheckCircle2,
-  Compass,
-  ArrowRight,
-} from "lucide-react";
-import PageHeader from "@/components/shared/PageHeader";
-import { SERVICES } from "@/data/services";
-import ContactCTA from "@/components/home/ContactCTA";
+import Link from "next/link";
+import { APPROACH_STAGES, PRACTICES, photo } from "@/data/homepage";
+import { ConsultSection, PracticeRail } from "@/components/nocturne/client";
+import { IndexList, Photo, PageHero, SecTop, Stages } from "@/components/nocturne/ui";
 
 export const metadata: Metadata = {
-  title: "Services & Practices Overview",
+  title: "Advisory services",
   description:
-    "Explore the six core advisory practices of Global Ventures: Corporate Finance, M&A, Business Valuation, Brokerage, Transaction Advisory, and Strategic Advisory.",
-};
-
-const ICON_MAP: Record<string, React.ElementType> = {
-  TrendingUp,
-  Briefcase,
-  PieChart,
-  ShieldCheck,
-  CheckCircle2,
-  Compass,
+    "Six advisory practices: mergers and acquisitions, corporate finance, business valuation, brokerage, transaction advisory and strategic advisory.",
 };
 
 export default function ServicesPage() {
   return (
     <>
-      <PageHeader
-        eyebrow="ADVISORY CAPABILITIES"
-        title="Comprehensive Advisory for Critical Financial Milestones."
-        subtitle="From growth capital restructuring to defensible business valuation and discreet cross-border exit brokerage, our practices provide institutional execution."
-        breadcrumbs={[{ label: "Services" }]}
+      <PageHero
+        kicker="Advisory"
+        title={
+          <>
+            Six practices, <em>one view</em> of your transaction.
+          </>
+        }
+        lede="Each practice has its own method. On most engagements two or three work together under one lead adviser, so you deal with one team from start to finish."
+        crumbs={[{ label: "Services" }]}
       />
 
-      <section className="py-20 bg-navy-950 text-white border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="space-y-12">
-            {SERVICES.map((service, index) => {
-              const Icon = ICON_MAP[service.iconName] || Briefcase;
-              const isEven = index % 2 === 1;
+      <section className="sec" style={{ paddingTop: 0 }} aria-label="Practices">
+        <PracticeRail items={PRACTICES} />
+      </section>
 
-              return (
-                <div
-                  key={service.id}
-                  className={`bg-navy-900 border border-white/10 hover:border-gold-500/40 rounded-2xl p-8 sm:p-12 transition-all duration-300 flex flex-col lg:flex-row gap-8 lg:gap-12 items-start justify-between ${
-                    isEven ? "lg:flex-row-reverse" : ""
-                  }`}
-                >
-                  {/* Left Column / Details */}
-                  <div className="flex-1 space-y-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-lg bg-navy-950 border border-gold-500/30 flex items-center justify-center text-gold-400">
-                        <Icon className="w-6 h-6" />
-                      </div>
-                      <span className="font-mono text-xs uppercase tracking-widest text-gold-400 font-semibold">
-                        Practice Area 0{index + 1}
-                      </span>
-                    </div>
-
-                    <h2 className="text-2xl sm:text-3xl font-serif text-white">
-                      {service.title}
-                    </h2>
-
-                    <p className="text-sm sm:text-base text-ivory-100/80 leading-relaxed font-light">
-                      {service.fullDescription}
-                    </p>
-
-                    <div className="p-4 rounded-lg bg-navy-950 border border-white/5">
-                      <span className="text-[10px] uppercase tracking-wider text-slate-400 block mb-1">
-                        Practice Mandate Focus
-                      </span>
-                      <p className="text-xs text-gold-300 font-medium italic">
-                        &ldquo;{service.highlight}&rdquo;
-                      </p>
-                    </div>
-
-                    <div className="pt-2">
-                      <Link
-                        href={`/services/${service.slug}`}
-                        className="inline-flex items-center gap-2 bg-gold-500 hover:bg-gold-400 text-navy-950 font-semibold text-xs uppercase tracking-widest px-6 py-3 rounded transition-colors"
-                      >
-                        <span>Detailed Practice Scope</span>
-                        <ArrowRight className="w-4 h-4" />
-                      </Link>
-                    </div>
-                  </div>
-
-                  {/* Right Column / Deliverables & Features Box */}
-                  <div className="w-full lg:w-96 bg-navy-950 border border-white/10 rounded-xl p-6 shrink-0 space-y-4">
-                    <div>
-                      <span className="text-[10px] uppercase font-semibold text-gold-400 tracking-wider block mb-2">
-                        Key Advisory Deliverables
-                      </span>
-                      <ul className="space-y-2 text-xs text-ivory-100/80">
-                        {service.deliverables.map((item, i) => (
-                          <li key={i} className="flex items-start gap-2">
-                            <CheckCircle2 className="w-3.5 h-3.5 text-gold-400 shrink-0 mt-0.5" />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div className="pt-4 border-t border-white/10">
-                      <span className="text-[10px] uppercase font-semibold text-slate-400 tracking-wider block mb-2">
-                        Client Profiles
-                      </span>
-                      <ul className="space-y-1.5 text-[11px] text-slate-300">
-                        {service.targetAudience.slice(0, 2).map((aud, i) => (
-                          <li key={i}>&bull; {aud}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+      <section className="sec ivory" aria-labelledby="index-h">
+        <div className="wrap">
+          <SecTop
+            kicker="Index"
+            id="index-h"
+            title="Find the practice for the decision in front of you."
+            aside={<p>Not sure where to start? Tell us what you are facing and we will route it to the right adviser.</p>}
+          />
+          <IndexList
+            items={PRACTICES.map((p) => ({
+              title: p.title,
+              body: p.menuLine,
+              meta: p.forWho,
+              href: `/services/${p.slug}`,
+            }))}
+          />
         </div>
       </section>
 
-      <ContactCTA />
+      <section className="sec" aria-label="How we work">
+        <div className="wrap">
+          <Stages
+            kicker="Method"
+            title="The same four stages, whichever practice leads."
+            note="So you always know where an engagement stands and what comes next."
+            stages={APPROACH_STAGES}
+          />
+          <div className="photo-pair" style={{ marginTop: "clamp(72px, 8vw, 128px)" }}>
+            <Photo className="ph rv" src={photo("facade", 1600)} sizes="55vw" />
+            <Photo className="ph rv" src={photo("desk", 1000)} sizes="40vw" />
+          </div>
+          <p className="muted rv" style={{ marginTop: 32, maxWidth: "36rem" }}>
+            Buying or selling a whole business? See{" "}
+            <Link className="tlink" href="/sell-a-business" style={{ color: "var(--fg)" }}>
+              selling a business
+            </Link>{" "}
+            and{" "}
+            <Link className="tlink" href="/buy-a-business" style={{ color: "var(--fg)" }}>
+              buying a business
+            </Link>
+            .
+          </p>
+        </div>
+      </section>
+
+      <ConsultSection />
     </>
   );
 }
