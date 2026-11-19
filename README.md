@@ -61,7 +61,7 @@ A bespoke, production-ready corporate digital platform for **Global Ventures**, 
 
 ### Prerequisites
 
-* Node.js 18.18+ or 20+
+* Node.js 22+ (LTS), 24, or 26
 * npm, pnpm, or yarn
 
 ### Installation
