@@ -1,295 +1,248 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
-import {
-  Menu,
-  X,
-  ChevronDown,
-  ArrowRight,
-  TrendingUp,
-  Briefcase,
-  PieChart,
-  ShieldCheck,
-  CheckCircle2,
-  Compass,
-  Phone,
-} from "lucide-react";
-import Logo from "@/components/brand/Logo";
-import { MAIN_NAVIGATION } from "@/data/navigation";
+import Wordmark from "@/components/brand/Wordmark";
 import EnquiryModal from "@/components/forms/EnquiryModal";
+import { PRACTICES, TRANSACTION_LINKS, photo } from "@/data/homepage";
 
-const SERVICE_ICONS: Record<string, React.ElementType> = {
-  "corporate-finance": TrendingUp,
-  "mergers-and-acquisitions": Briefcase,
-  "business-valuation": PieChart,
-  "business-brokerage": ShieldCheck,
-  "transaction-advisory": CheckCircle2,
-  "strategic-advisory": Compass,
-};
+type Panel = "advisory" | "transactions" | "mobile" | null;
+
+const SIMPLE_LINKS = [
+  { href: "/industries", label: "Industries", optional: true },
+  { href: "/insights", label: "Insights" },
+  { href: "/about", label: "About" },
+];
 
 export const Navbar: React.FC = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const pathname = usePathname();
+  const [scrolled, setScrolled] = useState(false);
+  const [panel, setPanel] = useState<Panel>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
+  const lastTrigger = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close mobile menu on route change
+  // Close menus when the route changes.
+  useEffect(() => setPanel(null), [pathname]);
+
+  const close = useCallback((returnFocus = false) => {
+    setPanel(null);
+    if (returnFocus) lastTrigger.current?.focus();
+  }, []);
+
   useEffect(() => {
-    setMobileMenuOpen(false);
-    setOpenDropdown(null);
-  }, [pathname]);
+    if (!panel) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close(true);
+    const onClick = (e: MouseEvent) => {
+      if (headerRef.current && !headerRef.current.contains(e.target as Node)) close();
+    };
+    window.addEventListener("keydown", onKey);
+    document.addEventListener("mousedown", onClick);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.removeEventListener("mousedown", onClick);
+    };
+  }, [panel, close]);
+
+  const toggle = (next: Exclude<Panel, null>) => (e: React.MouseEvent<HTMLButtonElement>) => {
+    lastTrigger.current = e.currentTarget;
+    setPanel((p) => (p === next ? null : next));
+  };
+
+  // Hover opens a panel only for fine pointers; touch and keyboard use click.
+  const hoverOpen = (next: "advisory" | "transactions") => (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      lastTrigger.current = e.currentTarget;
+      setPanel(next);
+    }
+  };
+
+  const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
+  const openConsultation = () => {
+    setPanel(null);
+    setModalOpen(true);
+  };
+
+  const showAdvisory = panel === "advisory" || panel === "mobile";
+  const showTransactions = panel === "transactions" || panel === "mobile";
 
   return (
-    <>
+    <div className="gv">
       <header
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-          isScrolled
-            ? "bg-navy-950/90 backdrop-blur-md border-b border-gold-500/20 py-3.5 shadow-2xl"
-            : "bg-navy-900/60 backdrop-blur-sm border-b border-white/5 py-5"
-        }`}
+        ref={headerRef}
+        className={`nav${scrolled ? " solid" : ""}${panel ? " open" : ""}`}
+        onMouseLeave={() => {
+          if (panel === "advisory" || panel === "transactions") {
+            if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) setPanel(null);
+          }
+        }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between">
-            {/* Brand Logo */}
-            <Logo variant="dark" size="md" />
-
-            {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center space-x-1" aria-label="Main Navigation">
-              {MAIN_NAVIGATION.map((item) => {
-                const isServices = item.label === "Services";
-                const hasChildren = Boolean(item.children && item.children.length > 0);
-                const isActive = pathname === item.href || (item.children && item.children.some(c => pathname === c.href));
-
-                return (
-                  <div
-                    key={item.label}
-                    className="relative group"
-                    onMouseEnter={() => hasChildren && setOpenDropdown(item.label)}
-                    onMouseLeave={() => setOpenDropdown(null)}
-                    onFocus={() => hasChildren && setOpenDropdown(item.label)}
-                    onBlur={(e) => {
-                      if (!e.currentTarget.contains(e.relatedTarget as Node)) {
-                        setOpenDropdown(null);
-                      }
-                    }}
+        <div className="wrap nav-row">
+          <Wordmark />
+          <nav aria-label="Primary">
+            <ul className="menu">
+              <li>
+                <button
+                  type="button"
+                  aria-expanded={panel === "advisory"}
+                  aria-controls="gv-menu-panel"
+                  onClick={toggle("advisory")}
+                  onMouseEnter={hoverOpen("advisory")}
+                  className={isActive("/services") ? "current" : undefined}
+                >
+                  Advisory
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  aria-expanded={panel === "transactions"}
+                  aria-controls="gv-menu-panel"
+                  onClick={toggle("transactions")}
+                  onMouseEnter={hoverOpen("transactions")}
+                >
+                  Transactions
+                </button>
+              </li>
+              {SIMPLE_LINKS.map((l) => (
+                <li key={l.href} className={l.optional ? "opt" : undefined}>
+                  <Link
+                    href={l.href}
+                    aria-current={isActive(l.href) ? "page" : undefined}
+                    onMouseEnter={() => panel !== "mobile" && setPanel(null)}
                   >
-                    <Link
-                      href={item.href}
-                      className={`inline-flex items-center gap-1.5 px-3.5 py-2 text-xs uppercase tracking-widest font-medium transition-colors ${
-                        isActive
-                          ? "text-gold-400 font-semibold"
-                          : "text-ivory-100/80 hover:text-white"
-                      }`}
-                    >
-                      <span>{item.label}</span>
-                      {hasChildren && (
-                        <ChevronDown className="w-3.5 h-3.5 opacity-60 group-hover:rotate-180 transition-transform duration-200" />
-                      )}
-                    </Link>
-
-                    {/* Mega Menu for Services */}
-                    {isServices && (
-                      <div
-                        className={`absolute top-full left-1/2 -translate-x-1/2 w-[760px] bg-navy-950 border border-gold-500/25 rounded-xl shadow-2xl p-6 transition-all duration-200 ${
-                          openDropdown === "Services"
-                            ? "opacity-100 visible translate-y-2 pointer-events-auto"
-                            : "opacity-0 invisible translate-y-0 pointer-events-none"
-                        }`}
-                      >
-                        <div className="flex items-center justify-between pb-3 mb-4 border-b border-white/10">
-                          <div>
-                            <span className="text-[10px] uppercase tracking-widest text-gold-400 font-semibold">
-                              Specialized Practices
-                            </span>
-                            <h4 className="text-sm font-serif text-white">
-                              Institutional Financial Advisory & Transaction Practice
-                            </h4>
-                          </div>
-                          <Link
-                            href="/services"
-                            className="text-xs text-gold-400 hover:text-gold-300 font-medium inline-flex items-center gap-1"
-                          >
-                            <span>All Practice Areas</span>
-                            <ArrowRight className="w-3 h-3" />
-                          </Link>
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-4">
-                          {item.children?.map((child) => {
-                            const slug = child.href.split("/").pop() || "";
-                            const IconComp = SERVICE_ICONS[slug] || Briefcase;
-                            return (
-                              <Link
-                                key={child.title}
-                                href={child.href}
-                                className="group/item flex items-start gap-3.5 p-3 rounded-lg hover:bg-white/5 transition-colors border border-transparent hover:border-gold-500/20"
-                              >
-                                <div className="p-2 rounded bg-navy-900 border border-white/10 group-hover/item:border-gold-500/40 text-gold-400 shrink-0">
-                                  <IconComp className="w-4 h-4" />
-                                </div>
-                                <div>
-                                  <div className="text-xs font-semibold text-white group-hover/item:text-gold-300 transition-colors">
-                                    {child.title}
-                                  </div>
-                                  <p className="text-[11px] text-ivory-100/60 leading-relaxed mt-0.5 line-clamp-2">
-                                    {child.description}
-                                  </p>
-                                </div>
-                              </Link>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Standard Dropdown for other items with children */}
-                    {hasChildren && !isServices && (
-                      <div
-                        className={`absolute top-full left-0 w-64 bg-navy-950 border border-gold-500/25 rounded-lg shadow-2xl p-2 transition-all duration-200 ${
-                          openDropdown === item.label
-                            ? "opacity-100 visible translate-y-2 pointer-events-auto"
-                            : "opacity-0 invisible translate-y-0 pointer-events-none"
-                        }`}
-                      >
-                        {item.children?.map((child) => (
-                          <Link
-                            key={child.title}
-                            href={child.href}
-                            className="block p-3 rounded hover:bg-white/5 transition-colors group/sub"
-                          >
-                            <div className="text-xs font-semibold text-white group-hover/sub:text-gold-300">
-                              {child.title}
-                            </div>
-                            <div className="text-[10px] text-ivory-100/60 mt-0.5 leading-snug">
-                              {child.description}
-                            </div>
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </nav>
-
-            {/* Right Action CTA */}
-            <div className="hidden lg:flex items-center space-x-4">
-              <button
-                onClick={() => setIsModalOpen(true)}
-                className="inline-flex items-center gap-2 bg-gold-500 hover:bg-gold-400 text-navy-950 font-semibold text-xs uppercase tracking-widest px-5 py-2.5 rounded transition-all duration-200 shadow-sm hover:shadow-gold-500/20"
-              >
-                <span>Book a Consultation</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
-
-            {/* Mobile Action Controls */}
-            <div className="flex lg:hidden items-center gap-2 shrink-0">
-              <button
-                onClick={() => setIsModalOpen(true)}
-                className="bg-gold-500 hover:bg-gold-400 text-navy-950 p-2.5 rounded text-xs min-h-[44px] min-w-[44px] flex items-center justify-center transition-colors shadow-sm"
-                aria-label="Direct consultation request"
-              >
-                <Phone className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2.5 text-ivory-100 hover:text-white rounded focus:outline-none focus:ring-2 focus:ring-gold-500 min-h-[44px] min-w-[44px] flex items-center justify-center transition-colors"
-                aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-                aria-expanded={mobileMenuOpen}
-                aria-controls="mobile-navigation"
-              >
-                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-              </button>
-            </div>
-          </div>
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <button type="button" className="nav-cta" onClick={openConsultation}>
+            Arrange a consultation
+          </button>
+          <button
+            type="button"
+            className="burger"
+            aria-expanded={panel === "mobile"}
+            aria-controls="gv-menu-panel"
+            onClick={toggle("mobile")}
+          >
+            <i aria-hidden="true" />
+            {panel === "mobile" ? "Close" : "Menu"}
+          </button>
         </div>
 
-        {/* Mobile Navigation Drawer */}
-        {mobileMenuOpen && (
-          <div
-            id="mobile-navigation"
-            role="region"
-            aria-label="Mobile Navigation Menu"
-            className="lg:hidden bg-navy-950/98 border-b border-gold-500/30 px-4 sm:px-6 py-6 max-h-[85vh] overflow-y-auto animate-in slide-in-from-top-2 duration-200"
-          >
-            <div className="space-y-4">
-              {MAIN_NAVIGATION.map((item) => {
-                const hasChildren = Boolean(item.children && item.children.length > 0);
-                const isExpanded = openDropdown === item.label;
+        <div
+          className="mega"
+          id="gv-menu-panel"
+          role="region"
+          aria-label={panel === "transactions" ? "Transactions" : panel === "mobile" ? "Site menu" : "Advisory services"}
+        >
+          <div className={`wrap mega-grid${panel === "mobile" ? " is-mobile" : ""}`}>
+            {panel !== "mobile" && (
+              <div className="mega-intro">
+                <p className="label">{panel === "transactions" ? "Transactions" : "Advisory"}</p>
+                <h2>
+                  {panel === "transactions"
+                    ? "A clear path for both sides of a deal."
+                    : "Six disciplines, one coherent view of your transaction."}
+                </h2>
+                <p>
+                  {panel === "transactions"
+                    ? "Selling or acquiring, the process is structured, confidential and paced around you."
+                    : "Every engagement is shaped around the decision in front of you, not a standard package."}
+                </p>
+                <Link className="tlink" href={panel === "transactions" ? "/contact" : "/services"}>
+                  {panel === "transactions" ? "Talk to us about a transaction" : "All advisory services"}
+                </Link>
+              </div>
+            )}
 
-                return (
-                  <div key={item.label} className="border-b border-white/5 pb-3">
-                    {hasChildren ? (
-                      <div>
-                        <button
-                          onClick={() => setOpenDropdown(isExpanded ? null : item.label)}
-                          className="w-full flex items-center justify-between text-left text-sm uppercase tracking-wider font-semibold text-ivory-100 hover:text-gold-400 py-1"
-                        >
-                          <span>{item.label}</span>
-                          <ChevronDown
-                            className={`w-4 h-4 transition-transform duration-200 ${
-                              isExpanded ? "rotate-180 text-gold-400" : ""
-                            }`}
-                          />
-                        </button>
-                        {isExpanded && (
-                          <div className="mt-2 space-y-2 pl-3 border-l-2 border-gold-500/30">
-                            {item.children?.map((child) => (
-                              <Link
-                                key={child.title}
-                                href={child.href}
-                                className="block py-1.5 text-xs text-ivory-100/70 hover:text-gold-300"
-                              >
-                                {child.title}
-                              </Link>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      <Link
-                        href={item.href}
-                        className="block text-sm uppercase tracking-wider font-semibold text-ivory-100 hover:text-gold-400 py-1"
-                      >
-                        {item.label}
+            {showAdvisory && (
+              <div>
+                {panel === "mobile" && <p className="label mega-group">Advisory</p>}
+                <ul className="mega-list">
+                  {PRACTICES.map((p, i) => (
+                    <li key={p.slug}>
+                      <Link href={`/services/${p.slug}`} onClick={() => close()}>
+                        <span>{String(i + 1).padStart(2, "0")}</span>
+                        <div>
+                          <b>{p.title}</b>
+                          <em>{p.menuLine}</em>
+                        </div>
                       </Link>
-                    )}
-                  </div>
-                );
-              })}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
-              <div className="pt-4">
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    setIsModalOpen(true);
-                  }}
-                  className="w-full inline-flex items-center justify-center gap-2 bg-gold-500 hover:bg-gold-400 text-navy-950 font-semibold text-xs uppercase tracking-widest px-5 py-3 rounded"
-                >
-                  <span>Book a Consultation</span>
-                  <ArrowRight className="w-4 h-4" />
+            {showTransactions && (
+              <div>
+                {panel === "mobile" && <p className="label mega-group">Transactions</p>}
+                <ul className={`mega-list${panel === "transactions" ? " single" : ""}`}>
+                  {TRANSACTION_LINKS.map((t, i) => (
+                    <li key={t.href}>
+                      <Link href={t.href} onClick={() => close()}>
+                        <span>{String(i + 1).padStart(2, "0")}</span>
+                        <div>
+                          <b>{t.title}</b>
+                          <em>{t.line}</em>
+                        </div>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {panel === "mobile" ? (
+              <div className="mobile-extra">
+                <ul className="mobile-links">
+                  {[...SIMPLE_LINKS, { href: "/contact", label: "Contact" }].map((l) => (
+                    <li key={l.href}>
+                      <Link href={l.href} onClick={() => close()}>
+                        {l.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+                <button type="button" className="btn btn-dark" onClick={openConsultation}>
+                  Arrange a consultation <span className="arr" aria-hidden="true">→</span>
                 </button>
               </div>
-            </div>
+            ) : (
+              <div className="mega-feature">
+                <div className="ph" data-tone="deep">
+                  <Image
+                    src={photo(panel === "transactions" ? "skyline" : "interior", 900)}
+                    alt=""
+                    width={900}
+                    height={675}
+                    sizes="320px"
+                  />
+                </div>
+                <p>Not sure which service fits? Start with a confidential conversation.</p>
+                <button type="button" className="tlink" onClick={openConsultation}>
+                  Arrange a consultation
+                </button>
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </header>
 
-      {/* Global Consultation Modal */}
-      <EnquiryModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-    </>
+      <EnquiryModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+    </div>
   );
 };
 
