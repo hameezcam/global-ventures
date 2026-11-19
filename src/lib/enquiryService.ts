@@ -1,125 +1,137 @@
-import fs from "fs";
-import path from "path";
-import crypto from "crypto";
-import { EnquiryPayload } from "@/types";
+import "server-only";
+import { createHash, randomBytes } from "node:crypto";
+import type { Pool, PoolClient } from "pg";
 
-export interface StoredEnquiry extends EnquiryPayload {
-  referenceId: string;
-  ipAddress: string;
-  userAgent?: string;
-  createdAt: string;
-  status: "received" | "dispatched" | "archived";
+type Db = Pool | PoolClient;
+import type { EnquiryInput, FlowType } from "@/lib/enquiry/schema";
+
+const REFERENCE_PREFIX: Record<FlowType, string> = {
+  general: "GEN",
+  "sell-business": "SELL",
+  "buy-business": "BUY",
+  valuation: "VAL",
+  advisory: "ADV",
+};
+
+/** e.g. GV-SELL-3F9A0C12BE (40 random bits; uniqueness is enforced by the database). */
+export function generateReferenceCode(flowType: FlowType): string {
+  return `GV-${REFERENCE_PREFIX[flowType]}-${randomBytes(5).toString("hex").toUpperCase()}`;
 }
 
-export interface ValidationResult {
-  isValid: boolean;
-  error?: string;
-  sanitizedData?: EnquiryPayload;
+/** Stable fingerprint of the validated enquiry, used to detect idempotency-key reuse. */
+export function requestHash(input: EnquiryInput): string {
+  const ordered = Object.keys(input)
+    .sort()
+    .map((k) => [k, input[k as keyof EnquiryInput]]);
+  return createHash("sha256").update(JSON.stringify(ordered)).digest("hex");
 }
 
-const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
-const PHONE_REGEX = /^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]{5,20}$/;
+export type SaveResult =
+  | { kind: "created"; referenceCode: string; flowType: FlowType; createdAt: Date }
+  | { kind: "duplicate"; referenceCode: string; flowType: FlowType; createdAt: Date }
+  | { kind: "conflict" };
 
-export function validateEnquiryInput(rawBody: unknown): ValidationResult {
-  if (!rawBody || typeof rawBody !== "object") {
-    return { isValid: false, error: "Invalid request payload format." };
-  }
-
-  const data = rawBody as Record<string, unknown>;
-
-  // Anti-bot Honeypot check
-  if (data.websiteUrl && typeof data.websiteUrl === "string" && data.websiteUrl.trim().length > 0) {
-    return { isValid: false, error: "Submission rejected." };
-  }
-
-  // Full Name
-  const fullName = typeof data.fullName === "string" ? data.fullName.trim() : "";
-  if (!fullName || fullName.length < 2 || fullName.length > 100) {
-    return { isValid: false, error: "Please provide a valid full name (2–100 characters)." };
-  }
-
-  // Email
-  const email = typeof data.email === "string" ? data.email.trim().toLowerCase() : "";
-  if (!email || !EMAIL_REGEX.test(email) || email.length > 120) {
-    return { isValid: false, error: "Please provide a valid corporate or professional email address." };
-  }
-
-  // Phone
-  const phone = typeof data.phone === "string" ? data.phone.trim() : "";
-  if (!phone || !PHONE_REGEX.test(phone) || phone.length < 6 || phone.length > 30) {
-    return { isValid: false, error: "Please provide a valid telephone number with country code." };
-  }
-
-  // Flow Type
-  const validFlows = ["general", "sell-business", "buy-business", "valuation", "advisory"];
-  const flowType = (typeof data.flowType === "string" && validFlows.includes(data.flowType)
-    ? data.flowType
-    : "general") as EnquiryPayload["flowType"];
-
-  // Optional fields with length sanitization
-  const companyName = typeof data.companyName === "string" ? data.companyName.trim().slice(0, 120) : undefined;
-  const role = typeof data.role === "string" ? data.role.trim().slice(0, 80) : undefined;
-  const interestArea = typeof data.interestArea === "string" ? data.interestArea.trim().slice(0, 100) : undefined;
-  const estimatedRevenue = typeof data.estimatedRevenue === "string" ? data.estimatedRevenue.trim().slice(0, 80) : undefined;
-  const timeline = typeof data.timeline === "string" ? data.timeline.trim().slice(0, 80) : undefined;
-  const targetListingRef = typeof data.targetListingRef === "string" ? data.targetListingRef.trim().slice(0, 50) : undefined;
-  const message = typeof data.message === "string" ? data.message.trim().slice(0, 2000) : "";
-  const ndaAcknowledged = Boolean(data.ndaAcknowledged);
-
-  return {
-    isValid: true,
-    sanitizedData: {
-      flowType,
-      fullName,
-      email,
-      phone,
-      companyName,
-      role,
-      interestArea,
-      estimatedRevenue,
-      timeline,
-      targetListingRef,
-      message,
-      ndaAcknowledged,
-    },
-  };
+interface Row {
+  reference_code: string;
+  flow_type: FlowType;
+  created_at: Date;
+  request_hash: string;
 }
 
-export function generateCryptographicReference(flowType: EnquiryPayload["flowType"]): string {
-  const prefixMap: Record<string, string> = {
-    "sell-business": "SELL",
-    "buy-business": "BUY",
-    valuation: "VAL",
-    advisory: "ADV",
-    general: "GEN",
-  };
-  const prefix = prefixMap[flowType] || "GEN";
-  // Unpredictable 8-character cryptographic random token
-  const randomSuffix = crypto.randomBytes(4).toString("hex").toUpperCase();
-  return `GV-${prefix}-${randomSuffix}`;
+/**
+ * Looks up an earlier submission with the same idempotency key, so a retried
+ * request gets its original reference without consuming rate-limit budget.
+ */
+export async function findPriorSubmission(db: Db, input: EnquiryInput, idempotencyKey: string): Promise<SaveResult | null> {
+  const { rows } = await db.query<Row>(
+    "SELECT reference_code, flow_type, created_at, request_hash FROM enquiries WHERE idempotency_key = $1",
+    [idempotencyKey]
+  );
+  const row = rows[0];
+  if (!row) return null;
+  if (row.request_hash !== requestHash(input)) return { kind: "conflict" };
+  return { kind: "duplicate", referenceCode: row.reference_code, flowType: row.flow_type, createdAt: row.created_at };
 }
 
-export async function persistEnquiryLocally(
-  enquiry: StoredEnquiry
-): Promise<{ success: boolean; error?: string }> {
-  try {
-    const dataDir = path.join(process.cwd(), "data");
-    const filePath = path.join(dataDir, "enquiries.jsonl");
+/**
+ * Inserts an enquiry once per idempotency key. Must be called inside a
+ * transaction on `client`; the caller commits before reporting success.
+ */
+export async function insertEnquiry(client: PoolClient, input: EnquiryInput, idempotencyKey: string): Promise<SaveResult> {
+  const hash = requestHash(input);
 
-    // Ensure directory exists
-    if (!fs.existsSync(dataDir)) {
-      fs.mkdirSync(dataDir, { recursive: true });
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const referenceCode = generateReferenceCode(input.flowType);
+    await client.query("SAVEPOINT insert_enquiry");
+    try {
+      const { rows } = await client.query<Row>(
+        `INSERT INTO enquiries (
+           reference_code, idempotency_key, request_hash, flow_type,
+           full_name, email, phone, company_name, role,
+           interest_area, estimated_revenue, investment_budget, timeline, target_listing_ref,
+           message, privacy_consent_version, privacy_consent_timestamp, nda_acknowledged
+         ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16, now(), $17)
+         ON CONFLICT (idempotency_key) DO NOTHING
+         RETURNING reference_code, flow_type, created_at, request_hash`,
+        [
+          referenceCode,
+          idempotencyKey,
+          hash,
+          input.flowType,
+          input.fullName,
+          input.email,
+          input.phone,
+          input.companyName,
+          input.role,
+          input.interestArea,
+          input.estimatedRevenue,
+          input.investmentBudget,
+          input.timeline,
+          input.targetListingRef,
+          input.message,
+          input.privacyConsentVersion,
+          input.ndaAcknowledged,
+        ]
+      );
+
+      await client.query("RELEASE SAVEPOINT insert_enquiry");
+      if (rows[0]) {
+        return { kind: "created", referenceCode: rows[0].reference_code, flowType: rows[0].flow_type, createdAt: rows[0].created_at };
+      }
+
+      // Same idempotency key seen before: replay the original result if the
+      // payload matches, otherwise refuse.
+      return (await findPriorSubmission(client, input, idempotencyKey)) ?? { kind: "conflict" };
+    } catch (err) {
+      await client.query("ROLLBACK TO SAVEPOINT insert_enquiry");
+      const e = err as { code?: string; constraint?: string };
+      if (e.code === "23505" && e.constraint === "enquiries_reference_code_key") continue; // regenerate
+      throw err;
     }
+  }
+  throw new Error("Could not allocate a unique reference code.");
+}
 
-    const line = JSON.stringify(enquiry) + "\n";
-    await fs.promises.appendFile(filePath, line, { encoding: "utf8" });
-
-    return { success: true };
+/**
+ * Runs `fn` in a transaction that holds an advisory lock on the idempotency
+ * key, so concurrent retries of one submission are processed one at a time.
+ * Resolves only after COMMIT succeeds.
+ */
+export async function withSubmissionLock<T>(pool: Pool, idempotencyKey: string, fn: (client: PoolClient) => Promise<T>): Promise<T> {
+  const client = await pool.connect();
+  let broken = false;
+  try {
+    await client.query("BEGIN");
+    await client.query("SELECT pg_advisory_xact_lock(hashtextextended($1, 0))", [idempotencyKey]);
+    const result = await fn(client);
+    await client.query("COMMIT");
+    return result;
   } catch (err) {
-    console.error("[Enquiry Storage Failure]:", err);
-    return {
-      success: false,
-      error: "Critical: Internal storage failure. Inquiry could not be persisted.",
-    };
+    await client.query("ROLLBACK").catch(() => {
+      broken = true;
+    });
+    throw err;
+  } finally {
+    client.release(broken);
   }
 }

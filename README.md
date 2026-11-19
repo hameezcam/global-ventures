@@ -39,10 +39,18 @@ A bespoke, production-ready corporate digital platform for **Global Ventures**, 
    * Detailed transaction profiles with bilateral non-disclosure agreement (NDA) request workflows.
 
 4. **Secure Corporate Lead Architecture:**
-   * Multi-flow consultation request system (`/api/enquiry`) with in-memory sliding-window IP rate limiting (5 req/min).
-   * Honeypot bot protection trap rejecting automated spam submissions.
-   * Cryptographic collision-resistant reference numbering (`GV-[FLOW]-[8HEX]`).
-   * Durable persistence layer (`data/enquiries.jsonl`) with webhooks/SMTP integration boundary.
+   * Five-flow consultation API (`/api/enquiry`) that stores enquiries in PostgreSQL (Prisma Postgres on Vercel).
+   * Strict server-side validation, same-origin and content-type checks, and a real 16 KB body limit.
+   * Idempotent submissions (`Idempotency-Key` header) so retries and double clicks never create duplicates.
+   * Shared Postgres-backed rate limiting (5 per IP per 10 min, 3 per email per hour) with hashed keys.
+   * Honeypot and minimum-fill-time bot checks; unique references (`GV-[FLOW]-[10HEX]`).
+
+### Enquiry database
+
+* Schema: `db/migrations/*.sql`, applied in order by `npm run db:migrate` (uses `DATABASE_URL`).
+* On Vercel, `vercel-build` runs the migrations before `next build`. Migrations must stay additive.
+* At runtime the API uses `DATABASE_URL_POOLED` when present, otherwise `DATABASE_URL`.
+* No IP address or user agent is stored with an enquiry.
 
 ---
 
@@ -91,8 +99,12 @@ Open [http://localhost:3000](http://localhost:3000) with your browser.
 ## Quality & Verification Commands
 
 ```bash
-# Run unit and integration tests (Validation, Rate Limiting, Valuation Formulas)
+# Run unit tests (enquiry validation, valuation formulas)
 npm test
+
+# Run API integration tests against a DISPOSABLE local Postgres (refuses non-local hosts;
+# the tests truncate the enquiry tables)
+DATABASE_URL=postgres://user@127.0.0.1:5432/gv_test npm run test:integration
 
 # Run TypeScript compilation check
 npx tsc --noEmit
@@ -113,9 +125,8 @@ npm run start
 
 ```text
 global-ventures/
-├── data/                       # Durable persistence & sample storage
-│   ├── .gitkeep
-│   └── enquiries.jsonl         # Append-only inquiries log (gitignored)
+├── db/migrations/              # PostgreSQL schema migrations
+├── scripts/                    # migrate.mjs, test-integration.sh
 ├── src/
 │   ├── app/                    # Next.js App Router (28 routes)
 │   │   ├── api/enquiry/        # Secure lead submission API
@@ -130,7 +141,7 @@ global-ventures/
 │   │   ├── layout/             # Responsive Navbar, Mega-Menu, Footer
 │   │   └── shared/             # ValuationCalculator, PageHeader, Cards
 │   ├── data/                   # Structured mock data & practice mandates
-│   └── lib/                    # Core utilities (rate limiter, enquiry service)
+│   └── lib/                    # db pool, rate limiter, enquiry schema & service
 ├── tests/                      # Automated test suite (11 unit/integration tests)
 └── .env.example                # Documented environment configuration
 ```

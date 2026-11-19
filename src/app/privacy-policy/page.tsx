@@ -1,6 +1,7 @@
 import React from "react";
 import { Metadata } from "next";
 import PageHeader from "@/components/shared/PageHeader";
+import { PRIVACY_NOTICE_VERSION } from "@/lib/enquiry/schema";
 
 export const metadata: Metadata = {
   title: "Privacy Policy | Confidentiality & Data Protection",
@@ -20,6 +21,7 @@ export default function PrivacyPolicyPage() {
 
       <section className="py-20 bg-navy-950 text-white border-b border-white/10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 text-xs sm:text-sm text-ivory-100/80 leading-relaxed font-light">
+          <p className="text-xs uppercase tracking-widest text-gold-400">Notice version {PRIVACY_NOTICE_VERSION}</p>
           <div>
             <h2 className="text-xl font-serif text-white mb-3">1. Foundational Commitment to Discretion</h2>
             <p>
