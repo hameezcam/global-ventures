@@ -8,6 +8,8 @@ export const CONTACT = {
   phone: "+971 56 412 6558",
   /** E.164 form for tel: links. */
   phoneHref: "tel:+971564126558",
+  /** The same number on WhatsApp (click-to-chat link). */
+  whatsappHref: "https://wa.me/971564126558",
 } as const;
 
 export const SITE_URL = (

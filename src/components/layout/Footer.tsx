@@ -33,6 +33,11 @@ export const Footer: React.FC = () => {
               <li>
                 <a href={CONTACT.phoneHref}>{CONTACT.phone}</a>
               </li>
+              <li>
+                <a href={CONTACT.whatsappHref} target="_blank" rel="noopener noreferrer">
+                  WhatsApp {CONTACT.phone}
+                </a>
+              </li>
             </ul>
             <Link className="tlink" href="/contact">
               Arrange a consultation

@@ -37,6 +37,9 @@ export default function ContactPage() {
         <a className="tlink" href={CONTACT.phoneHref}>
           {CONTACT.phone}
         </a>
+        <a className="tlink" href={CONTACT.whatsappHref} target="_blank" rel="noopener noreferrer">
+          WhatsApp
+        </a>
       </PageHero>
 
       <section className="sec deep" aria-label="Enquiry form">
@@ -60,6 +63,14 @@ export default function ContactPage() {
                 <dt>Telephone</dt>
                 <dd>
                   <a href={CONTACT.phoneHref}>{CONTACT.phone}</a>
+                </dd>
+              </div>
+              <div>
+                <dt>WhatsApp</dt>
+                <dd>
+                  <a href={CONTACT.whatsappHref} target="_blank" rel="noopener noreferrer">
+                    {CONTACT.phone}
+                  </a>
                 </dd>
               </div>
             </dl>
