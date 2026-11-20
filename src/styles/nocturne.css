@@ -143,9 +143,9 @@
 .gv .mi-table { width: 100%; border-collapse: collapse; }
 .gv .mi-table th { font: 400 0.8125rem/1 var(--sans); letter-spacing: 0.06em; color: var(--mist); text-align: left; padding: 0 16px 12px 0; border-bottom: 1px solid var(--line); }
 .gv .mi-table td { padding: 0; border-bottom: 1px solid var(--line); vertical-align: middle; }
-.gv .mi-table a { display: grid; grid-template-columns: 44px minmax(0, 1.25fr) minmax(0, 1.1fr) minmax(0, 0.8fr); gap: 16px; align-items: baseline; padding: 15px 0; transition: background 0.3s; }
+.gv .mi-table a { display: grid; grid-template-columns: 44px minmax(0, 1.7fr) minmax(0, 1.1fr) minmax(0, 0.8fr); gap: 16px; align-items: baseline; padding: 13px 0; transition: background 0.3s; }
 .gv .mi-table a > span:first-child { font-size: 0.8125rem; letter-spacing: 0.06em; color: var(--mist); }
-.gv .mi-table a b { font: 400 clamp(1.25rem, 0.9rem + 0.9vw, 1.875rem)/1.2 var(--display); transition: color 0.3s, transform 0.5s var(--ease); display: inline-block; }
+.gv .mi-table a b { font: 400 clamp(1.125rem, 0.8rem + 0.75vw, 1.625rem)/1.2 var(--display); transition: color 0.3s, transform 0.5s var(--ease); display: inline-block; }
 .gv .mi-table a em { font-style: normal; color: var(--mist); font-size: 0.9375rem; line-height: 1.4; }
 .gv .mi-table a:hover b, .gv .mi-table a:focus-visible b, .gv .mi-table a[aria-current="page"] b { color: var(--gold-soft); transform: translateX(6px); }
 .gv .mi-cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; margin-top: 48px; }
@@ -566,6 +566,6 @@
 .gv .f-head h3 { font-size: clamp(1.875rem, 1.3rem + 1.6vw, 2.75rem); line-height: 1.05; }
 .gv .f-head > p { margin-top: 10px; }
 .gv .f-flow { padding-top: 24px; border-top: 1px solid var(--line); }
-.gv .mi-table thead tr { display: grid; grid-template-columns: 44px minmax(0, 1.25fr) minmax(0, 1.1fr) minmax(0, 0.8fr); gap: 16px; border-bottom: 1px solid var(--line); }
+.gv .mi-table thead tr { display: grid; grid-template-columns: 44px minmax(0, 1.7fr) minmax(0, 1.1fr) minmax(0, 0.8fr); gap: 16px; border-bottom: 1px solid var(--line); }
 .gv .mi-table thead th { border-bottom: 0; padding-right: 0; }
 .gv .mi-table tbody tr, .gv .mi-table tbody td { display: block; }

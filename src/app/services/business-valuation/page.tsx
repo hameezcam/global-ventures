@@ -9,7 +9,7 @@ import { SERVICES } from "@/data/services";
 const service = SERVICES.find((s) => s.slug === "business-valuation");
 
 export const metadata: Metadata = {
-  title: "Business valuation",
+  title: "Business valuation & revaluation",
   description: service?.shortDescription,
 };
 

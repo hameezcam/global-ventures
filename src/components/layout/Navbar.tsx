@@ -178,7 +178,7 @@ export const Navbar: React.FC = () => {
                 <th scope="col">
                   <span className="sr-only">Number</span>
                 </th>
-                <th scope="col">Practice</th>
+                <th scope="col">Service</th>
                 <th scope="col">What it covers</th>
                 <th scope="col">Typical client</th>
               </tr>

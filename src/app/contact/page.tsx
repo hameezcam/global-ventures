@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 const NEXT = [
-  { title: "We read your enquiry", body: "An adviser reviews what you have shared and how it fits our practices." },
+  { title: "We read your enquiry", body: "An adviser reviews what you have shared and how it fits our services." },
   { title: "We arrange a conversation", body: "We contact you to set up an initial discussion, at no obligation." },
   { title: "We agree what happens next", body: "If it makes sense to work together, you receive a written scope before anything begins." },
 ];

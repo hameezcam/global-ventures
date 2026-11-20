@@ -64,7 +64,7 @@ export default function AboutPage() {
               across the table.
             </p>
             <Link className="tlink" href="/services">
-              Our advisory practices
+              Our services
             </Link>
           </div>
         </div>
@@ -97,7 +97,7 @@ export default function AboutPage() {
           <div className="rv">
             <p className="kicker">Leadership</p>
             <h2 id="people-h" style={{ fontSize: "var(--t-h2)" }}>
-              Who leads each practice.
+              Who leads each service.
             </h2>
           </div>
           <div className="copy rv">

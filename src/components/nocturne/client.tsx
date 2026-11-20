@@ -175,7 +175,7 @@ export function PracticeRail({
   };
   return (
     <>
-      <div className="rail" ref={rail} tabIndex={0} role="region" aria-label="Advisory practices">
+      <div className="rail" ref={rail} tabIndex={0} role="region" aria-label="Advisory services">
         {items.map((p) => (
           <Link className="pcard" href={`/services/${p.slug}`} key={p.slug}>
             <div className="ph" aria-hidden="true">
@@ -195,12 +195,12 @@ export function PracticeRail({
         ))}
       </div>
       <div className="wrap rail-foot">
-        <span>Drag or scroll · {items.length} practices</span>
+        <span>Drag or scroll · {items.length} services</span>
         <div className="arrows">
-          <button type="button" aria-label="Previous practices" onClick={() => move(-1)}>
+          <button type="button" aria-label="Previous services" onClick={() => move(-1)}>
             ←
           </button>
-          <button type="button" aria-label="Next practices" onClick={() => move(1)}>
+          <button type="button" aria-label="Next services" onClick={() => move(1)}>
             →
           </button>
         </div>

@@ -8,7 +8,7 @@ import { IndexList, Photo, PageHero, SecTop, Stages } from "@/components/nocturn
 export const metadata: Metadata = {
   title: "Advisory services",
   description:
-    "Six advisory practices: mergers and acquisitions, corporate finance, business valuation, brokerage, transaction advisory and strategic advisory.",
+    "Eight advisory services: restructuring, working capital and fund raising, business and equity selling, mergers, acquisitions and joint ventures, investor matchmaking, portfolio and wealth management, valuation, and digital transformation and FinTech advisory.",
 };
 
 export default function ServicesPage() {
@@ -18,14 +18,14 @@ export default function ServicesPage() {
         kicker="Advisory"
         title={
           <>
-            Six practices, <em>one view</em> of your transaction.
+            Eight services, <em>one view</em> of your business.
           </>
         }
-        lede="Each practice has its own method. On most engagements two or three work together under one lead adviser, so you deal with one team from start to finish."
+        lede="Each service has its own method. On most engagements two or three work together under one lead adviser, so you deal with one team from start to finish."
         crumbs={[{ label: "Services" }]}
       />
 
-      <section className="sec" style={{ paddingTop: 0 }} aria-label="Practices">
+      <section className="sec" style={{ paddingTop: 0 }} aria-label="Services">
         <PracticeRail items={PRACTICES} />
       </section>
 
@@ -34,7 +34,7 @@ export default function ServicesPage() {
           <SecTop
             kicker="Index"
             id="index-h"
-            title="Find the practice for the decision in front of you."
+            title="Find the service for the decision in front of you."
             aside={<p>Not sure where to start? Tell us what you are facing and we will route it to the right adviser.</p>}
           />
           <IndexList
@@ -52,7 +52,7 @@ export default function ServicesPage() {
         <div className="wrap">
           <Stages
             kicker="Method"
-            title="The same four stages, whichever practice leads."
+            title="The same four stages, whichever service leads."
             note="So you always know where an engagement stands and what comes next."
             stages={APPROACH_STAGES}
           />
