@@ -99,8 +99,8 @@ export default function HomePage() {
           <SecTop
             kicker="Advisory"
             id="practices-h"
-            title="Six practices. One point of view on your transaction."
-            aside={<p>Each practice has its own method, and they combine whenever a deal needs more than one discipline.</p>}
+            title="Eight services. One point of view on your business."
+            aside={<p>Each service has its own method, and they combine whenever the work needs more than one discipline.</p>}
           />
         </div>
         <PracticeRail items={PRACTICES} />

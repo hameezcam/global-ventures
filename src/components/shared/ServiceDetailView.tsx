@@ -7,15 +7,17 @@ import { ConsultButton, ConsultSection } from "@/components/nocturne/client";
 import { IndexList, Line, PageHero, SecTop } from "@/components/nocturne/ui";
 
 const FLOW: Record<string, FlowType> = {
-  "mergers-and-acquisitions": "sell-business",
-  "corporate-finance": "advisory",
+  "strategic-business-restructuring": "advisory",
+  "working-capital-and-fund-raising": "advisory",
+  "business-and-equity-selling": "sell-business",
+  "mergers-and-acquisitions": "buy-business",
+  "investor-matchmaking": "general",
+  "portfolio-and-wealth-management": "general",
   "business-valuation": "valuation",
-  "business-brokerage": "sell-business",
-  "transaction-advisory": "advisory",
-  "strategic-advisory": "sell-business",
+  "digital-transformation-and-fintech-advisory": "advisory",
 };
 
-/** Shared template for the six practice pages. */
+/** Shared template for the service pages. */
 export default function ServiceDetailView({
   service,
   children,
@@ -97,9 +99,9 @@ export default function ServiceDetailView({
       <section className="sec ivory" aria-labelledby="other-h">
         <div className="wrap">
           <SecTop
-            kicker="Other practices"
+            kicker="Other services"
             id="other-h"
-            title="Often combined on the same transaction."
+            title="Often combined on the same engagement."
             aside={
               <Link className="tlink" href="/services" style={{ color: "var(--fg)" }}>
                 All services

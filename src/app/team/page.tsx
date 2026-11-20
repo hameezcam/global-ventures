@@ -6,7 +6,7 @@ import { IndexList, PageHero, SecTop } from "@/components/nocturne/ui";
 
 export const metadata: Metadata = {
   title: "Leadership",
-  description: "How Global Ventures staffs its engagements, and who leads each advisory practice.",
+  description: "How Global Ventures staffs its engagements, and who leads each service.",
 };
 
 /*
@@ -24,7 +24,7 @@ export default function TeamPage() {
             The people you meet are <em>the people who do the work.</em>
           </>
         }
-        lede="Every engagement is led by a senior adviser from first meeting to completion, supported by specialists from the practices the transaction needs."
+        lede="Every engagement is led by a senior adviser from first meeting to completion, supported by specialists from the services the work needs."
         photoId={PHOTOS.interior}
         crumbs={[{ label: "About", href: "/about" }, { label: "Leadership" }]}
       />
@@ -54,9 +54,9 @@ export default function TeamPage() {
       <section className="sec" aria-labelledby="practices-h">
         <div className="wrap">
           <SecTop
-            kicker="Practice leadership"
+            kicker="Service leadership"
             id="practices-h"
-            title="Each practice has a dedicated lead."
+            title="Each service has a dedicated lead."
             aside={<p>Adviser profiles are introduced at the first meeting, and will be published here.</p>}
           />
           <IndexList

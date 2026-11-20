@@ -1,85 +1,204 @@
 import { ServiceItem } from "@/types";
 
 /*
- * Practice copy. Written to be specific and verifiable: it describes the work,
- * not the firm's standing. Do not add accreditations, standards bodies,
- * statistics or client names until they are confirmed.
+ * Service copy. Written to be specific and verifiable: it describes the work,
+ * not the firm's standing. Do not add accreditations, licences, standards
+ * bodies, statistics or client names until they are confirmed.
+ *
+ * Order and titles follow the GVS core competencies list (corporate tax and
+ * bookkeeping are deliberately not offered).
  */
 export const SERVICES: ServiceItem[] = [
   {
-    id: "corporate-finance",
-    slug: "corporate-finance",
-    title: "Corporate Finance",
+    id: "strategic-business-restructuring",
+    slug: "strategic-business-restructuring",
+    title: "Strategic Business Restructuring",
     shortDescription:
-      "Capital structure, debt advisory and growth capital for businesses planning their next stage.",
+      "Reshaping a business, its structure or its finances so it can perform, grow or prepare for a transaction.",
     fullDescription:
-      "We help owners and boards decide how a business should be financed: how much debt it can carry, where growth capital should come from, and how to present the business to lenders and investors. The aim is a capital structure that supports the plan rather than constrains it.",
-    iconName: "TrendingUp",
-    highlight: "Financing that supports the plan, not the other way round.",
+      "Businesses outgrow the structures they started with. We work with owners and boards to review how the company is organised, owned and financed, decide what needs to change, and plan the change so the business keeps running while it happens. That can mean a new group structure, separating divisions, bringing in or buying out shareholders, or restructuring borrowing.",
+    iconName: "Compass",
+    highlight: "A clear plan for change that the business can carry out.",
     features: [
-      "Review of the current capital structure and its constraints",
-      "Debt advisory, refinancing and lender negotiations",
-      "Raising growth and structured capital",
-      "Working capital and cash flow planning",
-      "Financial models that test the plan under different scenarios",
+      "Review of the group, ownership and operating structure",
+      "Separation, consolidation or carve-out of business units",
+      "Restructuring of borrowing and lender negotiations",
+      "Shareholder changes: entries, exits and buy-outs",
+      "Exit readiness and value improvement plans",
     ],
     deliverables: [
-      "A capital strategy paper with recommended options",
-      "An integrated three-statement financial model",
-      "Lender and investor presentation materials",
-      "A debt capacity and covenant sensitivity analysis",
+      "A restructuring options paper with a recommended path",
+      "A financial model of the business before and after",
+      "A step plan with timing, owners and dependencies",
+      "Materials for shareholders, lenders or the board",
     ],
     targetAudience: [
-      "Businesses planning regional or international expansion",
-      "Management teams restructuring existing borrowing",
-      "Family offices reviewing how holdings are financed",
+      "Owners preparing a business for growth or sale",
+      "Family businesses reorganising ownership between generations",
+      "Boards dealing with underperformance or excess debt",
+    ],
+  },
+  {
+    id: "working-capital-and-fund-raising",
+    slug: "working-capital-and-fund-raising",
+    title: "Working Capital & Fund Raising",
+    shortDescription:
+      "Freeing up cash inside the business and raising the debt or equity it needs for the next stage.",
+    fullDescription:
+      "We help owners and finance teams understand where cash is tied up, how much funding the plan really needs, and which source of capital fits: bank debt, trade and working capital facilities, or equity from investors. We then prepare the business case and materials and support the conversations with funders through to terms.",
+    iconName: "TrendingUp",
+    highlight: "The right amount of capital, from the right source, on workable terms.",
+    features: [
+      "Working capital review: receivables, payables and inventory",
+      "Cash flow forecasting and funding requirement",
+      "Bank, trade and working capital facilities",
+      "Equity and growth capital raises",
+      "Lender and investor presentations and term negotiation",
+    ],
+    deliverables: [
+      "A working capital and cash flow analysis",
+      "A funding plan with recommended sources",
+      "A financial model and business plan for funders",
+      "An investor or lender presentation",
+    ],
+    targetAudience: [
+      "Growing companies that need capital to expand",
+      "Businesses under cash pressure from growth or long payment cycles",
+      "Founders preparing a first institutional raise",
+    ],
+  },
+  {
+    id: "business-and-equity-selling",
+    slug: "business-and-equity-selling",
+    title: "Business & Equity Selling",
+    shortDescription:
+      "A confidential sale of the whole business or a stake in it, from preparation to completion.",
+    fullDescription:
+      "Whether an owner wants to sell outright, sell a majority or minority stake, or bring in a partner, we prepare the business and its story, approach qualified buyers or investors discreetly, put non-disclosure agreements in place before anything sensitive is shared, and negotiate on the owner's behalf through to completion.",
+    iconName: "ShieldCheck",
+    highlight: "Confidentiality first, qualified counterparties only.",
+    features: [
+      "Full sale, majority or minority stake sales",
+      "Anonymised teaser and information memorandum",
+      "Buyer and investor screening, including evidence of funds",
+      "A managed process to create competition between serious bidders",
+      "Negotiation of price, structure and protections",
+    ],
+    deliverables: [
+      "A blind profile and information memorandum",
+      "A screened list of qualified buyers or investors",
+      "A heads of terms framework",
+      "A completion and handover plan",
+    ],
+    targetAudience: [
+      "Owners planning a full or partial exit",
+      "Shareholders selling a stake to a partner or investor",
+      "Founders who want a quiet, confidential process",
     ],
   },
   {
     id: "mergers-and-acquisitions",
     slug: "mergers-and-acquisitions",
-    title: "Mergers & Acquisitions",
+    title: "Mergers, Acquisitions & Joint Ventures",
     shortDescription:
-      "Sell-side and buy-side mandates, from positioning the business to the signed agreement.",
+      "Buying, merging with or partnering with another business, from the first approach to the signed agreement.",
     fullDescription:
-      "We guide founders, shareholders and companies through the sale or acquisition of a business. That covers preparing the business and its story, identifying and approaching counterparties confidentially, running a competitive process, and negotiating terms through to the signed agreement.",
+      "We advise companies and investors on acquisitions, mergers and joint ventures. That covers defining what to look for, identifying and approaching targets or partners confidentially, testing the numbers, structuring the deal, and negotiating terms through to signing, including how a joint venture will be governed and how partners can exit.",
     iconName: "Briefcase",
-    highlight: "A confidential, well-run process from first approach to signing.",
+    highlight: "A well-run deal, from the first approach to signing.",
     features: [
-      "Sell-side advisory for full and partial exits",
-      "Buy-side mandates and target identification",
-      "Management buy-outs and buy-ins",
-      "Carve-outs and disposals of non-core businesses",
+      "Buy-side acquisition search and target approaches",
+      "Mergers between private companies",
       "Joint ventures and strategic partnerships",
+      "Financial due diligence and quality of earnings",
+      "Deal structuring and negotiation through to signing",
     ],
     deliverables: [
-      "An information memorandum and anonymised teaser",
+      "A target or partner long list and short list",
       "A valuation view and analysis of likely synergies",
-      "A researched list of buyers or targets",
-      "Data room management and process letters",
+      "A due diligence summary of the key findings",
+      "Heads of terms and a joint venture framework where relevant",
     ],
     targetAudience: [
-      "Founders and shareholders planning an exit",
-      "Companies pursuing bolt-on acquisitions",
-      "Investors looking for regional deal flow",
+      "Companies pursuing acquisitions or bolt-ons",
+      "Businesses looking for a joint venture partner",
+      "Investors looking for regional deals",
+    ],
+  },
+  {
+    id: "investor-matchmaking",
+    slug: "investor-matchmaking",
+    title: "Investor Matchmaking",
+    shortDescription:
+      "Introducing businesses that are raising capital or seeking a partner to investors whose interests fit.",
+    fullDescription:
+      "Finding capital is often less about the number of investors approached than about approaching the right ones. We work with businesses to understand what kind of investor fits, prepare them for the conversation, and make considered introductions. For investors, we look for opportunities that match their sector, size and return requirements, shared under a non-disclosure agreement.",
+    iconName: "Users",
+    highlight: "Fewer, better introductions.",
+    features: [
+      "Defining the investor profile that fits the business",
+      "Investor readiness review and materials",
+      "Considered introductions to strategic and financial investors",
+      "Mandates for investors seeking specific opportunities",
+      "Support through meetings, term sheets and negotiation",
+    ],
+    deliverables: [
+      "An investor profile and target list",
+      "An investment summary and presentation",
+      "Managed introductions and meeting notes",
+      "A term sheet comparison where offers are received",
+    ],
+    targetAudience: [
+      "Businesses raising growth capital or seeking a strategic partner",
+      "Family offices and private investors looking for opportunities",
+      "Companies looking for co-investors in a project",
+    ],
+  },
+  {
+    id: "portfolio-and-wealth-management",
+    slug: "portfolio-and-wealth-management",
+    title: "Portfolio & Wealth Management",
+    shortDescription:
+      "Helping owners and families plan and structure what they hold, before and after a liquidity event.",
+    fullDescription:
+      "A sale or a partial exit often turns business wealth into cash for the first time. We help owners and families take stock of what they hold across businesses, property and investments, set objectives for it, and plan how it should be structured, reviewed and passed on over time.",
+    iconName: "PieChart",
+    highlight: "A considered plan for wealth built in a business.",
+    features: [
+      "Review of business, property and investment holdings",
+      "Planning for proceeds before and after a sale",
+      "Holding and family structures",
+      "Succession planning across generations",
+      "Regular portfolio reviews and reporting",
+    ],
+    deliverables: [
+      "A consolidated view of holdings",
+      "A written plan with objectives and priorities",
+      "A recommended holding structure",
+      "A periodic review report",
+    ],
+    targetAudience: [
+      "Owners approaching or following a sale",
+      "Families with holdings across several businesses",
+      "Individuals planning succession",
     ],
   },
   {
     id: "business-valuation",
     slug: "business-valuation",
-    title: "Business Valuation",
+    title: "Business Valuation & Revaluation",
     shortDescription:
-      "Independent, clearly reasoned valuations for transactions, shareholders and boards.",
+      "Independent, clearly reasoned valuations and revaluations for transactions, shareholders and boards.",
     fullDescription:
-      "We prepare valuations using established methods: discounted cash flow, comparable transactions and comparable listed companies. Each report sets out the assumptions and reasoning clearly, so the conclusion can be understood, challenged and relied on in a negotiation, a shareholder matter or a board decision.",
+      "We prepare valuations using established methods: discounted cash flow, comparable transactions and comparable listed companies. Each report sets out the assumptions and reasoning clearly, so the conclusion can be understood, challenged and relied on. Where a valuation already exists, we revalue the business to reflect new results, a change in the market or an upcoming event.",
     iconName: "PieChart",
     highlight: "A valuation you can explain, defend and act on.",
     features: [
       "Discounted cash flow analysis and cost of capital",
       "Comparable transaction multiples",
       "Comparable listed company benchmarking",
+      "Periodic revaluations and updates to an earlier valuation",
       "Valuation of intangible assets and intellectual property",
-      "Support for shareholder discussions and disputes",
     ],
     deliverables: [
       "A written valuation report with an executive summary",
@@ -89,95 +208,37 @@ export const SERVICES: ServiceItem[] = [
     ],
     targetAudience: [
       "Shareholders planning a transfer or exit",
-      "Boards that need an independent view of value",
+      "Boards that need an independent or updated view of value",
       "Legal and financial advisers who need a reasoned valuation",
     ],
   },
   {
-    id: "business-brokerage",
-    slug: "business-brokerage",
-    title: "Business Brokerage",
+    id: "digital-transformation-and-fintech-advisory",
+    slug: "digital-transformation-and-fintech-advisory",
+    title: "Digital Transformation & FinTech Advisory",
     shortDescription:
-      "A managed, confidential sale for privately held companies and their owners.",
+      "Modernising finance and operations with the right technology, and advising FinTech businesses on growth and capital.",
     fullDescription:
-      "For owners of profitable private companies, we act as a discreet intermediary: preparing anonymised materials, screening prospective buyers, putting non-disclosure agreements in place before anything sensitive is shared, and managing diligence through to completion.",
-    iconName: "ShieldCheck",
-    highlight: "Confidentiality first, qualified buyers only.",
+      "We help established businesses decide where technology will genuinely improve how they run: finance systems, reporting, payments and the data management needs to make decisions. For FinTech companies, we advise on business models, partnerships, fund raising and readiness for investors or buyers.",
+    iconName: "Cpu",
+    highlight: "Technology chosen for what it does for the business.",
     features: [
-      "Anonymised marketing and teaser preparation",
-      "Buyer screening, including evidence of funds",
-      "Advice on deal staging and escrow arrangements",
-      "Coordination of buyer due diligence",
-      "Planning for a smooth ownership transition",
+      "Review of finance systems, reporting and processes",
+      "Digital transformation roadmaps",
+      "Payments, banking and FinTech partnerships",
+      "Business model and growth advice for FinTech companies",
+      "Fund raising and investor readiness for technology businesses",
     ],
     deliverables: [
-      "A blind profile of the business",
-      "A screened list of qualified buyers",
-      "A heads of terms or letter of intent framework",
-      "A transition and completion plan",
+      "A current-state review with priorities",
+      "A transformation roadmap with costs and timing",
+      "A vendor and partner shortlist",
+      "An investor-ready plan for FinTech businesses",
     ],
     targetAudience: [
-      "Owners who want a quiet, confidential exit",
-      "Private investors looking for established businesses",
-      "Entrepreneurs seeking a business with steady cash flow",
-    ],
-  },
-  {
-    id: "transaction-advisory",
-    slug: "transaction-advisory",
-    title: "Transaction Advisory",
-    shortDescription:
-      "Financial due diligence and quality-of-earnings work that tests the numbers behind a deal.",
-    fullDescription:
-      "Before a price is agreed, both sides need to understand what the business really earns. We review historical results, normalise earnings, examine working capital, and help legal counsel shape the financial terms of the sale and purchase agreement.",
-    iconName: "CheckCircle2",
-    highlight: "A clear view of the numbers before you commit.",
-    features: [
-      "Buy-side and vendor financial due diligence",
-      "Quality of earnings and EBITDA normalisation",
-      "Working capital analysis and target setting",
-      "Review of pricing mechanisms: locked box or completion accounts",
-      "Review of the completion balance sheet",
-    ],
-    deliverables: [
-      "A financial due diligence report",
-      "A bridge from reported to normalised EBITDA",
-      "A working capital analysis",
-      "Commentary on the pricing mechanism in the agreement",
-    ],
-    targetAudience: [
-      "Acquirers who want the numbers tested before signing",
-      "Sellers preparing vendor due diligence",
-      "Lenders assessing an acquisition",
-    ],
-  },
-  {
-    id: "strategic-advisory",
-    slug: "strategic-advisory",
-    title: "Strategic Advisory",
-    shortDescription:
-      "Exit readiness and long-range planning, well before a deal is on the table.",
-    fullDescription:
-      "The best transactions are prepared years in advance. We work with owners and boards on what drives value in their business, what a buyer will scrutinise, and how to enter new markets or restructure the business model, so that when the moment comes the company is ready.",
-    iconName: "Compass",
-    highlight: "Preparing the business long before the deal.",
-    features: [
-      "Exit readiness reviews and value improvement plans",
-      "Feasibility studies and market entry strategy",
-      "Commercial strategy and business model review",
-      "Governance and board advisory",
-      "Planning for integration after a transaction",
-    ],
-    deliverables: [
-      "An exit readiness review with a prioritised plan",
-      "A business plan and five-year financial model",
-      "A market feasibility assessment",
-      "An integration plan for after completion",
-    ],
-    targetAudience: [
-      "Founders planning an exit in the next one to three years",
-      "Companies entering the regional market",
-      "Boards that want an independent strategic view",
+      "Established businesses modernising finance and operations",
+      "FinTech founders preparing to scale or raise capital",
+      "Investors assessing technology businesses",
     ],
   },
 ];
