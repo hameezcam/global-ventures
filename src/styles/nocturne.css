@@ -127,10 +127,15 @@
 .gv .burger { display: none; align-items: center; gap: 12px; font-size: 0.9375rem; letter-spacing: 0.06em; padding: 10px 0; }
 .gv .burger i { display: block; width: 26px; height: 7px; border-top: 1px solid; border-bottom: 1px solid; }
 
-.gv .mark { display: inline-flex; flex-direction: column; align-items: center; gap: 7px; text-align: center; }
+.gv .mark { display: inline-flex; align-items: center; gap: 14px; }
+.gv .mark .logo { width: auto; height: 48px; flex: none; transition: height 0.4s var(--ease); }
+.gv .nav.scrolled .mark .logo { height: 40px; }
+.gv .mark .txt { display: flex; flex-direction: column; align-items: center; gap: 7px; text-align: center; }
 .gv .mark b { font: 500 1.375rem/1 var(--display); letter-spacing: 0.3em; margin-right: -0.3em; white-space: nowrap; }
 .gv .mark small { font: 400 0.6875rem/1 var(--sans); letter-spacing: 0.4em; margin-right: -0.4em; color: var(--gold); white-space: nowrap; }
-.gv .mark.left { align-items: flex-start; text-align: left; }
+.gv .mark.left .txt { align-items: flex-start; text-align: left; }
+.gv .foot .mark { flex-direction: column; align-items: flex-start; gap: 18px; }
+.gv .foot .mark .logo { height: 60px; }
 
 /* Full-screen menu: practice index + changing photograph */
 .gv .menu-ov { position: fixed; inset: 0; z-index: 60; background: var(--ink); display: grid; grid-template-columns: 1.35fr 1fr; opacity: 0; visibility: hidden; transition: opacity 0.6s var(--ease), visibility 0s 0.6s; }
@@ -485,7 +490,7 @@
 @media (max-width: 1180px) {
   .gv .nav ul, .gv .nav .consult { display: none; }
   .gv .nav-row { grid-template-columns: auto 1fr auto; }
-  .gv .nav .mark { align-items: flex-start; text-align: left; }
+  .gv .nav .mark .txt { align-items: flex-start; text-align: left; }
   .gv .burger { display: inline-flex; }
   .gv .mi-table thead { display: none; }
   .gv .mi-table a { grid-template-columns: 40px minmax(0, 1fr); gap: 4px 12px; }
@@ -501,6 +506,8 @@
 @media (max-width: 900px) {
   :root { --sec: clamp(72px, 16vw, 112px); }
   .gv .nav-row, .gv .nav.scrolled .nav-row { height: 72px; }
+  .gv .mark { gap: 10px; }
+  .gv .mark .logo, .gv .nav.scrolled .mark .logo { height: 38px; }
   .gv .mark b { font-size: 1.0625rem; letter-spacing: 0.22em; margin-right: -0.22em; }
   .gv .mark small { font-size: 0.625rem; letter-spacing: 0.3em; margin-right: -0.3em; }
   .gv .menu-ov { grid-template-columns: 1fr; }
@@ -579,3 +586,19 @@
 .gv .mi-table thead tr { display: grid; grid-template-columns: 44px minmax(0, 1.7fr) minmax(0, 1.1fr) minmax(0, 0.8fr); gap: 16px; border-bottom: 1px solid var(--line); }
 .gv .mi-table thead th { border-bottom: 0; padding-right: 0; }
 .gv .mi-table tbody tr, .gv .mi-table tbody td { display: block; }
+
+/* Small phones: keep the logo, name and Menu button on one line */
+@media (max-width: 480px) {
+  .gv .nav .mark .logo, .gv .menu-ov .mark .logo { height: 34px; }
+  .gv .nav .mark b, .gv .menu-ov .mark b { font-size: 1rem; letter-spacing: 0.18em; margin-right: -0.18em; }
+  .gv .nav .mark small, .gv .menu-ov .mark small { display: none; }
+}
+
+@media (max-width: 380px) {
+  .gv .nav .mark, .gv .menu-ov .mark { gap: 8px; }
+  .gv .nav .mark .logo, .gv .menu-ov .mark .logo { height: 30px; }
+  .gv .nav .mark b, .gv .menu-ov .mark b { font-size: 0.875rem; letter-spacing: 0.14em; margin-right: -0.14em; }
+}
+@media (max-width: 340px) {
+  .gv .burger .lbl { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
