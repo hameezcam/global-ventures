@@ -210,97 +210,24 @@ export function PracticeRail({
 }
 
 export interface SectorItem {
-  id: string;
+  slug: string;
   name: string;
   line: string;
-  description?: string;
-  focusAreas?: string[];
-  image?: string;
 }
 
-/**
- * Typographic sector list. Hovering or focusing a sector swaps the
- * photograph; with `expandable`, choosing one reveals its detail.
- */
-export function IndustryDirectory({
-  sectors,
-  expandable = false,
-  visual = true,
-}: {
-  sectors: SectorItem[];
-  expandable?: boolean;
-  /** false: a two-column list of links with no photograph (homepage). */
-  visual?: boolean;
-}) {
-  const [active, setActive] = useState(0);
-  const [open, setOpen] = useState<number | null>(expandable ? 0 : null);
-  if (!visual) {
-    return (
-      <ul className="ind-list ind-links rv">
-        {sectors.map((s) => (
-          <li key={s.id}>
-            <Link href="/industries">
-              <b>{s.name}</b>
-              <span>{s.line}</span>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    );
-  }
+/** Two-column typographic list of sectors, each linking to its own page. */
+export function IndustryDirectory({ sectors }: { sectors: SectorItem[] }) {
   return (
-    <div className="ind">
-      <div className="ind-visual rv">
-        <div className="ph" aria-hidden="true">
-          {sectors.map((s, i) => (
-            <Image
-              key={s.id}
-              src={s.image ?? ""}
-              alt=""
-              fill
-              sizes="(max-width: 900px) 100vw, 40vw"
-              className={i === active ? "on" : undefined}
-            />
-          ))}
-        </div>
-        <p aria-live="polite">{sectors[active]?.name}</p>
-      </div>
-      <ul className="ind-list rv">
-        {sectors.map((s, i) => (
-          <li key={s.id} className={open === i ? "open" : undefined}>
-            <button
-              type="button"
-              aria-pressed={expandable ? undefined : i === active}
-              aria-expanded={expandable ? open === i : undefined}
-              aria-controls={expandable ? `sector-${s.id}` : undefined}
-              onMouseEnter={() => setActive(i)}
-              onFocus={() => setActive(i)}
-              onClick={() => {
-                setActive(i);
-                if (expandable) setOpen(open === i ? null : i);
-              }}
-            >
-              <b>{s.name}</b>
-              <span>{s.line}</span>
-            </button>
-            {expandable && (
-              <div className="ind-detail" id={`sector-${s.id}`}>
-                <div>
-                  {s.description && <p>{s.description}</p>}
-                  {s.focusAreas && (
-                    <ul aria-label={`${s.name} focus areas`}>
-                      {s.focusAreas.map((f) => (
-                        <li key={f}>{f}</li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              </div>
-            )}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <ul className="ind-list ind-links rv">
+      {sectors.map((s) => (
+        <li key={s.slug}>
+          <Link href={`/industries/${s.slug}`}>
+            <b>{s.name}</b>
+            <span>{s.line}</span>
+          </Link>
+        </li>
+      ))}
+    </ul>
   );
 }
 

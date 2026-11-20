@@ -2,6 +2,7 @@ import { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/site";
 import { SERVICES } from "@/data/services";
 import { INSIGHT_ARTICLES } from "@/data/insights";
+import { INDUSTRY_SECTORS } from "@/data/industries";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = SITE_URL;
@@ -28,6 +29,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.85,
   }));
 
+  const sectorRoutes: MetadataRoute.Sitemap = INDUSTRY_SECTORS.map((sector) => ({
+    url: `${baseUrl}/industries/${sector.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.75,
+  }));
 
   const insightRoutes: MetadataRoute.Sitemap = INSIGHT_ARTICLES.filter((a) => !a.isDraft).map((article) => ({
     url: `${baseUrl}/insights/${article.slug}`,
@@ -36,5 +43,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.75,
   }));
 
-  return [...staticRoutes, ...serviceRoutes, ...insightRoutes];
+  return [...staticRoutes, ...serviceRoutes, ...sectorRoutes, ...insightRoutes];
 }

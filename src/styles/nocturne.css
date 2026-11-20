@@ -185,6 +185,8 @@
 .gv .statement h2 { font-size: clamp(2.3rem, 1.2rem + 3.3vw, 5rem); line-height: 1.03; letter-spacing: -0.025em; margin-top: 30px; }
 .gv .statement .copy { display: grid; gap: 22px; color: var(--muted); max-width: 34rem; }
 .gv .statement .copy .tlink { justify-self: start; color: var(--fg); }
+.gv .statement.top { align-items: start; }
+.gv .statement .copy .col-h { margin-top: 12px; }
 .gv .photo-pair { display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px; align-items: stretch; margin-top: clamp(56px, 6vw, 96px); }
 .gv .photo-pair .ph:first-child { aspect-ratio: 16 / 10; }
 .gv .photo-pair .ph:last-child { aspect-ratio: auto; }

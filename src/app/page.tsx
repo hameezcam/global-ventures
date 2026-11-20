@@ -11,11 +11,7 @@ export default function HomePage() {
   // Only approved articles appear in Production. Previews also show drafts, flagged.
   const showDrafts = process.env.VERCEL_ENV !== "production";
   const articles = INSIGHT_ARTICLES.filter((a) => !a.isDraft || showDrafts).slice(0, 2);
-  const sectors = INDUSTRY_SECTORS.map((s) => ({
-    id: s.id,
-    name: s.name,
-    line: s.tagline.split(",")[0].trim(),
-  }));
+  const sectors = INDUSTRY_SECTORS.map((s) => ({ slug: s.slug, name: s.name, line: s.tagline }));
 
   return (
     <>
@@ -186,7 +182,7 @@ export default function HomePage() {
               </Link>
             }
           />
-          <IndustryDirectory sectors={sectors} visual={false} />
+          <IndustryDirectory sectors={sectors} />
         </div>
       </section>
 
