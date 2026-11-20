@@ -1,11 +1,11 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { APPROACH_STAGES, PRACTICES, photo, unsplash } from "@/data/homepage";
+import { APPROACH_STAGES, PRACTICES, photo } from "@/data/homepage";
 import { INDUSTRY_SECTORS } from "@/data/industries";
 import { INSIGHT_ARTICLES } from "@/data/insights";
 import { ConsultButton, ConsultSection, IndustryDirectory, PracticeRail } from "@/components/nocturne/client";
-import { Line, Photo, SecTop, Stages } from "@/components/nocturne/ui";
+import { IndexList, Line, Photo, SecTop, Stages } from "@/components/nocturne/ui";
 
 export default function HomePage() {
   // Only approved articles appear in Production. Previews also show drafts, flagged.
@@ -15,7 +15,6 @@ export default function HomePage() {
     id: s.id,
     name: s.name,
     line: s.tagline.split(",")[0].trim(),
-    image: s.image.replace("w=800", "w=1000"),
   }));
 
   return (
@@ -103,7 +102,7 @@ export default function HomePage() {
             aside={<p>Each service has its own method, and they combine whenever the work needs more than one discipline.</p>}
           />
         </div>
-        <PracticeRail items={PRACTICES} />
+        <PracticeRail items={PRACTICES.map((p) => ({ ...p, photoId: p.cardPhotoId }))} />
       </section>
 
       {/* Owners and acquirers */}
@@ -113,7 +112,7 @@ export default function HomePage() {
         </h2>
         <div className="doors">
           <article className="door rv">
-            <Photo src={photo("interior", 1600)} sizes="(max-width: 900px) 100vw, 50vw" />
+            <Photo src={photo("doorSell", 1600)} sizes="(max-width: 900px) 100vw, 50vw" />
             <div className="box">
               <p className="who">For owners</p>
               <h3>
@@ -131,7 +130,7 @@ export default function HomePage() {
             </div>
           </article>
           <article className="door rv">
-            <Photo src={photo("skyline", 1600)} sizes="(max-width: 900px) 100vw, 50vw" />
+            <Photo src={photo("doorBuy", 1600)} sizes="(max-width: 900px) 100vw, 50vw" />
             <div className="box">
               <p className="who">For acquirers</p>
               <h3>
@@ -187,7 +186,7 @@ export default function HomePage() {
               </Link>
             }
           />
-          <IndustryDirectory sectors={sectors} />
+          <IndustryDirectory sectors={sectors} visual={false} />
         </div>
       </section>
 
@@ -209,19 +208,14 @@ export default function HomePage() {
                 )
               }
             />
-            <div className="j-grid">
-              {articles.map((a, i) => (
-                <Link key={a.slug} className={`story ${i === 0 ? "s1" : "s2"} rv`} href={`/insights/${a.slug}`}>
-                  <Photo src={unsplash(i === 0 ? "photo-1431576901776-e539bd916ba2" : "photo-1477959858617-67f85cf4f1df", i === 0 ? 1600 : 1000)} sizes="(max-width: 900px) 100vw, 55vw" />
-                  <p className="meta">
-                    <span>{a.category}</span>
-                    <span>{a.readingTime}</span>
-                    {a.isDraft && <span className="draft">Draft</span>}
-                  </p>
-                  <h3>{a.title}</h3>
-                </Link>
-              ))}
-            </div>
+            <IndexList
+              items={articles.map((a) => ({
+                title: a.title,
+                body: a.summary,
+                meta: a.isDraft ? `${a.category} · Draft` : a.category,
+                href: `/insights/${a.slug}`,
+              }))}
+            />
           </div>
         </section>
       )}

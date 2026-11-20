@@ -30,7 +30,7 @@ export default function IndustriesPage() {
           </>
         }
         lede="Valuation multiples, working capital and regulatory approvals vary widely between industries. Our work starts from how your sector actually behaves."
-        photoId={PHOTOS.facade}
+        photoId={PHOTOS.industriesHero}
         crumbs={[{ label: "Industries" }]}
       />
       <section className="sec ivory" aria-labelledby="sectors-h">

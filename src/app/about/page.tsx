@@ -41,7 +41,7 @@ export default function AboutPage() {
           </>
         }
         lede="Global Ventures advises owners, boards and investors on selling, acquiring, valuing and financing private companies."
-        photoId={PHOTOS.geometry}
+        photoId={PHOTOS.aboutHero}
         crumbs={[{ label: "About" }]}
       />
 
@@ -75,8 +75,8 @@ export default function AboutPage() {
           <SecTop kicker="Principles" id="principles-h" title="Four commitments behind every engagement." />
           <IndexList simple items={PRINCIPLES} />
           <div className="photo-pair">
-            <Photo className="ph rv" src={photo("interior", 1600)} sizes="55vw" />
-            <Photo className="ph rv" src={photo("skyline", 1000)} sizes="40vw" />
+            <Photo className="ph rv" src={photo("aboutPairA", 1600)} sizes="55vw" />
+            <Photo className="ph rv" src={photo("aboutPairB", 1000)} sizes="40vw" />
           </div>
         </div>
       </section>

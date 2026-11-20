@@ -53,7 +53,7 @@ export default function SellBusinessPage() {
           </>
         }
         lede="Confidential sell-side advice, from preparing the business to the day the sale completes."
-        photoId={PHOTOS.interior}
+        photoId={PHOTOS.sellHero}
         crumbs={[{ label: "Transactions" }, { label: "Sell a business" }]}
       >
         <ConsultButton flow="sell-business">

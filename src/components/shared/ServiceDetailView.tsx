@@ -119,7 +119,7 @@ export default function ServiceDetailView({
         </div>
       </section>
 
-      <ConsultSection order={[flow]} photoId={practice?.photoId} />
+      <ConsultSection order={[flow]} />
     </>
   );
 }

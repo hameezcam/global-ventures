@@ -36,7 +36,7 @@ export default function BuyBusinessPage() {
           </>
         }
         lede="Buy-side advice from defining what you want to the signed agreement, with the numbers tested before you commit."
-        photoId={PHOTOS.skyline}
+        photoId={PHOTOS.buyHero}
         crumbs={[{ label: "Transactions" }, { label: "Buy a business" }]}
       >
         <ConsultButton flow="buy-business">

@@ -27,7 +27,7 @@ export default function ContactPage() {
           </>
         }
         lede="Tell us a little about your situation. Your details are used only to respond to you, and an NDA is available before any detailed discussion."
-        photoId={PHOTOS.dusk}
+        photoId={PHOTOS.contactHero}
         crumbs={[{ label: "Contact" }]}
       />
 

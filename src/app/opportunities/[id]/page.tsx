@@ -2,7 +2,6 @@ import React from "react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PHOTOS } from "@/data/homepage";
 import { DEMO_OPPORTUNITIES } from "@/data/opportunities";
 import { ConsultButton, ConsultSection } from "@/components/nocturne/client";
 import { Line, PageHero } from "@/components/nocturne/ui";
@@ -34,7 +33,6 @@ export default async function OpportunityDetailPage({ params }: { params: Promis
         kicker={`Example layout · ${opp.referenceCode}`}
         title={name.charAt(0).toUpperCase() + name.slice(1)}
         lede={opp.summary}
-        photoId={PHOTOS.dusk}
         crumbs={[{ label: "Opportunities", href: "/opportunities" }, { label: opp.referenceCode }]}
       >
         <ConsultButton flow="buy-business" listingRef={opp.referenceCode} title="Register interest">

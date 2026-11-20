@@ -111,7 +111,7 @@ export const INDUSTRY_SECTORS: IndustrySector[] = [
       "Infrastructure & Renewable Energy Sites",
     ],
     image:
-      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1485083269755-a7b559a4fe5e?auto=format&fit=crop&w=800&q=80",
   },
   {
     id: "professional-services",

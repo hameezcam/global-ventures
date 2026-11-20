@@ -6,7 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Wordmark from "@/components/brand/Wordmark";
 import EnquiryModal from "@/components/forms/EnquiryModal";
-import { FIRM_LINKS, PRACTICES, TRANSACTION_LINKS, unsplash } from "@/data/homepage";
+import { FIRM_LINKS, PHOTOS, PRACTICES, TRANSACTION_LINKS, unsplash } from "@/data/homepage";
 
 const LEFT = [{ href: "/insights", label: "Insights" }];
 const RIGHT = [
@@ -237,16 +237,7 @@ export const Navbar: React.FC = () => {
         </div>
         <div className="visual" aria-hidden="true">
           <div className="ph">
-            {PRACTICES.map((p, i) => (
-              <Image
-                key={p.slug}
-                src={unsplash(p.photoId, 1400)}
-                alt=""
-                fill
-                sizes="45vw"
-                className={i === active ? "on" : undefined}
-              />
-            ))}
+            <Image src={unsplash(PHOTOS.menu, 1400)} alt="" fill sizes="45vw" className="on" />
           </div>
           <p className="cap">
             {PRACTICES[active].title}

@@ -2,7 +2,7 @@ import React from "react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { APPROACH_STAGES, PRACTICES, photo } from "@/data/homepage";
-import { ConsultSection, PracticeRail } from "@/components/nocturne/client";
+import { ConsultSection } from "@/components/nocturne/client";
 import { IndexList, Photo, PageHero, SecTop, Stages } from "@/components/nocturne/ui";
 
 export const metadata: Metadata = {
@@ -24,10 +24,6 @@ export default function ServicesPage() {
         lede="Each service has its own method. On most engagements two or three work together under one lead adviser, so you deal with one team from start to finish."
         crumbs={[{ label: "Services" }]}
       />
-
-      <section className="sec" style={{ paddingTop: 0 }} aria-label="Services">
-        <PracticeRail items={PRACTICES} />
-      </section>
 
       <section className="sec ivory" aria-labelledby="index-h">
         <div className="wrap">
@@ -57,8 +53,8 @@ export default function ServicesPage() {
             stages={APPROACH_STAGES}
           />
           <div className="photo-pair" style={{ marginTop: "clamp(72px, 8vw, 128px)" }}>
-            <Photo className="ph rv" src={photo("facade", 1600)} sizes="55vw" />
-            <Photo className="ph rv" src={photo("desk", 1000)} sizes="40vw" />
+            <Photo className="ph rv" src={photo("servicesPairA", 1600)} sizes="55vw" />
+            <Photo className="ph rv" src={photo("servicesPairB", 1000)} sizes="40vw" />
           </div>
           <p className="muted rv" style={{ marginTop: 32, maxWidth: "36rem" }}>
             Buying or selling a whole business? See{" "}
