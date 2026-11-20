@@ -30,6 +30,19 @@ const PRINCIPLES = [
   },
 ];
 
+const HISTORY = [
+  {
+    numeral: "2018",
+    title: "Founded in Sri Lanka",
+    body: "The firm is established in Sri Lanka as Global Venture (Pvt) Ltd.",
+  },
+  {
+    numeral: "Today",
+    title: "Global Ventures",
+    body: "Eight advisory services, from restructuring and fund raising to valuation and digital transformation, for owners, boards and investors.",
+  },
+];
+
 export default function AboutPage() {
   return (
     <>
@@ -67,6 +80,22 @@ export default function AboutPage() {
               Our services
             </Link>
           </div>
+        </div>
+      </section>
+
+      <section className="sec" aria-label="Our history">
+        <div className="wrap">
+          <Stages
+            timeline
+            kicker="Our history"
+            title={
+              <>
+                Since 2018, <em>from Sri Lanka.</em>
+              </>
+            }
+            note="Global Ventures began in Sri Lanka in 2018 as Global Venture (Pvt) Ltd."
+            stages={HISTORY}
+          />
         </div>
       </section>
 

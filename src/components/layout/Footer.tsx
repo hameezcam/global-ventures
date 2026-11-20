@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { FIRM_LINKS, PRACTICES, TRANSACTION_LINKS } from "@/data/homepage";
 import Wordmark from "@/components/brand/Wordmark";
+import { CONTACT } from "@/lib/site";
 
 const COLUMNS = [
   { title: "Advisory", links: PRACTICES.map((p) => ({ href: `/services/${p.slug}`, label: p.title })) },
@@ -25,6 +26,14 @@ export const Footer: React.FC = () => {
           <div className="f-brand">
             <Wordmark align="left" />
             <p>Independent advice on buying, selling, valuing and financing businesses.</p>
+            <ul className="f-contact">
+              <li>
+                <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+              </li>
+              <li>
+                <a href={CONTACT.phoneHref}>{CONTACT.phone}</a>
+              </li>
+            </ul>
             <Link className="tlink" href="/contact">
               Arrange a consultation
             </Link>

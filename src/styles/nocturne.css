@@ -263,6 +263,8 @@
 .gv .stage .n { font: italic 400 4.25rem/0.9 var(--display); color: var(--accent); }
 .gv .stage h3 { font-size: 2rem; line-height: 1.15; }
 .gv .stage p { color: var(--muted); margin-top: 12px; max-width: 34rem; }
+.gv .timeline .stage { grid-template-columns: 150px 1fr; }
+.gv .timeline .stage .n { font-size: 3rem; padding-top: 4px; }
 
 /* Lists ------------------------------------------------------------------- */
 .gv .dash { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
@@ -327,6 +329,13 @@
 .gv .assure { list-style: none; padding: 0; margin: 32px 0 0; display: grid; gap: 10px; color: var(--muted); font-size: 0.9375rem; }
 .gv .assure li { display: flex; gap: 12px; }
 .gv .assure li::before { content: "—"; color: var(--gold); }
+.gv .direct { margin: 40px 0 0; display: grid; gap: 0; }
+.gv .direct div { padding: 16px 0; border-top: 1px solid var(--line); }
+.gv .direct div:last-child { border-bottom: 1px solid var(--line); }
+.gv .direct dt { font-size: 0.875rem; color: var(--muted); }
+.gv .direct dd { margin: 4px 0 0; font: 400 1.125rem/1.4 var(--sans); letter-spacing: 0.01em; }
+.gv .direct a { color: var(--fg); transition: color 0.3s; }
+.gv .direct a:hover, .gv .direct a:focus-visible { color: var(--accent); }
 .gv .choices { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
 .gv .choices button { width: 100%; text-align: left; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 24px; padding: 26px 0; border-bottom: 1px solid var(--line); }
 .gv .choices b { font: 400 clamp(1.5rem, 1.1rem + 1vw, 2.25rem)/1.15 var(--display); transition: color 0.3s, transform 0.5s var(--ease); display: block; }
@@ -448,6 +457,9 @@
 .gv .f-top { display: grid; grid-template-columns: 1.6fr repeat(4, minmax(0, 1fr)); gap: 40px; }
 .gv .f-brand p { margin-top: 24px; max-width: 22rem; }
 .gv .f-brand .tlink { margin-top: 20px; color: var(--ivory); }
+.gv .f-contact { list-style: none; padding: 0; margin: 20px 0 0; display: grid; gap: 8px; }
+.gv .f-contact a { color: var(--ivory); transition: color 0.3s; }
+.gv .f-contact a:hover, .gv .f-contact a:focus-visible { color: var(--gold); }
 .gv .foot h2 { font: 400 0.8125rem/1 var(--sans); letter-spacing: 0.12em; color: var(--ivory); margin: 0 0 20px; text-transform: uppercase; }
 .gv .foot ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
 .gv .foot ul a:hover { color: var(--ivory); }
@@ -547,6 +559,8 @@
   .gv .stage { grid-template-columns: 64px 1fr; padding: 30px 0; gap: 16px; }
   .gv .stage .n { font-size: 2.75rem; }
   .gv .stage h3 { font-size: 1.625rem; }
+  .gv .timeline .stage { grid-template-columns: 1fr; gap: 8px; }
+  .gv .timeline .stage .n { font-size: 2.25rem; }
 
   .gv .index-row, .gv .index.simple .index-row { grid-template-columns: 44px minmax(0, 1fr) 40px; gap: 8px 14px; padding: 24px 0; }
   .gv a.index-row:hover { padding-block: 24px; }

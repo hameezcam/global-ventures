@@ -164,11 +164,14 @@ export function Stages({
   title,
   note,
   stages,
+  timeline = false,
 }: {
   kicker: string;
   title: React.ReactNode;
   note?: string;
   stages: { numeral?: string; title: string; body: string }[];
+  /** Numerals are dates: show them to screen readers and size them for years. */
+  timeline?: boolean;
 }) {
   const roman = ["i", "ii", "iii", "iv", "v", "vi", "vii", "viii"];
   return (
@@ -178,10 +181,10 @@ export function Stages({
         <h2>{title}</h2>
         {note && <p>{note}</p>}
       </div>
-      <ol className="stages">
+      <ol className={timeline ? "stages timeline" : "stages"}>
         {stages.map((s, i) => (
           <li className="stage rv" key={s.title}>
-            <span className="n" aria-hidden="true">
+            <span className="n" aria-hidden={timeline ? undefined : true}>
               {s.numeral ?? roman[i]}
             </span>
             <div>

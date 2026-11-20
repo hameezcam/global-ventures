@@ -1,6 +1,7 @@
 import React from "react";
 import { Metadata } from "next";
 import { PHOTOS } from "@/data/homepage";
+import { CONTACT } from "@/lib/site";
 import ConsultationForm from "@/components/forms/ConsultationForm";
 import { PageHero, Stages } from "@/components/nocturne/ui";
 
@@ -29,7 +30,14 @@ export default function ContactPage() {
         lede="Tell us a little about your situation. Your details are used only to respond to you, and an NDA is available before any detailed discussion."
         photoId={PHOTOS.contactHero}
         crumbs={[{ label: "Contact" }]}
-      />
+      >
+        <a className="tlink" href={`mailto:${CONTACT.email}`}>
+          {CONTACT.email}
+        </a>
+        <a className="tlink" href={CONTACT.phoneHref}>
+          {CONTACT.phone}
+        </a>
+      </PageHero>
 
       <section className="sec deep" aria-label="Enquiry form">
         <div className="wrap split">
@@ -41,6 +49,20 @@ export default function ContactPage() {
               <li>Sent over an encrypted connection and stored securely</li>
               <li>A non-disclosure agreement before any detailed discussion</li>
             </ul>
+            <dl className="direct">
+              <div>
+                <dt>Email</dt>
+                <dd>
+                  <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+                </dd>
+              </div>
+              <div>
+                <dt>Telephone</dt>
+                <dd>
+                  <a href={CONTACT.phoneHref}>{CONTACT.phone}</a>
+                </dd>
+              </div>
+            </dl>
           </div>
           <div className="rv">
             <ConsultationForm />
