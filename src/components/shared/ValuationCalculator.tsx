@@ -109,7 +109,7 @@ export const ValuationCalculator: React.FC = () => {
           <div>
             <p className="fine">Indicative enterprise value</p>
             <p className="ev" style={{ marginTop: 8 }}>
-              AED {estimatedMinEV}M – {estimatedMaxEV}M
+              <span className="nw">AED {estimatedMinEV}M –</span> <span className="nw">{estimatedMaxEV}M</span>
             </p>
             <p className="fine" style={{ marginTop: 8 }}>
               At {currentSector.min}x – {currentSector.max}x EBITDA
