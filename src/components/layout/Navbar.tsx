@@ -148,7 +148,7 @@ export const Navbar: React.FC = () => {
               onClick={openMenu}
             >
               <i aria-hidden="true" />
-              Menu
+              <span className="lbl">Menu</span>
             </button>
           </div>
         </div>
