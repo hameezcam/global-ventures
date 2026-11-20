@@ -2,8 +2,8 @@ import React from "react";
 import { Metadata } from "next";
 import { PHOTOS } from "@/data/homepage";
 import { INDUSTRY_SECTORS } from "@/data/industries";
-import { ConsultSection, IndustryDirectory } from "@/components/nocturne/client";
-import { PageHero, SecTop } from "@/components/nocturne/ui";
+import { ConsultSection } from "@/components/nocturne/client";
+import { IndexList, PageHero, SecTop } from "@/components/nocturne/ui";
 
 export const metadata: Metadata = {
   title: "Industries",
@@ -12,14 +12,6 @@ export const metadata: Metadata = {
 };
 
 export default function IndustriesPage() {
-  const sectors = INDUSTRY_SECTORS.map((s) => ({
-    id: s.id,
-    name: s.name,
-    line: s.tagline.split(",")[0].trim(),
-    description: s.description,
-    focusAreas: s.focusAreas,
-    image: s.image.replace("w=800", "w=1200"),
-  }));
   return (
     <>
       <PageHero
@@ -39,9 +31,16 @@ export default function IndustriesPage() {
             kicker="Sectors"
             id="sectors-h"
             title="Sectors we follow closely."
-            aside={<p>Choose a sector to see the businesses we typically advise. We are glad to discuss companies in other sectors too.</p>}
+            aside={<p>Each sector has its own page on what buyers and investors look at. We are glad to discuss companies in other sectors too.</p>}
           />
-          <IndustryDirectory sectors={sectors} expandable />
+          <IndexList
+            items={INDUSTRY_SECTORS.map((s) => ({
+              title: s.name,
+              body: s.summary,
+              meta: s.tagline,
+              href: `/industries/${s.slug}`,
+            }))}
+          />
         </div>
       </section>
       <ConsultSection />

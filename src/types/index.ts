@@ -53,10 +53,21 @@ export interface IndustrySector {
   id: string;
   name: string;
   slug: string;
+  /** Short line shown under the name in sector lists. */
   tagline: string;
+  /** One-sentence summary used as the sector page lede. */
+  summary: string;
+  /** Opening paragraph of the sector page. */
   description: string;
+  /** Statement heading for the overview section. */
+  highlight: string;
   focusAreas: string[];
-  image: string;
+  /** What buyers, investors and valuers look at closely in this sector. */
+  valueDrivers: { title: string; body: string }[];
+  /** Slugs of the services most often used in this sector. */
+  services: string[];
+  /** Unsplash photo id for the sector page hero (used only there). */
+  photoId: string;
 }
 
 export type { FlowType } from "@/lib/enquiry/schema";
