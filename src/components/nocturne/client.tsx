@@ -97,7 +97,7 @@ export function ConsultSection({
   kicker = "Consultation",
   title,
   note = "Choose one to begin. Each opens a short, confidential form, and your details are used only to respond to you.",
-  photoId = "photo-1477959858617-67f85cf4f1df",
+  photoId = null,
   order,
 }: {
   kicker?: string;
@@ -215,16 +215,39 @@ export interface SectorItem {
   line: string;
   description?: string;
   focusAreas?: string[];
-  image: string;
+  image?: string;
 }
 
 /**
  * Typographic sector list. Hovering or focusing a sector swaps the
  * photograph; with `expandable`, choosing one reveals its detail.
  */
-export function IndustryDirectory({ sectors, expandable = false }: { sectors: SectorItem[]; expandable?: boolean }) {
+export function IndustryDirectory({
+  sectors,
+  expandable = false,
+  visual = true,
+}: {
+  sectors: SectorItem[];
+  expandable?: boolean;
+  /** false: a two-column list of links with no photograph (homepage). */
+  visual?: boolean;
+}) {
   const [active, setActive] = useState(0);
   const [open, setOpen] = useState<number | null>(expandable ? 0 : null);
+  if (!visual) {
+    return (
+      <ul className="ind-list ind-links rv">
+        {sectors.map((s) => (
+          <li key={s.id}>
+            <Link href="/industries">
+              <b>{s.name}</b>
+              <span>{s.line}</span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    );
+  }
   return (
     <div className="ind">
       <div className="ind-visual rv">
@@ -232,7 +255,7 @@ export function IndustryDirectory({ sectors, expandable = false }: { sectors: Se
           {sectors.map((s, i) => (
             <Image
               key={s.id}
-              src={s.image}
+              src={s.image ?? ""}
               alt=""
               fill
               sizes="(max-width: 900px) 100vw, 40vw"

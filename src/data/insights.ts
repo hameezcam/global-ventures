@@ -10,7 +10,7 @@ export const INSIGHT_ARTICLES: InsightArticle[] = [
     summary:
       "Why relying on simplistic industry EBITDA multiples creates false expectations, and how institutional DCF and normalized earnings uncover true shareholder value.",
     coverImage:
-      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1488972685288-c3fd157d7c7a?auto=format&fit=crop&w=1200&q=80",
     author: {
       name: "Global Ventures Editorial",
       role: "Valuation & Advisory Practice",
@@ -54,7 +54,7 @@ export const INSIGHT_ARTICLES: InsightArticle[] = [
     summary:
       "The definitive framework for founders planning an exit: de-risking key-man dependencies, instituting clean governance, and organizing virtual data rooms to maximize valuation multiples.",
     coverImage:
-      "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1431540015161-0bf868a2d407?auto=format&fit=crop&w=1200&q=80",
     author: {
       name: "Global Ventures Editorial",
       role: "M&A Advisory Practice",
@@ -98,7 +98,7 @@ export const INSIGHT_ARTICLES: InsightArticle[] = [
     summary:
       "An analysis of foreign direct investment reforms, 100% foreign ownership, corporate tax impacts, and cross-border consolidation trends across the UAE and broader GCC.",
     coverImage:
-      "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1739900292622-a7f860175aad?auto=format&fit=crop&w=1200&q=80",
     author: {
       name: "Global Ventures Editorial",
       role: "Strategic Advisory Practice",

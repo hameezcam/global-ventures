@@ -25,7 +25,7 @@ export default function TeamPage() {
           </>
         }
         lede="Every engagement is led by a senior adviser from first meeting to completion, supported by specialists from the services the work needs."
-        photoId={PHOTOS.interior}
+        photoId={PHOTOS.teamHero}
         crumbs={[{ label: "About", href: "/about" }, { label: "Leadership" }]}
       />
 
@@ -40,7 +40,7 @@ export default function TeamPage() {
           <div className="copy rv">
             <p>
               Your lead adviser is your single point of contact and is responsible for the outcome. They bring in
-              colleagues from valuation, due diligence or corporate finance as the work requires, and stay involved
+              colleagues from valuation, restructuring or fund raising as the work requires, and stay involved
               throughout.
             </p>
             <p>

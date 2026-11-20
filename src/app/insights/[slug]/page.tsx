@@ -5,7 +5,7 @@ import { Metadata } from "next";
 import { INSIGHT_ARTICLES } from "@/data/insights";
 import { showDraftInsights, visibleInsights } from "@/lib/insights";
 import { ConsultSection } from "@/components/nocturne/client";
-import { Photo, PageHero } from "@/components/nocturne/ui";
+import { PageHero } from "@/components/nocturne/ui";
 
 export async function generateStaticParams() {
   return INSIGHT_ARTICLES.map((article) => ({ slug: article.slug }));
@@ -48,15 +48,11 @@ export default async function InsightArticlePage({ params }: { params: Promise<{
         </span>
       </PageHero>
 
-      <div className="wrap">
-        <Photo className="ph rv" src={article.coverImage.replace("w=1200", "w=2000")} sizes="100vw" style={{ aspectRatio: "21 / 9" }} />
-      </div>
-
-      <section className="sec ivory" style={{ marginTop: "clamp(-120px, -8vw, -60px)", paddingTop: "calc(var(--sec) + 60px)" }}>
+      <section className="sec ivory">
         <div className="wrap split">
           <aside className="sticky">
             {article.isDraft && (
-              <p className="draft" style={{ display: "inline-block", marginBottom: 20 }}>
+              <p className="draft" style={{ display: "table", marginBottom: 20 }}>
                 Draft · hidden on the live site
               </p>
             )}
