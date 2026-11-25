@@ -138,9 +138,10 @@
 .gv .foot .mark .logo { height: 60px; }
 
 /* Full-screen menu: practice index + changing photograph */
-.gv .menu-ov { position: fixed; inset: 0; z-index: 60; background: var(--ink); display: grid; grid-template-columns: 1.35fr 1fr; opacity: 0; visibility: hidden; transition: opacity 0.6s var(--ease), visibility 0s 0.6s; }
+.gv .menu-ov { position: fixed; inset: 0; z-index: 60; background: var(--ink); display: grid; grid-template-columns: 1.35fr 1fr; grid-template-rows: minmax(0, 1fr); opacity: 0; visibility: hidden; transition: opacity 0.6s var(--ease), visibility 0s 0.6s; }
 .gv .menu-ov.open { opacity: 1; visibility: visible; transition: opacity 0.6s var(--ease); }
-.gv .menu-ov .pane { padding: 112px var(--g) 40px; overflow-y: auto; display: flex; flex-direction: column; }
+/* The pane scrolls below the logo bar, so long lists never slide under the wordmark. */
+.gv .menu-ov .pane { margin-top: 96px; padding: 16px var(--g) 40px; min-height: 0; overflow-y: auto; overscroll-behavior: contain; display: flex; flex-direction: column; }
 .gv .menu-ov .top { position: absolute; top: 0; left: 0; right: 0; height: 96px; display: flex; align-items: center; justify-content: space-between; padding-inline: var(--g); z-index: 2; pointer-events: none; }
 .gv .menu-ov .top > * { pointer-events: auto; }
 .gv .menu-ov .close { font-size: 0.9375rem; letter-spacing: 0.06em; padding: 10px 0; }
@@ -525,7 +526,7 @@
   .gv .menu-ov { grid-template-columns: 1fr; }
   .gv .menu-ov .visual { display: none; }
   .gv .menu-ov .top { height: 72px; }
-  .gv .menu-ov .pane { padding-top: 92px; }
+  .gv .menu-ov .pane { margin-top: 72px; padding-top: 20px; }
   .gv .mi-cols { grid-template-columns: 1fr 1fr; gap: 24px; }
   .gv .mi-cols > div:last-child { grid-column: 1 / -1; }
 
