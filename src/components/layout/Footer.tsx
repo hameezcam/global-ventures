@@ -58,7 +58,7 @@ export const Footer: React.FC = () => {
         </div>
         <div className="f-legal">
           {/* Registered entity, licence and office address will be added here once confirmed. */}
-          <p>© {year} Global Ventures. All rights reserved.</p>
+          <p>© {year} Global Venture LLC. All rights reserved.</p>
           <p>Information on this site is general in nature and is not financial advice.</p>
         </div>
       </div>

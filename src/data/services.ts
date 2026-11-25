@@ -5,8 +5,8 @@ import { ServiceItem } from "@/types";
  * not the firm's standing. Do not add accreditations, licences, standards
  * bodies, statistics or client names until they are confirmed.
  *
- * Order and titles follow the GVS core competencies list (corporate tax and
- * bookkeeping are deliberately not offered).
+ * Order and titles follow the Global Venture LLC core competencies list (ten
+ * services; corporate tax and bookkeeping are deliberately not offered).
  */
 export const SERVICES: ServiceItem[] = [
   {
@@ -152,6 +152,64 @@ export const SERVICES: ServiceItem[] = [
       "Businesses raising growth capital or seeking a strategic partner",
       "Family offices and private investors looking for opportunities",
       "Companies looking for co-investors in a project",
+    ],
+  },
+  {
+    id: "advisory-and-board-member-development",
+    slug: "advisory-and-board-member-development",
+    title: "Advisory & Board Member Development Services",
+    shortDescription:
+      "Building boards and advisory panels that help owners govern, decide and grow, and preparing the people who sit on them.",
+    fullDescription:
+      "As a company grows, decisions that once sat with the founder need structure around them. We help owners decide what kind of board or advisory panel the business needs, define the roles and how the board will work, find candidates with the right experience, and prepare new and existing members to contribute from their first meeting.",
+    iconName: "Users",
+    highlight: "A board that adds judgement, not just meetings.",
+    features: [
+      "Review of the current board, its make-up and how it works",
+      "Design of a board or advisory panel suited to the business",
+      "Role definitions, terms of reference and meeting calendar",
+      "Search for independent and non-executive members",
+      "Induction and development for new and existing members",
+    ],
+    deliverables: [
+      "A board review with recommendations",
+      "A board or advisory panel structure and charter",
+      "Role profiles and a candidate shortlist",
+      "An induction and development plan for members",
+    ],
+    targetAudience: [
+      "Founder-led businesses forming their first board",
+      "Family businesses separating ownership from management",
+      "Companies preparing for investors or a future sale",
+    ],
+  },
+  {
+    id: "financial-management",
+    slug: "financial-management",
+    title: "Financial Management",
+    shortDescription:
+      "Planning, budgeting, reporting and cash control that give owners a clear view of the numbers and the decisions behind them.",
+    fullDescription:
+      "Good decisions need reliable numbers at the right time. We work with owners and finance teams to set budgets and forecasts, design the management reports the board actually uses, tighten cash and cost control, and strengthen the processes and controls behind them, so the business is run on facts and is ready for funders, buyers or auditors.",
+    iconName: "BarChart3",
+    highlight: "Clear numbers, on time, that management can act on.",
+    features: [
+      "Budgeting, forecasting and business planning",
+      "Management reporting and key performance indicators",
+      "Cash flow, cost and margin management",
+      "Review of finance processes and internal controls",
+      "Finance function review and interim support",
+    ],
+    deliverables: [
+      "A budget and rolling forecast model",
+      "A management reporting pack and KPI dashboard",
+      "A cash and cost improvement plan",
+      "A finance process and controls review with recommendations",
+    ],
+    targetAudience: [
+      "Owner-managed businesses without a senior finance lead",
+      "Growing companies whose reporting has not kept pace",
+      "Businesses preparing for funding, a sale or an audit",
     ],
   },
   {

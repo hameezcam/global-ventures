@@ -6,7 +6,7 @@ import { PRIVACY_NOTICE_VERSION } from "@/lib/enquiry/schema";
 
 export const metadata: Metadata = {
   title: "Privacy notice",
-  description: "How Global Ventures collects, protects and uses the information you share with us.",
+  description: "How Global Venture collects, protects and uses the information you share with us.",
 };
 
 export default function PrivacyPolicyPage() {
@@ -20,7 +20,7 @@ export default function PrivacyPolicyPage() {
     >
       <h2>1. Our commitment to confidentiality</h2>
       <p>
-        Global Ventures (&ldquo;we&rdquo;, &ldquo;us&rdquo; or &ldquo;our&rdquo;) advises on corporate finance and
+        Global Venture (&ldquo;we&rdquo;, &ldquo;us&rdquo; or &ldquo;our&rdquo;) advises on corporate finance and
         business transactions. Given the sensitive commercial nature of this work, confidentiality is central to how we
         operate. We process personal and company information in accordance with applicable data protection laws,
         including UAE Federal Decree-Law No. 45 of 2021 on the Protection of Personal Data (PDPL).

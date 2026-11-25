@@ -12,6 +12,8 @@ const FLOW: Record<string, FlowType> = {
   "business-and-equity-selling": "sell-business",
   "mergers-and-acquisitions": "buy-business",
   "investor-matchmaking": "general",
+  "advisory-and-board-member-development": "advisory",
+  "financial-management": "advisory",
   "portfolio-and-wealth-management": "general",
   "business-valuation": "valuation",
   "digital-transformation-and-fintech-advisory": "advisory",

@@ -12,7 +12,7 @@ export const INSIGHT_ARTICLES: InsightArticle[] = [
     coverImage:
       "https://images.unsplash.com/photo-1488972685288-c3fd157d7c7a?auto=format&fit=crop&w=1200&q=80",
     author: {
-      name: "Global Ventures Editorial",
+      name: "Global Venture Editorial",
       role: "Valuation & Advisory Practice",
     },
     keyTakeaways: [
@@ -56,7 +56,7 @@ export const INSIGHT_ARTICLES: InsightArticle[] = [
     coverImage:
       "https://images.unsplash.com/photo-1431540015161-0bf868a2d407?auto=format&fit=crop&w=1200&q=80",
     author: {
-      name: "Global Ventures Editorial",
+      name: "Global Venture Editorial",
       role: "M&A Advisory Practice",
     },
     keyTakeaways: [
@@ -100,7 +100,7 @@ export const INSIGHT_ARTICLES: InsightArticle[] = [
     coverImage:
       "https://images.unsplash.com/photo-1739900292622-a7f860175aad?auto=format&fit=crop&w=1200&q=80",
     author: {
-      name: "Global Ventures Editorial",
+      name: "Global Venture Editorial",
       role: "Strategic Advisory Practice",
     },
     keyTakeaways: [

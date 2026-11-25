@@ -43,6 +43,8 @@ export const PHOTOS = {
   cardEquitySelling: "photo-1758448500688-3ababa93fd67",
   cardMergers: "photo-1462556791646-c201b8241a94",
   cardInvestors: "photo-1766742364990-76bf8187aaaf",
+  cardBoard: "photo-1552664730-d307ca884978",
+  cardFinancial: "photo-1554224155-6726b3ff858f",
   cardPortfolio: "photo-1604328698692-f76ea9498e76",
   cardValuation: "photo-1498262257252-c282316270bc",
   cardDigital: "photo-1788007711483-a18963a1b490",
@@ -52,6 +54,8 @@ export const PHOTOS = {
   heroEquitySelling: "photo-1768836180167-6d4a25c421b2",
   heroMergers: "photo-1579525612525-053cd3e8cbd7",
   heroInvestors: "photo-1768426264661-7671fd431151",
+  heroBoard: "photo-1556761175-5973dc0f32e7",
+  heroFinancial: "photo-1460925895917-afdab827c52f",
   heroPortfolio: "photo-1550779864-6ccb28702fdb",
   facade: "photo-1449157291145-7efd050a4d0e", // valuation
   heroDigital: "photo-1652707228067-25672fa0b082",
@@ -75,7 +79,7 @@ export type PhotoKey = keyof typeof PHOTOS;
 export const photo = (key: PhotoKey, width = 1600) => img(PHOTOS[key], width);
 export const unsplash = img;
 
-/** Display order for the eight services. Slugs match the service pages. */
+/** Display order for the ten services. Slugs match the service pages. */
 export const PRACTICES: PracticeSummary[] = [
   {
     slug: "strategic-business-restructuring",
@@ -128,6 +132,26 @@ export const PRACTICES: PracticeSummary[] = [
     numeral: "v",
   },
   {
+    slug: "advisory-and-board-member-development",
+    title: "Advisory & Board Member Development Services",
+    menuLine: "Boards and advisory panels that add judgement",
+    forWho: "Owners and boards",
+    summary: "Building boards and advisory panels that help owners govern and grow, and preparing the people who sit on them.",
+    photoId: PHOTOS.heroBoard,
+    cardPhotoId: PHOTOS.cardBoard,
+    numeral: "vi",
+  },
+  {
+    slug: "financial-management",
+    title: "Financial Management",
+    menuLine: "Budgets, reporting and cash control",
+    forWho: "Owners and finance teams",
+    summary: "Planning, budgeting, reporting and cash control that give owners a clear view of the numbers.",
+    photoId: PHOTOS.heroFinancial,
+    cardPhotoId: PHOTOS.cardFinancial,
+    numeral: "vii",
+  },
+  {
     slug: "portfolio-and-wealth-management",
     title: "Portfolio & Wealth Management",
     menuLine: "Planning what owners and families hold",
@@ -135,7 +159,7 @@ export const PRACTICES: PracticeSummary[] = [
     summary: "Helping owners and families plan and structure what they hold, before and after a liquidity event.",
     photoId: PHOTOS.heroPortfolio,
     cardPhotoId: PHOTOS.cardPortfolio,
-    numeral: "vi",
+    numeral: "viii",
   },
   {
     slug: "business-valuation",
@@ -145,7 +169,7 @@ export const PRACTICES: PracticeSummary[] = [
     summary: "Independent, clearly reasoned valuations and revaluations for transactions, shareholders and boards.",
     photoId: PHOTOS.facade,
     cardPhotoId: PHOTOS.cardValuation,
-    numeral: "vii",
+    numeral: "ix",
   },
   {
     slug: "digital-transformation-and-fintech-advisory",
@@ -155,7 +179,7 @@ export const PRACTICES: PracticeSummary[] = [
     summary: "Modernising finance and operations with the right technology, and advising FinTech businesses on growth and capital.",
     photoId: PHOTOS.heroDigital,
     cardPhotoId: PHOTOS.cardDigital,
-    numeral: "viii",
+    numeral: "x",
   },
 ];
 

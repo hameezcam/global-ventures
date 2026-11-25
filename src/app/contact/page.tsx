@@ -8,7 +8,7 @@ import { PageHero, Stages } from "@/components/nocturne/ui";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Begin a confidential conversation with Global Ventures about selling, buying, valuing or financing a business.",
+    "Begin a confidential conversation with Global Venture about selling, buying, valuing or financing a business.",
 };
 
 const NEXT = [

@@ -34,8 +34,8 @@ const DESCRIPTION =
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | Global Ventures",
-    default: "Global Ventures | Financial Advisory & Business Transactions",
+    template: "%s | Global Venture",
+    default: "Global Venture | Financial Advisory & Business Transactions",
   },
   description: DESCRIPTION,
   metadataBase: new URL(SITE_URL),
@@ -48,13 +48,15 @@ export const metadata: Metadata = {
     "Sell a business UAE",
     "Joint ventures",
     "Investor matchmaking",
+    "Board member development",
+    "Financial management",
     "FinTech advisory",
   ],
   openGraph: {
-    title: "Global Ventures — Where Capital Meets Opportunity",
+    title: "Global Venture — Where Capital Meets Opportunity",
     description: DESCRIPTION,
     url: SITE_URL,
-    siteName: "Global Ventures",
+    siteName: "Global Venture",
     locale: "en_US",
     type: "website",
   },

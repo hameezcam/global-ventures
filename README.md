@@ -1,4 +1,4 @@
-# GLOBAL VENTURES — Financial Advisory & Business Transaction Brokerage
+# GLOBAL VENTURE — Financial Advisory & Business Transaction Brokerage
 
 > **"Where Capital Meets Opportunity."**  
 > *Clarity in Finance. Confidence in Every Transaction.*
@@ -8,7 +8,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4.1-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
 [![Node.js Tests](https://img.shields.io/badge/Node%20Test%20Runner-11%20Passed-success?style=for-the-badge&logo=node.js)](https://nodejs.org/api/test.html)
 
-A bespoke, production-ready corporate digital platform for **Global Ventures**, an international financial consultancy and business brokerage operating across corporate finance, mergers & acquisitions (M&A), business valuation, and discreet transaction advisory.
+A bespoke, production-ready corporate digital platform for **Global Venture**, an international financial consultancy and business brokerage operating across corporate finance, mergers & acquisitions (M&A), business valuation, and discreet transaction advisory.
 
 ---
 
@@ -150,4 +150,4 @@ global-ventures/
 
 ## License
 
-Private corporate repository. All rights reserved &copy; Global Ventures Advisory Group.
+Private corporate repository. All rights reserved &copy; Global Venture LLC.

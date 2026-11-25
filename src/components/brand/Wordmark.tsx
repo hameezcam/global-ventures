@@ -13,11 +13,11 @@ export const Wordmark: React.FC<{ align?: "center" | "left"; className?: string 
   <Link
     href="/"
     className={`mark${align === "left" ? " left" : ""} ${className}`}
-    aria-label="Global Ventures, home"
+    aria-label="Global Venture, home"
   >
     <Image className="logo" src="/gv-logo.png" alt="" width={200} height={176} priority />
     <span className="txt">
-      <b>GLOBAL VENTURES</b>
+      <b>GLOBAL VENTURE</b>
       <small>ADVISORY · TRANSACTIONS</small>
     </span>
   </Link>

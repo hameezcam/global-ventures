@@ -72,7 +72,7 @@ test("2 + 7. all five flows save with their own fields preserved", async () => {
     { flowType: "sell-business", estimatedRevenue: "AED 30M - AED 75M", timeline: "Medium-term (6 - 18 months)", companyName: "QA Seller LLC" },
     { flowType: "buy-business", investmentBudget: "AED 25M - AED 60M", targetListingRef: "gv-tech-8402", role: "Investment Director" },
     { flowType: "valuation", interestArea: "Partner Buyout or Admission", estimatedRevenue: "AED 20M - AED 80M" },
-    { flowType: "advisory", interestArea: "Growth Capital Sourcing", ndaAcknowledged: true },
+    { flowType: "advisory", interestArea: "Working Capital & Fund Raising", ndaAcknowledged: true },
   ];
   const prefixes = { general: "GEN", "sell-business": "SELL", "buy-business": "BUY", valuation: "VAL", advisory: "ADV" };
   for (const c of cases) {
