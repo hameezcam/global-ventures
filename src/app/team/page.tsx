@@ -6,7 +6,7 @@ import { IndexList, PageHero, SecTop } from "@/components/nocturne/ui";
 
 export const metadata: Metadata = {
   title: "Leadership",
-  description: "How Global Ventures staffs its engagements, and who leads each service.",
+  description: "How Global Venture staffs its engagements, and who leads each service.",
 };
 
 /*

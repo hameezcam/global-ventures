@@ -8,7 +8,7 @@ import { IndexList, Photo, PageHero, SecTop, Stages } from "@/components/nocturn
 export const metadata: Metadata = {
   title: "Advisory services",
   description:
-    "Eight advisory services: restructuring, working capital and fund raising, business and equity selling, mergers, acquisitions and joint ventures, investor matchmaking, portfolio and wealth management, valuation, and digital transformation and FinTech advisory.",
+    "Ten advisory services: restructuring, working capital and fund raising, business and equity selling, mergers, acquisitions and joint ventures, investor matchmaking, advisory and board member development, financial management, portfolio and wealth management, valuation, and digital transformation and FinTech advisory.",
 };
 
 export default function ServicesPage() {
@@ -18,7 +18,7 @@ export default function ServicesPage() {
         kicker="Advisory"
         title={
           <>
-            Eight services, <em>one view</em> of your business.
+            Ten services, <em>one view</em> of your business.
           </>
         }
         lede="Each service has its own method. On most engagements two or three work together under one lead adviser, so you deal with one team from start to finish."

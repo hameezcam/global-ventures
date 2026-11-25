@@ -498,7 +498,7 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
                 <Link href="/privacy-policy" target="_blank" rel="noopener">
                   privacy notice
                 </Link>{" "}
-                (version {PRIVACY_NOTICE_VERSION}) and agree that Global Ventures may store and use these details to respond
+                (version {PRIVACY_NOTICE_VERSION}) and agree that Global Venture may store and use these details to respond
                 to my enquiry. {req}
               </label>
             </div>

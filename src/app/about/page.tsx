@@ -8,7 +8,7 @@ import { IndexList, Photo, PageHero, SecTop, Stages } from "@/components/nocturn
 export const metadata: Metadata = {
   title: "About the firm",
   description:
-    "Global Ventures is an independent advisory firm for owners, boards and investors on selling, acquiring, valuing and financing private companies.",
+    "Global Venture is an independent advisory firm for owners, boards and investors on selling, acquiring, valuing and financing private companies.",
 };
 
 const PRINCIPLES = [
@@ -38,8 +38,8 @@ const HISTORY = [
   },
   {
     numeral: "Today",
-    title: "Global Ventures",
-    body: "Eight advisory services, from restructuring and fund raising to valuation and digital transformation, for owners, boards and investors.",
+    title: "Global Venture",
+    body: "Ten advisory services, from restructuring and fund raising to board development, financial management, valuation and digital transformation, for owners, boards and investors.",
   },
 ];
 
@@ -53,7 +53,7 @@ export default function AboutPage() {
             Counsel for the moments that <em>define a company.</em>
           </>
         }
-        lede="Global Ventures advises owners, boards and investors on selling, acquiring, valuing and financing private companies."
+        lede="Global Venture advises owners, boards and investors on selling, acquiring, valuing and financing private companies."
         photoId={PHOTOS.aboutHero}
         crumbs={[{ label: "About" }]}
       />
@@ -93,7 +93,7 @@ export default function AboutPage() {
                 Since 2018, <em>from Sri Lanka.</em>
               </>
             }
-            note="Global Ventures began in Sri Lanka in 2018 as Global Venture (Pvt) Ltd."
+            note="Global Venture began in Sri Lanka in 2018 as Global Venture (Pvt) Ltd."
             stages={HISTORY}
           />
         </div>

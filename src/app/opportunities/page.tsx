@@ -9,7 +9,7 @@ import { Line, PageHero, SecTop, Stages } from "@/components/nocturne/ui";
 export const metadata: Metadata = {
   title: "Opportunities",
   description:
-    "How Global Ventures shares acquisition opportunities: anonymised summaries for registered buyers, with detail released under a non-disclosure agreement.",
+    "How Global Venture shares acquisition opportunities: anonymised summaries for registered buyers, with detail released under a non-disclosure agreement.",
 };
 
 const DISCLOSURE = [

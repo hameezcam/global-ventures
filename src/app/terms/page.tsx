@@ -4,7 +4,7 @@ import LegalPage from "@/components/nocturne/LegalPage";
 
 export const metadata: Metadata = {
   title: "Terms of use",
-  description: "Terms governing the use of the Global Ventures website, its tools and its information.",
+  description: "Terms governing the use of the Global Venture website, its tools and its information.",
 };
 
 export default function TermsPage() {
@@ -39,8 +39,8 @@ export default function TermsPage() {
 
       <h2>4. Intellectual property</h2>
       <p>
-        The Global Ventures name and wordmark, publications, methods and design of this website belong to Global
-        Ventures and are protected by copyright and trademark law. Reproduction or distribution without permission is
+        The Global Venture name and wordmark, publications, methods and design of this website belong to Global
+        Venture LLC and are protected by copyright and trademark law. Reproduction or distribution without permission is
         not allowed.
       </p>
 

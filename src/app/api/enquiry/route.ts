@@ -49,7 +49,7 @@ function saveResultResponse(result: SaveResult) {
 
 export async function POST(request: NextRequest) {
   if (!isAllowedOrigin(request)) {
-    return errorResponse(403, "Requests must come from the Global Ventures website.");
+    return errorResponse(403, "Requests must come from the Global Venture website.");
   }
   if (!isJsonContentType(request)) {
     return errorResponse(415, "Content-Type must be application/json.");

@@ -51,11 +51,18 @@ export const VALUATION_PURPOSE_OPTIONS = [
 
 export const VALUATION_REVENUE_OPTIONS = ["Under AED 20M", "AED 20M - AED 80M", "Over AED 80M"] as const;
 
+/** The firm's ten services, in the same order and wording as src/data/services.ts. */
 export const ADVISORY_FOCUS_OPTIONS = [
-  "Debt Advisory & Restructuring",
-  "Growth Capital Sourcing",
-  "Financial Due Diligence / QoE",
-  "Corporate Reorganization & Joint Venture",
+  "Strategic Business Restructuring",
+  "Working Capital & Fund Raising",
+  "Business & Equity Selling",
+  "Mergers, Acquisitions & Joint Ventures",
+  "Investor Matchmaking",
+  "Advisory & Board Member Development Services",
+  "Financial Management",
+  "Portfolio & Wealth Management",
+  "Business Valuation & Revaluation",
+  "Digital Transformation & FinTech Advisory",
 ] as const;
 
 export const FIELD_LIMITS = {

@@ -8,7 +8,7 @@ import { IndexList, PageHero, SecTop } from "@/components/nocturne/ui";
 export const metadata: Metadata = {
   title: "Industries",
   description:
-    "Sectors Global Ventures follows closely, and how valuation, diligence and deal structure differ between them.",
+    "Sectors Global Venture follows closely, and how valuation, diligence and deal structure differ between them.",
 };
 
 export default function IndustriesPage() {

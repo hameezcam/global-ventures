@@ -69,7 +69,7 @@ export default function HomePage() {
             </div>
             <div className="copy rv">
               <p>
-                Global Ventures advises on the moments that define a company: a sale, an acquisition, a new structure
+                Global Venture advises on the moments that define a company: a sale, an acquisition, a new structure
                 of capital.
               </p>
               <p>
@@ -94,7 +94,7 @@ export default function HomePage() {
           <SecTop
             kicker="Advisory"
             id="practices-h"
-            title="Eight services. One point of view on your business."
+            title="Ten services. One point of view on your business."
             aside={<p>Each service has its own method, and they combine whenever the work needs more than one discipline.</p>}
           />
         </div>
